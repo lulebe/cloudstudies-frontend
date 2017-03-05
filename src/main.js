@@ -7,7 +7,7 @@ import App from './App.vue'
 Vue.use(VueMaterial)
 Vue.use(VueRouter)
 
-Vue.material.registertheme('default', {
+Vue.material.registerTheme('default', {
   primary: 'green',
   accent: 'red',
   warn: 'deep-orange',
