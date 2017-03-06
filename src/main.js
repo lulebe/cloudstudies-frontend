@@ -5,6 +5,7 @@ import VueX from 'vuex'
 
 import Main from './Main.vue'
 import App from './App.vue'
+import Login from './Login.vue'
 
 Vue.use(VueMaterial)
 Vue.use(VueRouter)
@@ -27,7 +28,8 @@ Vue.material.registerTheme('default', {
 })
 
 const routes = [
-  {path: '/', component: App}
+  {path: '/', component: Login},
+  {path: '/app', component: App}
 ]
 
 const router = new VueRouter({routes})
