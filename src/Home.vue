@@ -12,7 +12,7 @@
       <div class="copyright">© Leander Berg 2017</div>
       <div class="links">
         <a href="#/imprint">Imprint</a>
-        <a href="https://github.com/lulebe/cloudstudies-frontend">Github Project</a>
+        <a href="https://github.com/lulebe/cloudstudies-frontend" target="_blank">Github Project</a>
       </div>
     </footer>
   </div>
