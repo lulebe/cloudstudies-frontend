@@ -1,22 +1,16 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <h1></h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://gitter.im/vuejs/vue" target="_blank">Gitter Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
-    <md-button class="md-accent">test</md-button>
+    <div class="main-container">
+      <md-toolbar>
+        <md-button class="md-icon-button drawer-open-btn" @click.native="toggleLeftSidenav">
+          <md-icon>menu</md-icon>
+        </md-button>
+        <h1 class="md-title" style="flex: 1">Cloud Studies</h1>
+      </md-toolbar>
+    </div>
+    <md-sidenav class="md-left drawer" ref="leftSidenav">
+      <md-toolbar></md-toolbar>
+    </md-sidenav>
   </div>
 </template>
 
@@ -25,37 +19,28 @@ export default {
   name: 'app',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+
+    }
+  },
+  methods: {
+    toggleLeftSidenav () {
+      this.$refs.leftSidenav.toggle()
     }
   }
 }
 </script>
 
 <style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
+  @media (min-width: 1025px) {
+    .main-container {
+      padding-left: 280px;
+    }
+    .drawer-open-btn {
+      visibility: hidden;
+    }
+    .drawer.md-left .md-sidenav-content {
+      transform: translateX(0);
+      box-shadow: -3px 0 5px 5px rgba(0,0,0,0.2);
+    }
+  }
 </style>
