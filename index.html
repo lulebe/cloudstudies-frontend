@@ -8,6 +8,9 @@
     <meta name="theme-color" content="#43a047">
   </head>
   <style>
+  * {
+    box-sizing: border-box;
+  }
   html {
     font-size: 16px;
     font-family: sans-serif;
@@ -34,8 +37,10 @@
   }
   header {
     background: #43a047;
-    padding-bottom: 80px;
     text-align: center;
+    position: fixed;
+    height: 436px;
+    width: 100%;
   }
   nav {
     text-align: left;
@@ -59,14 +64,26 @@
     border-bottom-color: rgba(0,0,0,0.2);
   }
 
-  article {
-    min-height: 500px;
-    margin: 0 auto;
+  .container {
+    min-height: 100vh;
+    margin-top: 420px;
+    position: relative;
+    z-index: 1;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 90px 80px 80px black;
+  }
+  .main-content {
     max-width: 800px;
-    padding: 24px
+    width: 100%;
+    padding: 24px;
+    flex-grow: 1;
   }
 
   footer {
+    width: 100%;
     background: #333;
     color: white;
     padding: 24px 48px 48px 48px;
@@ -107,6 +124,7 @@
   }
   </style>
   <body>
+    <div style="height: 0px; width: 100%;">&nbsp;</div>
     <header>
       <nav>
         <a href="/features.html" class="navitem">Features</a>
@@ -115,16 +133,18 @@
       <h1>Cloud Studies</h1>
       <a href="/app.html" class="btn-cta">Get started now</a>
     </header>
-    <article>
-      <h2>Advertisement</h2>
-      <p>This will be filled with useless text.</p>
-    </article>
-    <footer>
-      <div class="copyright">© Leander Berg 2017</div>
-      <div class="links">
-        <a href="/imprint.html">Imprint</a>
-        <a href="https://github.com/lulebe/cloudstudies-frontend" target="_blank">Github Project</a>
+    <div class="container">
+      <div class="main-content">
+        <h2>Advertisement</h2>
+        <p>This will be filled with useless text.</p>
       </div>
-    </footer>
+      <footer>
+        <div class="copyright">© Leander Berg 2017</div>
+        <div class="links">
+          <a href="/imprint.html">Imprint</a>
+          <a href="https://github.com/lulebe/cloudstudies-frontend" target="_blank">Github Project</a>
+        </div>
+      </footer>
+    </div>
   </body>
 </html>
