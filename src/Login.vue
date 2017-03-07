@@ -1,7 +1,7 @@
 <template>
   <div>
     <md-toolbar>
-      <h1 class="md-title" style="flex: 1">Cloud Studies</h1>
+      <h1 class="md-title">Cloud Studies</h1>
     </md-toolbar>
     <div class="signin">
       <h2>You need to sign in</h2>

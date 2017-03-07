@@ -1,7 +1,7 @@
 <template>
   <div>
     <md-toolbar>
-      <router-link tag="h1" class="md-title" style="flex: 1" to="/">Cloud Studies</router-link>
+      <router-link tag="h1" class="md-title" to="/">Cloud Studies</router-link>
     </md-toolbar>
     <div class="signup">
       <h2>Create your account</h2>
