@@ -43,4 +43,8 @@ export default {
       box-shadow: -3px 0 5px 5px rgba(0,0,0,0.2);
     }
   }
+  .md-raised.md-focusfix:focus {
+    box-shadow: 0 5px 12px 0px rgba(0,0,0,0.5);
+    transform: scale(1.02);
+  }
 </style>

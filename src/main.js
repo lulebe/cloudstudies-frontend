@@ -6,6 +6,8 @@ import VueX from 'vuex'
 import Main from './Main.vue'
 import App from './App.vue'
 import Login from './Login.vue'
+import Signup from './Signup.vue'
+import PWReset from './PWReset.vue'
 
 Vue.use(VueMaterial)
 Vue.use(VueRouter)
@@ -29,6 +31,8 @@ Vue.material.registerTheme('default', {
 
 const routes = [
   {path: '/', component: Login},
+  {path: '/signup', component: Signup},
+  {path: '/pwreset', component: PWReset},
   {path: '/app', component: App}
 ]
 

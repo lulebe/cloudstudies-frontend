@@ -8,21 +8,24 @@
       <p>Data uploaded to our service is encrypted and not visible without logging in.</p>
       <form>
         <md-input-container>
-          <label>Username</label>
-          <md-input type="text" v-model="username"></md-input>
+          <label>Username or E-Mail</label>
+          <md-input type="text" v-model="username" required></md-input>
         </md-input-container>
-          <md-input-container>
-            <label>Password</label>
-            <md-input type="text" v-model="password"></md-input>
-          </md-input-container>
-        <md-button class="md-accent md-raised btn-signin">Sign in</md-button>
+        <md-input-container>
+          <label>Password</label>
+          <md-input type="password" v-model="password" required></md-input>
+        </md-input-container>
+        <div class="pwreset">
+          <router-link to="/pwreset">Forgot your password?</router-link>
+        </div>
+        <md-button class="md-accent md-raised md-focusfix btn-signin" type="submit">Sign in</md-button>
       </form>
       <div style="clear: both"></div>
       <div class="signup">
         <div class="text">
           Need an account?
         </div>
-        <md-button class="md-dense btn-signup">Sign up</md-button>
+        <md-button class="md-dense btn-signup" @click.native="$router.push('/signup')">Sign up</md-button>
       </div>
     </div>
   </div>
@@ -32,8 +35,8 @@
   export default {
     data () {
       return {
-        username: "",
-        password: ""
+        username: '',
+        password: ''
       }
     }
   }
