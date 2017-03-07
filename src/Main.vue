@@ -15,11 +15,20 @@
   .main-router-view {
     min-height: 100vh;
   }
+  .md-backdrop.md-sidenav-backdrop {
+    bottom: 120px !important;
+  }
+  .md-sidenav-content {
+    bottom: 120px !important;
+  }
   footer {
+    position: relative;
+    z-index: 10;
     width: 100%;
+    height: 120px;
     background: #333;
     color: white;
-    padding: 24px 48px 48px 48px;
+    padding: 24px 48px 0 48px;
   }
   footer .copyright {
     text-align: center;
