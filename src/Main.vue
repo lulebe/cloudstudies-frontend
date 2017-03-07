@@ -13,13 +13,13 @@
 
 <style lang="scss">
   .main-router-view {
-    min-height: 97vh;
+    min-height: 100vh;
   }
   footer {
     width: 100%;
     background: #333;
     color: white;
-    padding: 3.5vh 48px 48px 48px;
+    padding: 24px 48px 48px 48px;
   }
   footer .copyright {
     text-align: center;
