@@ -6,7 +6,7 @@
     <div class="signin">
       <h2>You need to sign in</h2>
       <p>Data uploaded to our service is encrypted and not visible without logging in.</p>
-      <form>
+      <form v-on:submit.prevent="signin">
         <md-input-container>
           <label>Username or E-Mail</label>
           <md-input type="text" v-model="username" required></md-input>
@@ -31,12 +31,34 @@
   </div>
 </template>
 
+
 <script>
+  import axios from 'axios'
+
+  import config from './config'
+  import mainState from './state/main'
+
   export default {
     data () {
       return {
         username: '',
         password: ''
+      }
+    },
+    methods: {
+      signin: function () {
+        if (!this.username || !this.password) return
+        axios.post(config.API_USERS + '/signin', {
+          username: this.username,
+          password: this.password
+        })
+        .then(res => {
+          mainState.commit('signin', res.data)
+          this.$router.push('/app')
+        })
+        .catch(e => {
+          console.log(e)
+        })
       }
     }
   }

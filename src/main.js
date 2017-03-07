@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import VueMaterial from 'vue-material'
 import VueRouter from 'vue-router'
-import VueX from 'vuex'
 
+import store from './state/main'
 import Main from './Main.vue'
 import App from './App.vue'
 import Login from './Login.vue'
@@ -11,7 +11,6 @@ import PWReset from './PWReset.vue'
 
 Vue.use(VueMaterial)
 Vue.use(VueRouter)
-Vue.use(VueX)
 
 Vue.material.registerTheme('default', {
   primary: {
@@ -40,6 +39,7 @@ const router = new VueRouter({routes})
 
 new Vue({
   router,
+  store,
   el: '#app',
   render: h => h(Main)
 })

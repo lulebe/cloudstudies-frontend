@@ -15,19 +15,21 @@
 </template>
 
 <script>
-export default {
-  name: 'app',
-  data () {
-    return {
+  import mainState from './state/main'
 
-    }
-  },
-  methods: {
-    toggleLeftSidenav () {
-      this.$refs.leftSidenav.toggle()
+  export default {
+    name: 'app',
+    data () {
+      return {
+        
+      }
+    },
+    methods: {
+      toggleLeftSidenav () {
+        this.$refs.leftSidenav.toggle()
+      }
     }
   }
-}
 </script>
 
 <style lang="scss">

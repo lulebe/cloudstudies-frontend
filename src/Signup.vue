@@ -9,8 +9,8 @@
         If you're still concerned,
         just don't provide an E-Mail address
         and choose a random username.</p>
-      <form>
-        <div class="username">
+      <form v-on:submit.prevent="signup">
+        <div class="combined-input">
           <md-input-container class="input">
             <label>Username</label>
             <md-input type="text" v-model="username" required></md-input>
@@ -33,10 +33,6 @@
           <label>Password</label>
           <md-input type="password" v-model="password" required></md-input>
         </md-input-container>
-        <md-input-container>
-          <label>repeat Password</label>
-          <md-input type="password" v-model="repeatpassword" required></md-input>
-        </md-input-container>
         <md-button class="md-accent md-raised md-focusfix btn-signup" type="submit">Sign up</md-button>
       </form>
       <div style="clear: both"></div>
@@ -55,6 +51,7 @@
 import axios from 'axios'
 
 import config from './config'
+import mainState from './state/main'
 
   export default {
     data () {
@@ -62,7 +59,6 @@ import config from './config'
         username: '',
         email: '',
         password: '',
-        repeatpassword: '',
         loadingRandom: false
       }
     },
@@ -76,6 +72,21 @@ import config from './config'
         })
         .catch(e => {
           this.loadingRandom = false
+        })
+      },
+      signup: function () {
+        if (!this.username || !this.password) return
+        axios.post(config.API_USERS + '/', {
+          username: this.username,
+          password: this.password,
+          email: this.email ? this.email : null
+        })
+        .then(res => {
+          mainState.commit('signin', res.data)
+          this.$router.push('/app')
+        })
+        .catch(e => {
+          console.log(e)
         })
       }
     }
@@ -97,7 +108,7 @@ import config from './config'
     padding: 24px;
     max-width: 400px;
   }
-  .username {
+  .combined-input {
     display: flex;
     align-items: center;
     .input {

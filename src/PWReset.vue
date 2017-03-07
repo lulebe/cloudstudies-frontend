@@ -7,7 +7,7 @@
       <h2>Password Reset</h2>
       <p>We will send a new password to your E-Mail address.
         This will only work if you provided an address during sign up.</p>
-      <form>
+      <form v-on:submit.prevent="resetpw">
         <md-input-container>
           <label>E-Mail</label>
           <md-input type="email" v-model="email" required></md-input>
@@ -19,11 +19,30 @@
   </div>
 </template>
 
+
 <script>
+  import axios from 'axios'
+
+  import config from './config'
+
   export default {
     data () {
       return {
         email: ''
+      }
+    },
+    methods: {
+      resetpw: function () {
+        if (!this.email) return
+        axios.post(config.API_USERS + '/resetpw', {
+          email: this.email
+        })
+        .then(res => {
+
+        })
+        .catch(e => {
+
+        })
       }
     }
   }
