@@ -19,7 +19,7 @@
     width: 100%;
     background: #333;
     color: white;
-    padding: 24px 48px 48px 48px;
+    padding: 3.5vh 48px 48px 48px;
   }
   footer .copyright {
     text-align: center;
