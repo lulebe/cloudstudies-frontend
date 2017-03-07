@@ -65,7 +65,7 @@ import axios from 'axios'
     methods: {
       randomName: function () {
         this.loadingRandom = true
-        axios.get('http://localhost:8085/freename')
+        axios.get('https://users.api.cloudstudies.de/freename')
         .then(res => {
           this.username = res.data
           this.loadingRandom = false
