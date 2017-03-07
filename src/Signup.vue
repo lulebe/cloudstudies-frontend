@@ -50,8 +50,12 @@
   </div>
 </template>
 
+
 <script>
 import axios from 'axios'
+
+import config from './config'
+
   export default {
     data () {
       return {
@@ -65,7 +69,7 @@ import axios from 'axios'
     methods: {
       randomName: function () {
         this.loadingRandom = true
-        axios.get('https://users.api.cloudstudies.de/freename')
+        axios.get(config.API_USERS + '/freename')
         .then(res => {
           this.username = res.data
           this.loadingRandom = false
