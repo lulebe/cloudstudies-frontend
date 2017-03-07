@@ -13,7 +13,7 @@
 
 <style lang="scss">
   .main-router-view {
-    min-height: 100vh;
+    min-height: 97vh;
   }
   footer {
     width: 100%;

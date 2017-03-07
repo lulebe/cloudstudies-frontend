@@ -28,7 +28,7 @@
           <md-input type="text" v-model="email"></md-input>
         </md-input-container>
         <small>We will only use your E-Mail address if you forget your password.
-          If you don't provide one, make sure not to forget the password.</small>
+          If you don't provide one, pick a password you won't forget.</small>
         <md-input-container>
           <label>Password</label>
           <md-input type="password" v-model="password" required></md-input>
