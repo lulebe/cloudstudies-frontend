@@ -27,12 +27,21 @@ Vue.material.registerTheme('default', {
     hue: 500
   }
 })
+Vue.material.registerTheme('sidebar', {
+  primary: 'purple',
+  accent: 'indigo'
+})
 
 const routes = [
   {path: '/', component: Login},
   {path: '/signup', component: Signup},
   {path: '/pwreset', component: PWReset},
-  {path: '/app', component: App}
+  {path: '/app', component: App, beforeEnter: (to, from, next) => {
+    if (!store.state.loggedIn)
+      next('/')
+    else
+      next()
+  }}
 ]
 
 const router = new VueRouter({routes})
