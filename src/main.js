@@ -37,8 +37,8 @@ Vue.material.registerTheme('default', {
     hue: 500
   }
 })
-Vue.material.registerTheme('sidebar', {
-  primary: 'purple',
+Vue.material.registerTheme('searchbar', {
+  primary: 'grey',
   accent: 'indigo'
 })
 

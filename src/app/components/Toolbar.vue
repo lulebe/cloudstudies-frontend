@@ -1,22 +1,26 @@
 <template lang="html">
-  <md-toolbar>
-    <md-button class="md-icon-button drawer-open-btn" v-show="!searchVisible" @click.native="toggleLeftSidenav">
-      <md-icon>menu</md-icon>
-    </md-button>
-    <h1 class="md-title toolbar-title" style="flex: 1;" v-show="!searchVisible">{{title}}</h1>
-    <form v-on:submit.prevent="search">
-      <md-input-container class="search-input" v-bind:class="{shown: searchVisible}" md-inline>
-        <label>Search</label>
-        <md-input v-model="searchInput" ref="searchInputField"></md-input>
-      </md-input-container>
-    </form>
-    <md-button class="md-icon-button btn-search-close" v-show="searchVisible" @click.native="searchVisible = false">
-      <md-icon>close</md-icon>
-    </md-button>
-    <md-button class="md-icon-button" v-show="!searchVisible" @click.native="openSearch">
-      <md-icon>search</md-icon>
-    </md-button>
-  </md-toolbar>
+  <div style="position: relative;">
+    <md-toolbar>
+      <md-button class="md-icon-button drawer-open-btn" @click.native="toggleLeftSidenav">
+        <md-icon>menu</md-icon>
+      </md-button>
+      <h1 class="md-title toolbar-title" style="flex: 1;">{{title}}</h1>
+      <md-button class="md-icon-button" @click.native="openSearch">
+        <md-icon>search</md-icon>
+      </md-button>
+    </md-toolbar>
+    <md-toolbar class="search-bar" v-bind:class="{shown: searchVisible}" md-theme="searchbar">
+      <form v-on:submit.prevent="search" style="margin-left: 64px; margin-right: 8px; flex: 1;">
+        <md-input-container class="search-input" md-inline>
+          <label>Search</label>
+          <md-input v-model="searchInput" ref="searchInputField"></md-input>
+        </md-input-container>
+      </form>
+      <md-button class="md-icon-button" @click.native="closeSearch">
+        <md-icon>close</md-icon>
+      </md-button>
+    </md-toolbar>
+  </div>
 </template>
 
 <script>
@@ -37,7 +41,11 @@
       openSearch () {
         this.searchInput = ""
         this.searchVisible = true
-        this.$refs.searchInputField.$el.focus()
+        setTimeout(() => {this.$refs.searchInputField.$el.focus()}, 200)
+      },
+      closeSearch () {
+        this.$refs.searchInputField.$el.blur()
+        this.searchVisible = false
       },
       search () {
         const query = this.searchInput
@@ -57,22 +65,19 @@
       margin-left: 8px;
     }
   }
-  .search-input {
-    width: 250px;
-    margin: 0;
-    transition: transform 300ms cubic-bezier(0.165, 0.840, 0.440, 1.000), opacity 300ms cubic-bezier(0.165, 0.840, 0.440, 1.000);
-    transform: translateY(-36px) translateX(100%);
-    opacity: 0;
+  .search-bar {
     position: absolute;
-    right: 64px;
+    top: 0;
+    width: 100%;
+    transform: translateX(100%);
+    transition-duration: 200ms;
     &.shown {
-      transform: translateY(-36px) translateX(0);
-      opacity: 1;
-
+      transform: translateY(0);
     }
   }
-  .btn-search-close {
-    position: absolute;
-    right: 8px;
+  .search-input {
+    width: 100%;
+    margin: 0;
+    transform: translateY(-12px);
   }
 </style>
