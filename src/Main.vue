@@ -14,6 +14,7 @@
 <style lang="scss">
   .main-router-view {
     min-height: 100vh;
+    overflow-x: hidden;
   }
   footer {
     width: 100%;
