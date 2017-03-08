@@ -7,13 +7,13 @@
     <form v-on:submit.prevent="search">
       <md-input-container class="search-input" v-bind:class="{shown: searchVisible}" md-inline>
         <label>Search</label>
-        <md-input v-model="searchInput"></md-input>
+        <md-input v-model="searchInput" ref="searchInputField"></md-input>
       </md-input-container>
     </form>
     <md-button class="md-icon-button btn-search-close" v-show="searchVisible" @click.native="searchVisible = false">
       <md-icon>close</md-icon>
     </md-button>
-    <md-button class="md-icon-button" v-show="!searchVisible" @click.native="searchVisible = true">
+    <md-button class="md-icon-button" v-show="!searchVisible" @click.native="openSearch">
       <md-icon>search</md-icon>
     </md-button>
   </md-toolbar>
@@ -33,6 +33,11 @@
     methods: {
       toggleLeftSidenav () {
         this.$store.commit('openDrawer')
+      },
+      openSearch () {
+        this.searchInput = ""
+        this.searchVisible = true
+        this.$refs.searchInputField.$el.focus()
       },
       search () {
         const query = this.searchInput
