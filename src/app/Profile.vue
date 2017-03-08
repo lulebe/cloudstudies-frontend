@@ -34,7 +34,11 @@
     },
     methods: {
       submit () {
-
+        //1. PUT users.api.cloudstudies.de/
+        //if pw changed:
+        //2. GET userdata.api.cloudstudies.de =>
+        //3. decrypt with old password
+        //4. upload with new password
       }
     }
   }
