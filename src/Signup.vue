@@ -105,7 +105,7 @@ import config from './config'
   .signup {
     margin: 0 auto;
     padding: 24px;
-    max-width: 400px;
+    max-width: 500px;
   }
   .combined-input {
     display: flex;

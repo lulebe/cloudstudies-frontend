@@ -67,9 +67,6 @@
       }
     },
     methods: {
-      openInfoDialog () {
-        this.$refs.infoDialog.open()
-      },
       resetpw: function () {
         if (!this.email) return
         axios.post(config.API_USERS + '/resetpw', {

@@ -20,6 +20,9 @@
         </md-list-item>
         <md-divider></md-divider>
         <md-subheader>Stores</md-subheader>
+        <md-list-item>
+          <router-link to="/search"><md-icon>search</md-icon><span>search Store</span></router-link>
+        </md-list-item>
         <md-list-item class="md-inset">
           <router-link to="/store/5"><span>some Store</span></router-link>
         </md-list-item>
