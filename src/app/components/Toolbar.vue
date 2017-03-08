@@ -1,6 +1,6 @@
 <template lang="html">
   <md-toolbar>
-    <md-button class="md-icon-button drawer-open-btn" @click.native="toggleLeftSidenav">
+    <md-button class="md-icon-button drawer-open-btn" v-show="!searchVisible" @click.native="toggleLeftSidenav">
       <md-icon>menu</md-icon>
     </md-button>
     <h1 class="md-title toolbar-title" style="flex: 1;" v-show="!searchVisible">{{title}}</h1>
