@@ -25,7 +25,7 @@
         <div class="text">
           Need an account?
         </div>
-        <md-button class="md-dense btn-signup" @click.native="$router.push('/signup')">Sign up</md-button>
+        <md-button class="md-dense btn-signup focusfix" @click.native="$router.push('/signup')">Sign up</md-button>
       </div>
     </div>
   </div>
@@ -36,7 +36,6 @@
   import axios from 'axios'
 
   import config from './config'
-  import mainState from './state/main'
 
   export default {
     data () {
@@ -53,8 +52,8 @@
           password: this.password
         })
         .then(res => {
-          mainState.commit('signin', res.data)
-          this.$router.push('/app')
+          this.$store.commit('signin', res.data)
+          this.$router.push('/app/dashboard')
         })
         .catch(e => {
           console.log(e)

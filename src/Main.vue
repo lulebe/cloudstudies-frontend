@@ -15,15 +15,7 @@
   .main-router-view {
     min-height: 100vh;
   }
-  .md-backdrop.md-sidenav-backdrop {
-    bottom: 120px !important;
-  }
-  .md-sidenav-content {
-    bottom: 120px !important;
-  }
   footer {
-    position: relative;
-    z-index: 10;
     width: 100%;
     height: 120px;
     background: #333;
@@ -45,7 +37,7 @@
   footer .links a.footerlink:hover {
     color: #fff;
   }
-  .md-button:focus {
+  .md-button.focusfix:focus {
     box-shadow: 0 0 10px rgba(0,0,0,0.2);
   }
 </style>

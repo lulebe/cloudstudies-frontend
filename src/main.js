@@ -1,16 +1,26 @@
 import Vue from 'vue'
 import VueMaterial from 'vue-material'
 import VueRouter from 'vue-router'
+import Vuex from 'vuex'
 
-import store from './state/main'
+
+import storeData from './state/main'
 import Main from './Main.vue'
 import App from './App.vue'
 import Login from './Login.vue'
 import Signup from './Signup.vue'
 import PWReset from './PWReset.vue'
+import Profile from './app/Profile.vue'
+import Dashboard from './app/Dashboard.vue'
+
+import Toolbar from './app/components/Toolbar.vue'
+Vue.component('app-toolbar', Toolbar)
 
 Vue.use(VueMaterial)
 Vue.use(VueRouter)
+Vue.use(Vuex)
+
+const store = new Vuex.Store(storeData)
 
 Vue.material.registerTheme('default', {
   primary: {
@@ -41,7 +51,10 @@ const routes = [
       next('/')
     else
       next()
-  }}
+  }, children: [
+    {path: 'profile', component: Profile},
+    {path: 'dashboard', component: Dashboard}
+  ]}
 ]
 
 const router = new VueRouter({routes})

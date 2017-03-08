@@ -1,15 +1,17 @@
-import Vuex from 'vuex'
-import Vue from 'vue'
-
-Vue.use(Vuex)
-
-export default new Vuex.Store({
+export default {
   state: {
+    drawerOpen: false,
     loggedIn: false,
     user: null,
     token: null
   },
   mutations: {
+    openDrawer (state) {
+      state.drawerOpen = true
+    },
+    closeDrawer (state) {
+      state.drawerOpen = false
+    },
     signout (state) {
       state.loggedIn = false
       state.user = null
@@ -21,4 +23,4 @@ export default new Vuex.Store({
       state.token = data.token
     }
   }
-})
+}

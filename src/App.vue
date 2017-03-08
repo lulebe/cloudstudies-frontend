@@ -1,21 +1,17 @@
 <template>
   <div id="app">
-    <div class="main-container">
-      <md-toolbar>
-        <md-button class="md-icon-button drawer-open-btn" @click.native="toggleLeftSidenav">
-          <md-icon>menu</md-icon>
-        </md-button>
-        <router-link tag="h1" class="md-title homelink" to="/app">Cloud Studies</router-link>
-      </md-toolbar>
-    </div>
-    <md-sidenav class="md-left drawer" ref="leftSidenav">
+    <router-view></router-view>
+    <md-sidenav class="md-left drawer" ref="leftSidenav" @close="$store.commit('closeDrawer')">
       <div class="navdrawerheader">
         <div class="username">{{username}}</div>
-        <md-button class="btn-logout" @click.native="signout">Logout</md-button>
+        <div class="buttons">
+          <md-button @click.native="$router.push('/app/profile')" style="float: left;">Profile</md-button>
+          <md-button @click.native="signout" style="float: right;">Logout</md-button>
+        </div>
       </div>
       <md-list class="navdrawerlist">
         <md-list-item>
-          <router-link to="/app"><md-icon>dashboard</md-icon><span>Dashboard</span></router-link>
+          <router-link to="/app/dashboard"><md-icon>dashboard</md-icon><span>Dashboard</span></router-link>
         </md-list-item>
         <md-list-item>
           <router-link to="/newstore"><md-icon>add</md-icon><span>new Store</span></router-link>
@@ -31,8 +27,6 @@
 </template>
 
 <script>
-  import store from './state/main'
-
   export default {
     name: 'app',
     data () {
@@ -41,15 +35,24 @@
       }
     },
     computed: {
-      username: () => store.state.loggedIn ? store.state.user.name : null
+      username () {return this.$store.state.loggedIn ? this.$store.state.user.name : null},
+      drawerOpen () {return this.$store.state.drawerOpen}
     },
     methods: {
-      toggleLeftSidenav () {
-        this.$refs.leftSidenav.toggle()
-      },
       signout () {
-        store.commit('signout')
+        this.$store.commit('signout')
         this.$router.push('/')
+      }
+    },
+    watch: {
+      drawerOpen () {
+        if (this.$store.state.drawerOpen)
+          this.$refs.leftSidenav.open()
+        else
+          this.$refs.leftSidenav.close()
+      },
+      '$route' (to, from) {
+        this.$store.commit('closeDrawer')
       }
     }
   }
@@ -69,6 +72,9 @@
       box-shadow: -3px 0 5px 5px rgba(0,0,0,0.2);
       pointer-events: auto;
     }
+    .md-sidenav-content {
+      bottom: 120px !important;
+    }
   }
   .md-raised.md-focusfix:focus {
     box-shadow: 0 5px 12px 0px rgba(0,0,0,0.5);
@@ -85,17 +91,17 @@
   }
   .navdrawerheader {
     background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.1) 50%,rgba(0,0,0,0.1) 100%), url("/src/assets/drawer_header.png");
-    height: 200px;
+    height: 150px;
     color: white;
-    padding: 24px;
+    padding: 24px 16px 8px 16px;
     display: flex;
     flex-direction: column;
     .username {
       font-size: 1rem;
       flex-grow: 1;
     }
-    .btn-logout {
-      align-self: flex-end;
+    .buttons {
+      width: 100%;
     }
   }
   .navdrawerlist a {

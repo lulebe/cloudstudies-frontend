@@ -17,7 +17,7 @@
           </md-input-container>
           <md-spinner class="loading-random-spinner" :md-size="40" md-indeterminate v-show="loadingRandom"></md-spinner>
           <div v-show="!loadingRandom">
-            <md-button class="md-icon-button" @click.native="randomName">
+            <md-button class="md-icon-button focusfix" @click.native="randomName">
               <md-icon md-src="src/assets/dice-multiple.svg"></md-icon>
               <md-tooltip>Generate random</md-tooltip>
             </md-button>
@@ -40,7 +40,7 @@
         <div class="text">
           Already have an account?
         </div>
-        <md-button class="md-dense btn-signin" @click.native="$router.push('/')">Sign in</md-button>
+        <md-button class="md-dense btn-signin focusfix" @click.native="$router.push('/')">Sign in</md-button>
       </div>
     </div>
   </div>
@@ -51,7 +51,6 @@
 import axios from 'axios'
 
 import config from './config'
-import mainState from './state/main'
 
   export default {
     data () {
@@ -82,8 +81,8 @@ import mainState from './state/main'
           email: this.email ? this.email : null
         })
         .then(res => {
-          mainState.commit('signin', res.data)
-          this.$router.push('/app')
+          this.$store.commit('signin', res.data)
+          this.$router.push('/app/dashboard')
         })
         .catch(e => {
           console.log(e)
