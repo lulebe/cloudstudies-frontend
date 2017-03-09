@@ -12,6 +12,7 @@ import Signup from './Signup.vue'
 import PWReset from './PWReset.vue'
 import Profile from './app/Profile.vue'
 import Dashboard from './app/Dashboard.vue'
+import Newstore from './app/Newstore.vue'
 
 import Toolbar from './app/components/Toolbar.vue'
 Vue.component('app-toolbar', Toolbar)
@@ -53,7 +54,8 @@ const routes = [
       next()
   }, children: [
     {path: 'profile', component: Profile},
-    {path: 'dashboard', component: Dashboard}
+    {path: 'dashboard', component: Dashboard},
+    {path: 'newstore', component: Newstore}
   ]}
 ]
 

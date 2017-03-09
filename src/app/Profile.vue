@@ -1,16 +1,16 @@
 <template lang="html">
   <div class="main-container">
     <app-toolbar title="Profile"></app-toolbar>
-    <div class="profile">
+    <div class="content">
       <span class="md-display-1">{{user.name}}</span>
       <fieldset>
         <legend>edit account</legend>
         <form v-on:submit.prevent="submit">
           <md-input-container>
             <label>change E-Mail</label>
-            <md-input type="text" v-model="email"></md-input>
+            <md-input type="email" v-model="email"></md-input>
           </md-input-container>
-          <md-input-container>
+          <md-input-container md-has-password>
             <label>change Password</label>
             <md-input type="password" v-model="password"></md-input>
           </md-input-container>
@@ -45,8 +45,8 @@
 </script>
 
   <style lang="scss" scoped>
-  .profile {
-    padding: 24px;
+  .content {
+    padding: 16px;
   }
   fieldset {
     margin: 24px auto 0 auto;

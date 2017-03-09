@@ -1,48 +1,71 @@
 <template lang="html">
-  <div class="signup">
-    <h2>Create a Store</h2>
-    <p>The Store name will be public and can be found via the search function.</p>
-    <form v-on:submit.prevent="signup">
-      <div class="combined-input">
-        <md-input-container class="input">
-          <label>Name</label>
-          <md-input type="text" v-model="username" required></md-input>
-        </md-input-container>
-        <md-spinner class="loading-random-spinner" :md-size="40" md-indeterminate v-show="loadingRandom"></md-spinner>
-        <div v-show="!loadingRandom">
-          <md-button class="md-icon-button focusfix" @click.native="randomName">
-            <md-icon md-src="src/assets/dice-multiple.svg"></md-icon>
-            <md-tooltip>Generate random</md-tooltip>
-          </md-button>
-        </div>
-      </div>
-      <md-input-container>
-        <label>E-Mail (optional)</label>
-        <md-input type="text" v-model="email"></md-input>
-      </md-input-container>
-      <small>We will only use your E-Mail address if you forget your password.
-        If you don't provide one, pick a password you won't forget.</small>
-      <md-input-container>
-        <label>Password</label>
-        <md-input type="password" v-model="password" required></md-input>
-      </md-input-container>
-      <md-button class="md-accent md-raised md-focusfix btn-signup" type="submit">Sign up</md-button>
-    </form>
-    <div style="clear: both"></div>
-    <div class="signin">
-      <div class="text">
-        Already have an account?
-      </div>
-      <md-button class="md-dense btn-signin focusfix" @click.native="$router.push('/')">Sign in</md-button>
+  <div class="main-container">
+    <app-toolbar title="Create new Store"></app-toolbar>
+    <div class="content">
+      <span class="md-display-1"></span>
+      <fieldset>
+        <legend>Options</legend>
+        <form v-on:submit.prevent="submit" autocomplete="off">
+          <md-input-container>
+            <label>Store name</label>
+            <md-input type="text" v-model="name" required></md-input>
+          </md-input-container>
+          <md-input-container md-has-password>
+            <label>Store Password</label>
+            <md-input type="password" v-model="password" required></md-input>
+          </md-input-container>
+          <small>
+            This will be the key to unlock your Store, so others will have it.
+            Don't choose the same as your login password.
+          </small><br>
+          <md-radio v-model="access" name="access" md-value="0">invitations only</md-radio><br>
+          <small>
+            You have to invite users to the Store and they need the password.
+          </small><br>
+          <md-radio v-model="access" name="access" md-value="1">anyone with password</md-radio><br>
+          <small>
+            Everyone can access the Store with the Store password.
+          </small><br>
+          <md-radio v-model="access" name="access" md-value="2">anyone with password or access link</md-radio><br>
+          <small>
+            Everyone can access the Store with the password, plus you can give people an access link to the store
+            for passwordless access.
+          </small><br>
+          <md-button class="md-accent md-raised md-focusfix" type="submit">Create</md-button>
+        </form>
+      </fieldset>
     </div>
   </div>
 </template>
 
 <script>
   export default {
-
+    data () {
+      return {
+        name: "",
+        password: "",
+        access: 1
+      }
+    },
+    methods: {
+      submit () {
+        alert(1)
+      }
+    }
   }
 </script>
 
 <style lang="scss" scoped>
+  .content {
+    padding: 16px;
+  }
+  fieldset {
+    margin: 24px auto 0 auto;
+    max-width: 400px;
+    border: 1px solid #aaa;
+    legend {
+      color: #444;
+      font-size: 1rem;
+    }
+  }
 </style>

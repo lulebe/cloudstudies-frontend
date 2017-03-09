@@ -4,10 +4,24 @@
       <md-button class="md-icon-button drawer-open-btn" @click.native="toggleLeftSidenav">
         <md-icon>menu</md-icon>
       </md-button>
-      <h1 class="md-title toolbar-title" style="flex: 1;">{{title}}</h1>
+      <div class="toolbar-title-container">
+        <h1 class="md-title toolbar-title">{{title}}</h1>
+        <div class="toolbar-actions-shadow"></div>
+      </div>
       <md-button class="md-icon-button" @click.native="openSearch">
         <md-icon>search</md-icon>
       </md-button>
+      <md-menu>
+        <md-button class="md-icon-button" md-menu-trigger>
+          <md-icon>more_vert</md-icon>
+        </md-button>
+        <md-menu-content>
+          <md-menu-item>
+            <md-icon>lock</md-icon>
+            <span>Lock Store</span>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
     </md-toolbar>
     <md-toolbar class="search-bar" v-bind:class="{shown: searchVisible}" md-theme="searchbar">
       <form v-on:submit.prevent="search" style="margin-left: 64px; margin-right: 8px; flex: 1;">
@@ -26,7 +40,8 @@
 <script>
   export default {
     props: [
-      'title'
+      'title',
+      'menuItems'
     ],
     data () {
       return {
@@ -64,6 +79,21 @@
     .md-toolbar .md-title.toolbar-title {
       margin-left: 8px;
     }
+  }
+  .md-toolbar .toolbar-title-container {
+    flex: 1;
+    white-space: nowrap;
+    width: 0;
+    overflow: hidden;
+    position: relative;
+  }
+  .md-toolbar .toolbar-actions-shadow {
+    position: absolute;
+    height: 100%;
+    width: 40px;
+    right: 0;
+    top: 0;
+    background: linear-gradient(to right, rgba(125,185,232,0) 0%,rgba(67,160,71,1) 100%);
   }
   .search-bar {
     position: absolute;

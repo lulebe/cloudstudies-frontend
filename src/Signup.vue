@@ -29,7 +29,7 @@
         </md-input-container>
         <small>We will only use your E-Mail address if you forget your password.
           If you don't provide one, pick a password you won't forget.</small>
-        <md-input-container>
+        <md-input-container md-has-password>
           <label>Password</label>
           <md-input type="password" v-model="password" required></md-input>
         </md-input-container>

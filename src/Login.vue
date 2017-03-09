@@ -11,7 +11,7 @@
           <label>Username or E-Mail</label>
           <md-input type="text" v-model="username" required></md-input>
         </md-input-container>
-        <md-input-container>
+        <md-input-container md-has-password>
           <label>Password</label>
           <md-input type="password" v-model="password" required></md-input>
         </md-input-container>

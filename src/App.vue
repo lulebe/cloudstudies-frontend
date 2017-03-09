@@ -15,16 +15,13 @@
         <md-list-item>
           <router-link to="/app/dashboard"><md-icon>dashboard</md-icon><span>Dashboard</span></router-link>
         </md-list-item>
-        <md-list-item>
-          <router-link to="/newstore"><md-icon>add</md-icon><span>new Store</span></router-link>
-        </md-list-item>
         <md-divider></md-divider>
         <md-subheader>Stores</md-subheader>
         <md-list-item>
-          <router-link to="/search"><md-icon>search</md-icon><span>search Store</span></router-link>
+          <router-link to="/app/newstore"><md-icon>add</md-icon><span>new Store</span></router-link>
         </md-list-item>
         <md-list-item class="md-inset">
-          <router-link to="/store/5"><span>some Store</span></router-link>
+          <router-link to="/app/store/5"><span>some Store</span></router-link>
         </md-list-item>
       </md-list>
     </md-sidenav>
