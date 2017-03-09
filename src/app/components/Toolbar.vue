@@ -93,7 +93,7 @@
     width: 40px;
     right: 0;
     top: 0;
-    background: linear-gradient(to right, rgba(125,185,232,0) 0%,rgba(67,160,71,1) 100%);
+    background: linear-gradient(to right, rgb(67,160,71) 0%,rgba(67,160,71,1) 100%);
   }
   .search-bar {
     position: absolute;
