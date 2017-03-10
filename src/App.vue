@@ -62,6 +62,12 @@
 </script>
 
 <style lang="scss">
+  .content {
+    padding: 16px;
+  }
+  .main-container {
+    flex: 1;
+  }
   @media (min-width: 1025px) {
     .main-container {
       transition: padding-left 0.4s ease-out;

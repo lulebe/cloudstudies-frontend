@@ -3,20 +3,16 @@
     <app-toolbar title="Profile"></app-toolbar>
     <div class="content">
       <span class="md-display-1">{{user.name}}</span>
-      <fieldset>
-        <legend>edit account</legend>
-        <form v-on:submit.prevent="submit">
-          <md-input-container>
-            <label>change E-Mail</label>
-            <md-input type="email" v-model="email"></md-input>
-          </md-input-container>
-          <md-input-container md-has-password>
-            <label>change Password</label>
-            <md-input type="password" v-model="password"></md-input>
-          </md-input-container>
-          <md-button class="md-accent md-raised md-focusfix" type="submit">Save</md-button>
-        </form>
-      </fieldset>
+      <app-form title="edit Account" submit-btn-text="Save" @submit="submit">
+        <md-input-container>
+          <label>change E-Mail</label>
+          <md-input type="email" v-model="email"></md-input>
+        </md-input-container>
+        <md-input-container md-has-password>
+          <label>change Password</label>
+          <md-input type="password" v-model="password"></md-input>
+        </md-input-container>
+      </app-form>
     </div>
   </div>
 </template>
@@ -44,17 +40,5 @@
   }
 </script>
 
-  <style lang="scss" scoped>
-  .content {
-    padding: 16px;
-  }
-  fieldset {
-    margin: 24px auto 0 auto;
-    max-width: 400px;
-    border: 1px solid #aaa;
-    legend {
-      color: #444;
-      font-size: 1rem;
-    }
-  }
+  <style lang="scss">
 </style>

@@ -13,9 +13,12 @@ import PWReset from './PWReset.vue'
 import Profile from './app/Profile.vue'
 import Dashboard from './app/Dashboard.vue'
 import Newstore from './app/Newstore.vue'
+import Store from './app/Store.vue'
 
-import Toolbar from './app/components/Toolbar.vue'
-Vue.component('app-toolbar', Toolbar)
+import cToolbar from './components/Toolbar.vue'
+import cForm from './components/Form.vue'
+Vue.component('app-toolbar', cToolbar)
+Vue.component('app-form', cForm)
 
 Vue.use(VueMaterial)
 Vue.use(VueRouter)
@@ -55,7 +58,8 @@ const routes = [
   }, children: [
     {path: 'profile', component: Profile},
     {path: 'dashboard', component: Dashboard},
-    {path: 'newstore', component: Newstore}
+    {path: 'newstore', component: Newstore},
+    {path: 'store/:storeid', component: Store, props: true}
   ]}
 ]
 
