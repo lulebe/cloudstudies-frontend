@@ -84,7 +84,18 @@
           </md-whiteframe>
         </div>
       </div>
-      <md-button class="md-fab fab"><md-icon>add</md-icon></md-button>
+      <md-speed-dial class="md-fab-bottom-right">
+        <md-button class="md-fab" md-fab-trigger>
+          <md-icon md-icon-morph>close</md-icon>
+          <md-icon>add</md-icon>
+        </md-button>
+        <md-button class="md-fab md-primary md-mini md-clean">
+          <md-icon>create_new_folder</md-icon>
+        </md-button>
+        <md-button class="md-fab md-primary md-mini md-clean">
+          <md-icon>cloud_upload</md-icon>
+        </md-button>
+      </md-speed-dial>
     </div>
 </template>
 
