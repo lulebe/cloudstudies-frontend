@@ -46,13 +46,15 @@
     },
     methods: {
       signin: function () {
-        if (!this.username || !this.password) return
+        const password = this.password
+        const username = this.username
+        if (!username || !password) return
         axios.post(config.API_USERS + '/signin', {
-          username: this.username,
-          password: this.password
+          username,
+          password
         })
         .then(res => {
-          this.$store.commit('signin', res.data)
+          this.$store.commit('account/signin', Object.assign({}, res.data, {pw: password}))
           this.$router.push('/app/dashboard')
         })
         .catch(e => {

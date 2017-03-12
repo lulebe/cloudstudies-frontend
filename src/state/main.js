@@ -1,9 +1,11 @@
+import moduleAccount from './account.js'
+
 export default {
+  modules: {
+    account: moduleAccount,
+  },
   state: {
-    drawerOpen: false,
-    loggedIn: false,
-    user: null,
-    token: null
+    drawerOpen: false
   },
   mutations: {
     openDrawer (state) {
@@ -11,16 +13,6 @@ export default {
     },
     closeDrawer (state) {
       state.drawerOpen = false
-    },
-    signout (state) {
-      state.loggedIn = false
-      state.user = null
-      state.token = null
-    },
-    signin (state, data) {
-      state.loggedIn = true
-      state.user = data.user
-      state.token = data.token
     }
   }
 }

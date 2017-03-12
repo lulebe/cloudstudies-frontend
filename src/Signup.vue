@@ -74,14 +74,17 @@ import config from './config'
         })
       },
       signup: function () {
-        if (!this.username || !this.password) return
+      const password = this.password
+      const username = this.username
+      const email = this.email ? this.email : null
+        if (!username || !password) return
         axios.post(config.API_USERS + '/', {
-          username: this.username,
-          password: this.password,
-          email: this.email ? this.email : null
+          username,
+          password,
+          email
         })
         .then(res => {
-          this.$store.commit('signin', res.data)
+          this.$store.commit('account/signin', Object.assign({}, res.data, {pw: password}))
           this.$router.push('/app/dashboard')
         })
         .catch(e => {
