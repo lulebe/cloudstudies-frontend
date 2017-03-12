@@ -54,6 +54,7 @@
           password
         })
         .then(res => {
+          console.log(res)
           this.$store.commit('account/signin', Object.assign({}, res.data, {pw: password}))
           this.$router.push('/app/dashboard')
         })

@@ -53,7 +53,7 @@ const routes = [
   {path: '/signup', component: Signup},
   {path: '/pwreset', component: PWReset},
   {path: '/app', component: App, beforeEnter: (to, from, next) => {
-    if (!store.state.loggedIn)
+    if (!store.state.account.loggedIn)
       next('/')
     else
       next()

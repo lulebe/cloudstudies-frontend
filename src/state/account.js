@@ -1,7 +1,7 @@
 import axios from 'axios'
 import sha256 from 'crypto-js/sha256'
 
-export default  {
+export default {
   namespaced: true,
   state: {
     loggedIn: false,
