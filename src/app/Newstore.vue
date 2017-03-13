@@ -15,7 +15,8 @@
         <small>
           This will be the key to unlock your Store, so others will have it.
           Don't choose the same as your login password.
-        </small><br>
+        </small>
+        <hr>
         <md-radio v-model="access" name="access" md-value="0">invitations only</md-radio><br>
         <small>
           You have to invite users to the Store and they need the password.
@@ -28,7 +29,8 @@
         <small>
           Everyone can access the Store with the password, plus you can give people an access link to the store
           for passwordless access.
-        </small><br>
+        </small>
+        <hr>
       </app-form>
     </div>
   </div>

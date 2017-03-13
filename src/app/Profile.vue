@@ -31,11 +31,11 @@
       return {
         passwordnew: "",
         passwordold: "",
-        email: this.$store.state.user.email
+        email: this.$store.state.account.user.email
       }
     },
     computed: {
-      user () {return this.$store.state.user}
+      user () {return this.$store.state.account.user}
     },
     methods: {
       submit () {

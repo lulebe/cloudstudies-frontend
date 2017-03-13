@@ -24,15 +24,15 @@
       </md-menu>
     </md-toolbar>
     <md-toolbar class="search-bar" v-bind:class="{shown: searchVisible}" md-theme="searchbar">
-      <form v-on:submit.prevent="search" style="margin-left: 64px; margin-right: 8px; flex: 1;">
+      <md-button class="md-icon-button" @click.native="closeSearch">
+        <md-icon>close</md-icon>
+      </md-button>
+      <form v-on:submit.prevent="search" style="margin-left: 8px; margin-right: 16px; flex: 1;">
         <md-input-container class="search-input" md-inline>
           <label>Search</label>
           <md-input v-model="searchInput" ref="searchInputField"></md-input>
         </md-input-container>
       </form>
-      <md-button class="md-icon-button" @click.native="closeSearch">
-        <md-icon>close</md-icon>
-      </md-button>
     </md-toolbar>
   </div>
 </template>
@@ -52,6 +52,7 @@
     methods: {
       toggleLeftSidenav () {
         this.$store.commit('openDrawer')
+        setTimeout(() => window.scrollTo(0, 0), 0)
       },
       openSearch () {
         this.searchInput = ""
@@ -93,7 +94,7 @@
     width: 40px;
     right: 0;
     top: 0;
-    background: linear-gradient(to right, rgb(67,160,71) 0%,rgba(67,160,71,1) 100%);
+    background: linear-gradient(to right, rgba(67,160,71, 0), rgba(67,160,71,1));
   }
   .search-bar {
     position: absolute;

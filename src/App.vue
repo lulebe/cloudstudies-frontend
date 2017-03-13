@@ -37,7 +37,7 @@
       }
     },
     computed: {
-      username () {return this.$store.state.loggedIn ? this.$store.state.user.name : null},
+      username () {return this.$store.state.account.loggedIn ? this.$store.state.account.user.name : null},
       drawerOpen () {return this.$store.state.drawerOpen}
     },
     methods: {
@@ -67,6 +67,7 @@
   }
   .main-container {
     flex: 1;
+    position: relative;
   }
   @media (min-width: 1025px) {
     .main-container {

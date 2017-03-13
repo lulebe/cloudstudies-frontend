@@ -18,9 +18,11 @@ import Store from './app/Store.vue'
 import cToolbar from './components/Toolbar.vue'
 import cForm from './components/Form.vue'
 import cPwUserdataInfo from './components/PwUserdataInfo.vue'
+import cFolder from './components/Folder.vue'
 Vue.component('app-toolbar', cToolbar)
 Vue.component('app-form', cForm)
 Vue.component('app-pwuserdatainfo', cPwUserdataInfo)
+Vue.component('app-folder', cFolder)
 
 Vue.use(VueMaterial)
 Vue.use(VueRouter)
