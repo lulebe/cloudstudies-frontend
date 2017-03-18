@@ -67,6 +67,7 @@
         const query = this.searchInput
         this.searchInput = ""
         this.searchVisible = false
+        setTimeout(() => this.$router.push({path: '/app/search', query: {q: query}}), 200)
       }
     }
   }

@@ -2,7 +2,7 @@
   <div class="content">
     <span class="md-subheading">Folders</span>
     <div class="folder-grid">
-      <md-button v-for="folder in folders" class="folder md-raised" @click.native="openFolder(folder)">
+      <md-button v-for="folder in folders" v-key="folder.id" class="folder md-raised" @click.native="openFolder(folder)">
         <md-icon>folder</md-icon>
         {{folder.name}}
       </md-button>
@@ -17,7 +17,7 @@
       </md-button>
     </md-button-toggle>
 
-    <md-table v-once class="filetable" v-if="fileview==0">
+    <md-table class="filetable" v-if="fileview==0">
       <md-table-header>
         <md-table-row>
           <md-table-head>File</md-table-head>
@@ -27,7 +27,7 @@
         </md-table-row>
       </md-table-header>
       <md-table-body>
-        <md-table-row v-for="file in files" @click.native="openFile(file)" class="filerow">
+        <md-table-row v-for="file in files" v-key="file.id" @click.native="openFile(file)" class="filerow">
           <md-table-cell><div><md-icon>insert_drive_file</md-icon> {{file.name}}</div></md-table-cell>
           <md-table-cell>{{file.type}}</md-table-cell>
           <md-table-cell>{{file.size}}</md-table-cell>
@@ -37,7 +37,7 @@
     </md-table>
 
     <div class="file-grid" v-if="fileview==1">
-      <md-whiteframe v-for="file in files" md-tag="button" class="file attention" @click.native="openFile(file)">
+      <md-whiteframe v-for="file in files" v-key="file.id" md-tag="button" class="file attention" @click.native="openFile(file)">
         <md-ink-ripple />
         <div style="display: flex;">
           <div style="border-right: 1px solid #aaa; padding-right: 4px;">
@@ -61,7 +61,7 @@
         fileview: 0,
         folders: [
           {id: 1, name: 'some folder'},
-          {id: 1, name: 'some other folder'}
+          {id: 2, name: 'some other folder'}
         ],
         files: [
           {id: 1, name: 'Filename.pdf', type: 'PDF', size: '16.7MB', date: '12.02.2012'},

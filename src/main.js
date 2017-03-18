@@ -12,6 +12,7 @@ import Signup from './Signup.vue'
 import PWReset from './PWReset.vue'
 import Profile from './app/Profile.vue'
 import Dashboard from './app/Dashboard.vue'
+import Search from './app/Search.vue'
 import Newstore from './app/Newstore.vue'
 import Store from './app/Store.vue'
 
@@ -62,6 +63,7 @@ const routes = [
   }, children: [
     {path: 'profile', component: Profile},
     {path: 'dashboard', component: Dashboard},
+    {path: 'search', component: Search, props: true},
     {path: 'newstore', component: Newstore},
     {path: 'store/:storeid', component: Store, props: true}
   ]}

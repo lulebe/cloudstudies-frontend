@@ -2,16 +2,18 @@
     <div class="main-container">
       <app-toolbar title="Store"></app-toolbar>
       <app-folder></app-folder>
-      <md-speed-dial class="md-fab-bottom-right">
+      <md-speed-dial class="fab" md-direction="bottom">
         <md-button class="md-fab" md-fab-trigger>
           <md-icon md-icon-morph>close</md-icon>
           <md-icon>add</md-icon>
         </md-button>
         <md-button class="md-fab md-primary md-mini md-clean">
           <md-icon>create_new_folder</md-icon>
+          <md-tooltip md-direction="left">Create folder</md-tooltip>
         </md-button>
         <md-button class="md-fab md-primary md-mini md-clean">
           <md-icon>cloud_upload</md-icon>
+          <md-tooltip md-direction="left">Upload files</md-tooltip>
         </md-button>
       </md-speed-dial>
     </div>
@@ -34,6 +36,6 @@
   .fab {
     position: absolute;
     right: 16px;
-    bottom: 16px;
+    top: 80px;
   }
 </style>
