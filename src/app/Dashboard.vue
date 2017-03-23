@@ -1,16 +1,16 @@
 <template lang="html">
   <div class="main-container">
     <app-toolbar title="Dashboard"></app-toolbar>
-    <div class="stores-empty" v-if="!userStores">
+    <div class="stores-empty" v-if="userStoreKeys.length == 0">
       You have no Stores in your account.
       <p>
         Create a new Store or search for a store or use its link and add it to your account.
       </p>
     </div>
-    <div class="store-list" v-if="userStores">
-      <md-whiteframe class="store" v-for="store in userStores" v-key="store.id" @click.native="openStore(store.id)">
+    <div class="store-list" v-if="userStoreKeys.length > 0">
+      <md-whiteframe class="store" v-for="key in userStoreKeys" :key="key" @click.native="openStore(userStores[key].store.id)">
         <md-ink-ripple />
-        <span class="md-title">{{store.name}}</span><br>
+        <span class="md-title">{{userStores[key].store.name}}</span><br>
       </md-whiteframe>
     </div>
   </div>
@@ -19,8 +19,14 @@
 <script>
   export default {
     computed: {
-      userStores () {
-        return this.$store.state.account.userdata
+      userStores () {return this.$store.state.account.userdata.stores},
+      userStoreKeys () {
+        const keys = []
+        for (var prop in this.$store.state.account.userdata.stores) {
+          if (this.$store.state.account.userdata.stores.hasOwnProperty(prop))
+            keys.push(prop)
+        }
+        return keys
       }
     },
     methods: {

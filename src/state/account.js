@@ -1,6 +1,7 @@
 import axios from 'axios'
-import sha256 from 'crypto-js/sha256'
-import aes from 'crypto-js/aes'
+
+import config from '../config'
+import pwhash from '../helpers/pwhash'
 
 export default {
   namespaced: true,
@@ -9,7 +10,9 @@ export default {
     pwhash: null,
     token: null,
     user: null,
-    userdata: null
+    userdata: {
+      stores: {}
+    }
   },
   mutations: {
     signout (state) {
@@ -22,7 +25,7 @@ export default {
       state.loggedIn = true
       state.token = data.token
       state.user = data.user
-      state.pwhash = sha256(data.pw)
+      state.pwhash = pwhash(data.pw)
     },
     setUserdata (state, data) {
       state.userdata = data
@@ -30,26 +33,34 @@ export default {
   },
   actions: {
     signin (context, data) {
-
+      context.commit('signin', data)
+      context.dispatch('fetchUserdata')
     },
     signup (context, data) {
-
+      context.dispatch('signin', data)
     },
     fetchUserdata (context) {
       if (!context.state.pwhash) return
-      axios.get(config.API_USERDATA + '/')
-      .then(encryptedData => {
-        const decryptedData = aes.decrypt(encryptedData, context.state.pwhash)
-        context.commit('account/setUserdata', JSON.parse(decryptedData))
+      axios.get(config.API_USERDATA + '/', {
+        headers: {Authorization: context.state.token, 'x-user-pw': context.state.pwhash}
+      })
+      .then(res => {
+        if (res.data)
+          context.commit('setUserdata', res.data)
       })
       .catch(e => {})
     },
     storeUserdata (context, userdata) {
       if (!context.state.pwhash) return
-      context.commit('account/setUserdata', userdata)
-      const encryptedData = aes.encrypt(JSON.stringify(userdata), context.state.pwhash)
-      axios.post(config.API_USERDATA + '/', {data: encryptedData})
+      context.commit('setUserdata', userdata)
+      axios.post(config.API_USERDATA + '/', userdata, {
+        headers: {Authorization: context.state.token, 'x-user-pw': context.state.pwhash}
+      })
       .catch(e => {})
+    },
+    addStoreToData (context, data) {
+      context.state.userdata.stores[data.store.id] = data
+      context.dispatch('storeUserdata', context.state.userdata)
     }
   }
 }

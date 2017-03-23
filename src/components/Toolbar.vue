@@ -11,14 +11,14 @@
       <md-button class="md-icon-button" @click.native="openSearch">
         <md-icon>search</md-icon>
       </md-button>
-      <md-menu>
+      <md-menu v-if="menuItems && menuItems.length>0">
         <md-button class="md-icon-button" md-menu-trigger>
           <md-icon>more_vert</md-icon>
         </md-button>
         <md-menu-content>
-          <md-menu-item>
-            <md-icon>lock</md-icon>
-            <span>Lock Store</span>
+          <md-menu-item v-for="item in menuItems">
+            <md-icon>{{item.icon}}</md-icon>
+            <span>{{item.text}}</span>
           </md-menu-item>
         </md-menu-content>
       </md-menu>
@@ -52,7 +52,6 @@
     methods: {
       toggleLeftSidenav () {
         this.$store.commit('openDrawer')
-        setTimeout(() => window.scrollTo(0, 0), 0)
       },
       openSearch () {
         this.searchInput = ""

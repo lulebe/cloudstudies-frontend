@@ -10,7 +10,7 @@
         </md-input-container>
         <md-input-container md-has-password>
           <label>Store Password</label>
-          <md-input type="password" v-model="password" required></md-input>
+          <md-input type="password" v-model="password" pattern=".{8,}" required></md-input>
         </md-input-container>
         <small>
           This will be the key to unlock your Store, so others will have it.
@@ -37,6 +37,11 @@
 </template>
 
 <script>
+  import axios from 'axios'
+
+  import config from '../config'
+  import pwhash from '../helpers/pwhash'
+
   export default {
     data () {
       return {
@@ -47,7 +52,23 @@
     },
     methods: {
       submit () {
-        alert(1)
+        const name = this.name
+        const password = this.password
+        const access = this.access
+        if (name.length === 0 || password.length < 8) return
+        axios.post(config.API_DATA + '/stores', {
+          name,
+          password: pwhash(password),
+          access
+        }, {
+          headers: {
+            Authorization: this.$store.state.account.token
+          }
+        })
+        .then(res => {
+          this.$router.push('/app/store/'+res.data.id)
+        })
+        .catch(e => {})
       }
     }
   }

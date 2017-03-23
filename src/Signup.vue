@@ -31,7 +31,7 @@
           If you don't provide one, pick a password you won't forget.</small>
         <md-input-container md-has-password>
           <label>Password</label>
-          <md-input type="password" v-model="password" required></md-input>
+          <md-input type="password" v-model="password" pattern=".{8,}" required></md-input>
         </md-input-container>
         <md-button class="md-accent md-raised md-focusfix btn-signup" type="submit">Sign up</md-button>
       </form>
@@ -48,9 +48,9 @@
 
 
 <script>
-import axios from 'axios'
+  import axios from 'axios'
 
-import config from './config'
+  import config from './config'
 
   export default {
     data () {
@@ -84,7 +84,7 @@ import config from './config'
           email
         })
         .then(res => {
-          this.$store.commit('account/signin', Object.assign({}, res.data, {pw: password}))
+          this.$store.dispatch('account/signup', Object.assign({}, res.data, {pw: password}))
           this.$router.push('/app/dashboard')
         })
         .catch(e => {

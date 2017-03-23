@@ -20,8 +20,8 @@
         <md-list-item>
           <router-link to="/app/newstore"><md-icon>add</md-icon><span>new Store</span></router-link>
         </md-list-item>
-        <md-list-item class="md-inset">
-          <router-link to="/app/store/5"><span>some Store</span></router-link>
+        <md-list-item class="md-inset" v-for="key in userStoreKeys" :key="key">
+          <router-link :to="'/app/store/'+userStores[key].store.id"><span>{{userStores[key].store.name}}</span></router-link>
         </md-list-item>
       </md-list>
     </md-sidenav>
@@ -38,6 +38,15 @@
     },
     computed: {
       username () {return this.$store.state.account.loggedIn ? this.$store.state.account.user.name : null},
+      userStores () {return this.$store.state.account.userdata.stores},
+      userStoreKeys () {
+        const keys = []
+        for (var prop in this.$store.state.account.userdata.stores) {
+          if (this.$store.state.account.userdata.stores.hasOwnProperty(prop))
+            keys.push(prop)
+        }
+        return keys
+      },
       drawerOpen () {return this.$store.state.drawerOpen}
     },
     methods: {
@@ -66,7 +75,6 @@
     padding: 16px;
   }
   .main-container {
-    flex: 1;
     position: relative;
   }
   @media (min-width: 1025px) {

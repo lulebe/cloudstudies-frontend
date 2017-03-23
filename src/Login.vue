@@ -7,13 +7,15 @@
       <h2>You need to sign in</h2>
       <p>Data uploaded to our service is encrypted and not visible without logging in.</p>
       <form v-on:submit.prevent="signin">
-        <md-input-container>
+        <md-input-container :class="{'md-input-invalid': errorUsername}">
           <label>Username or E-Mail</label>
           <md-input type="text" v-model="username" required></md-input>
+          <span class="md-error">Username/E-Mail not found</span>
         </md-input-container>
-        <md-input-container>
+        <md-input-container :class="{'md-input-invalid': errorPassword}">
           <label>Password</label>
-          <md-input type="password" v-model="password" required></md-input>
+          <md-input type="password" v-model="password" pattern=".{8,}" required></md-input>
+          <span class="md-error">Password is incorrect</span>
         </md-input-container>
         <div class="pwreset">
           <router-link to="/pwreset">Forgot your password?</router-link>
@@ -28,6 +30,9 @@
         <md-button class="md-dense btn-signup focusfix" @click.native="$router.push('/signup')">Sign up</md-button>
       </div>
     </div>
+    <md-snackbar md-position="bottom center" ref="snackbar" md-duration="3000">
+    <span>Error during login</span>
+  </md-snackbar>
   </div>
 </template>
 
@@ -41,11 +46,15 @@
     data () {
       return {
         username: '',
-        password: ''
+        password: '',
+        errorPassword: false,
+        errorUsername: false
       }
     },
     methods: {
       signin: function () {
+        this.errorUsername = false
+        this.errorPassword = false
         const password = this.password
         const username = this.username
         if (!username || !password) return
@@ -54,12 +63,17 @@
           password
         })
         .then(res => {
-          console.log(res)
-          this.$store.commit('account/signin', Object.assign({}, res.data, {pw: password}))
+          this.$store.dispatch('account/signin', Object.assign({}, res.data, {pw: password}))
           this.$router.push('/app/dashboard')
         })
         .catch(e => {
           console.log(e)
+          if (e.response.status == 404)
+            this.errorUsername = true
+          else if (e.response.status == 403)
+            this.errorPassword = true
+          else
+            this.$refs.snackbar.open()
         })
       }
     }

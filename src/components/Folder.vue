@@ -1,14 +1,16 @@
 <template>
   <div class="content">
-    <span class="md-subheading">Folders</span>
-    <div class="folder-grid">
-      <md-button v-for="folder in folders" v-key="folder.id" class="folder md-raised" @click.native="openFolder(folder)">
+    <span class="md-subheading">Folders</span><br>
+    <span class="md-caption" v-if="!folders || folders.length==0">No folders<br><br></span>
+    <div class="folder-grid" v-if="folders && folders.length>0">
+      <md-button v-for="folder in folders" :key="folder.id" class="folder md-raised" @click.native="openFolder(folder)">
         <md-icon>folder</md-icon>
         {{folder.name}}
       </md-button>
     </div>
-    <span class="md-subheading">Files</span>
-    <md-button-toggle md-single>
+    <span class="md-subheading">Files</span><br>
+    <span class="md-caption" v-if="!files || files.length==0">No files</span>
+    <md-button-toggle md-single v-if="files && files.length>0">
       <md-button class="md-icon-button md-toggle" @click.native="fileview = 0">
         <md-icon>view_list</md-icon>
       </md-button>
@@ -17,7 +19,7 @@
       </md-button>
     </md-button-toggle>
 
-    <md-table class="filetable" v-if="fileview==0">
+    <md-table class="filetable" v-if="fileview==0 && files && files.length>0">
       <md-table-header>
         <md-table-row>
           <md-table-head>File</md-table-head>
@@ -27,7 +29,7 @@
         </md-table-row>
       </md-table-header>
       <md-table-body>
-        <md-table-row v-for="file in files" v-key="file.id" @click.native="openFile(file)" class="filerow">
+        <md-table-row v-for="file in files" :key="file.id" @click.native="openFile(file)" class="filerow">
           <md-table-cell><div><md-icon>insert_drive_file</md-icon> {{file.name}}</div></md-table-cell>
           <md-table-cell>{{file.type}}</md-table-cell>
           <md-table-cell>{{file.size}}</md-table-cell>
@@ -36,8 +38,8 @@
       </md-table-body>
     </md-table>
 
-    <div class="file-grid" v-if="fileview==1">
-      <md-whiteframe v-for="file in files" v-key="file.id" md-tag="button" class="file attention" @click.native="openFile(file)">
+    <div class="file-grid" v-if="fileview==1 && files && files.length>0">
+      <md-whiteframe v-for="file in files" :key="file.id" md-tag="button" class="file attention" @click.native="openFile(file)">
         <md-ink-ripple />
         <div style="display: flex;">
           <div style="border-right: 1px solid #aaa; padding-right: 4px;">
@@ -56,25 +58,12 @@
 
 <script>
   export default {
+    props: [
+      'folders', 'files'
+    ],
     data () {
       return {
-        fileview: 0,
-        folders: [
-          {id: 1, name: 'some folder'},
-          {id: 2, name: 'some other folder'}
-        ],
-        files: [
-          {id: 1, name: 'Filename.pdf', type: 'PDF', size: '16.7MB', date: '12.02.2012'},
-          {id: 2, name: 'Filename.png', type: 'PNG', size: '1.2MB', date: '10.02.2012'},
-          {id: 3, name: 'Filename.jpeg', type: 'JPEG', size: '1.2MB', date: '10.02.2012'},
-          {id: 4, name: 'some very long filename.png', type: 'PNG', size: '1.6MB', date: '10.02.2012'},
-          {id: 5, name: 'something.docx', type: 'DOCX', size: '1.2MB', date: '10.02.2012'},
-          {id: 6, name: 'something else.docx', type: 'DOCX', size: '1.8MB', date: '05.02.2012'},
-          {id: 7, name: 'Filename.png', type: 'PNG', size: '1.2MB', date: '05.02.2012'},
-          {id: 8, name: 'Filename.png', type: 'PNG', size: '1.1MB', date: '05.02.2012'},
-          {id: 9, name: 'Filename.png', type: 'PNG', size: '1.1MB', date: '03.02.2012'},
-          {id: 10, name: 'Filename.png', type: 'PNG', size: '0.2MB', date: '01.02.2012'}
-        ]
+        fileview: 0
       }
     },
     methods: {
@@ -95,6 +84,7 @@
   }
   .folder-grid .folder {
     padding: 6px 16px;
+    text-transform: none;
   }
   @media (max-width: 439px) {
    .file-grid .file {
