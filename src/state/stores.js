@@ -14,7 +14,13 @@ export default {
   },
   actions: {
     fetchStore(context, data) {
-      const passwordHash = data.pwhashed ? data.password : pwhash(data.password)
+      var passwordHash
+      if (data.password)
+        passwordHash = data.pwhashed ? data.password : pwhash(data.password)
+      else if (context.rootState.account.userdata.stores && context.rootState.account.userdata.stores[data.id])
+        passwordHash = context.rootState.account.userdata.stores[data.id].password
+      else
+        return Promise.reject(new Error('no store password available'))
       axios.get(config.API_DATA+'/stores/'+data.id, {
         headers: {
           Authorization: context.rootState.account.token,
@@ -27,6 +33,21 @@ export default {
       })
       .catch(e => {
         context.commit('setStore', new Error('Server Connection Error'))
+      })
+    },
+    addFolder(context, data) {
+      //data.shortname, data.store, data.parentId
+      return axios.post(config.API_DATA+'/stores/'+data.store.id+'/folders', {
+          shortname: data.shortname,
+          parentId: data.parentId
+        }, {
+        headers: {
+          Authorization: context.rootState.account.token,
+          'x-store-auth': 'p ' + context.rootState.account.userdata.stores[data.store.id].password
+        }
+      })
+      .then(res => {
+        context.dispatch('fetchStore', {id: data.store.id})
       })
     }
   }

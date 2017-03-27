@@ -50,6 +50,13 @@ Vue.material.registerTheme('searchbar', {
   primary: 'grey',
   accent: 'indigo'
 })
+Vue.material.registerTheme('secondarybar', {
+  primary: {
+    color: 'grey',
+    hue: 300
+  },
+  accent: 'indigo'
+})
 
 const routes = [
   {path: '/', component: Login},

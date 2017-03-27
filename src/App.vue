@@ -16,10 +16,14 @@
           <router-link to="/app/dashboard"><md-icon>dashboard</md-icon><span>Dashboard</span></router-link>
         </md-list-item>
         <md-divider></md-divider>
-        <md-subheader>Stores</md-subheader>
+        <md-subheader>my Stores</md-subheader>
         <md-list-item>
           <router-link to="/app/newstore"><md-icon>add</md-icon><span>new Store</span></router-link>
         </md-list-item>
+        <md-list-item class="md-inset" v-for="key in userStoreKeys" :key="key">
+          <router-link :to="'/app/store/'+userStores[key].store.id"><span>{{userStores[key].store.name}}</span></router-link>
+        </md-list-item>
+        <md-subheader>saved Stores</md-subheader>
         <md-list-item class="md-inset" v-for="key in userStoreKeys" :key="key">
           <router-link :to="'/app/store/'+userStores[key].store.id"><span>{{userStores[key].store.name}}</span></router-link>
         </md-list-item>
@@ -33,7 +37,6 @@
     name: 'app',
     data () {
       return {
-        test: 5
       }
     },
     computed: {

@@ -7,11 +7,31 @@
         Create a new Store or search for a store or use its link and add it to your account.
       </p>
     </div>
-    <div class="store-list" v-if="userStoreKeys.length > 0">
-      <md-whiteframe class="store" v-for="key in userStoreKeys" :key="key" @click.native="openStore(userStores[key].store.id)">
-        <md-ink-ripple />
-        <span class="md-title">{{userStores[key].store.name}}</span><br>
-      </md-whiteframe>
+    <div class="content" v-if="userStoreKeys.length > 0">
+      <span class="md-subhead">Stores you own</span><br>
+      <div class="store-list">
+        <md-whiteframe class="store" v-for="key in userStoreKeys" :key="key" @click.native="openStore(userStores[key].store.id)">
+          <md-ink-ripple />
+          <span class="md-title">{{userStores[key].store.name}}</span><br>
+          {{userStores[key].store.owner.name}}
+        </md-whiteframe>
+      </div>
+      <span class="md-subhead">saved Stores</span>
+      <div class="store-list">
+        <md-whiteframe class="store" v-for="key in userStoreKeys" :key="key" @click.native="openStore(userStores[key].store.id)">
+          <md-ink-ripple />
+          <span class="md-title">{{userStores[key].store.name}}</span><br>
+          {{userStores[key].store.owner.name}}
+        </md-whiteframe>
+      </div>
+      <span class="md-subhead">Stores you're a member of</span><br>
+      <div class="store-list">
+        <md-whiteframe class="store" v-for="key in userStoreKeys" :key="key" @click.native="openStore(userStores[key].store.id)">
+          <md-ink-ripple />
+          <span class="md-title">{{userStores[key].store.name}}</span><br>
+          {{userStores[key].store.owner.name}}
+        </md-whiteframe>
+      </div>
     </div>
   </div>
 </template>
