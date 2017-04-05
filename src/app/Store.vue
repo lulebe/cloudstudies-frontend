@@ -13,7 +13,7 @@
           v-if="store">
       </app-folder>
 
-      <md-button class="md-fab md-mini md-clean fab-settings" v-if="store" @click.native="openSettings()">
+      <md-button class="md-fab md-mini md-clean fab-settings" v-if="store && !uploadFormVisible" @click.native="openSettings()">
         <md-icon>settings</md-icon>
       </md-button>
 
@@ -25,7 +25,7 @@
         </md-toolbar>
       </md-sidenav>
 
-      <md-speed-dial class="fab" md-direction="bottom" v-if="store">
+      <md-speed-dial class="fab" md-direction="bottom" v-if="store && !uploadFormVisible">
         <md-button class="md-fab" id="store-fab" md-fab-trigger>
           <md-icon md-icon-morph>close</md-icon>
           <md-icon>add</md-icon>
@@ -34,7 +34,7 @@
           <md-icon>create_new_folder</md-icon>
           <md-tooltip md-direction="left">Create folder</md-tooltip>
         </md-button>
-        <md-button class="md-fab md-primary md-mini md-clean" @click.native="upload">
+        <md-button class="md-fab md-primary md-mini md-clean" @click.native="uploadFormVisible = true">
           <md-icon>cloud_upload</md-icon>
           <md-tooltip md-direction="left">Upload files</md-tooltip>
         </md-button>
@@ -50,6 +50,16 @@
       <div class="loading" style="margin-top: 20vh" v-if="loading">
         <div class="loading-info">Loading Store</div>
         <div class="loading-spinner"></div>
+      </div>
+
+      <div class="upload-container" v-if="uploadFormVisible">
+        <h3 class="md-display-1">Drop files here to upload</h3>
+        <div>
+          <p class="md-body-2">Or select a file:</p>
+          <input type="file" name="" value="">
+          <br><br><br><br>
+        </div>
+        <md-button class="md-raised" @click.native="uploadFormVisible = false">cancel Upload</md-button>
       </div>
 
       <md-dialog md-open-from="#store-fab" md-close-to="#store-fab" ref="folderCreationDialog">
@@ -81,7 +91,8 @@
       return {
         password: '',
         loading: false,
-        newFolderName: ''
+        newFolderName: '',
+        uploadFormVisible: false
       }
     },
     computed: {
@@ -149,6 +160,7 @@
         this.$store.dispatch('stores/fetchStore', {id: this.storeid, password: this.password})
       },
       goUp () {
+        this.uploadFormVisible = false
         if (this.displaysRoot) return
         const path = this.$store.state.stores[this.storeid].folders.filter(f =>
           f.id === this.displayedFolder.parentId
@@ -176,9 +188,6 @@
           this.$refs['folderCreationDialog'].close()
           this.$refs.snackbar.open()
         })
-      },
-      upload () {
-        alert('upload')
       }
     }
   }
@@ -194,5 +203,19 @@
     position: absolute;
     right: 80px;
     top: 86px;
+  }
+  .upload-container {
+    position: absolute;
+    z-index: 3;
+    top: 112px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255,255,255,0.9);
+    border: 8px dashed grey;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
   }
 </style>

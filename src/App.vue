@@ -86,8 +86,8 @@
   }
   @media (min-width: 600px) {
     .main-container {
-      transition: padding-left 0.4s ease-out;
-      padding-left: 240px;
+      transition: margin-left 0.4s ease-out;
+      margin-left: 240px;
     }
     .drawer-open-btn {
       visibility: hidden;
@@ -102,7 +102,7 @@
   }
   @media (min-width: 1024px) {
     .main-container {
-      padding-left: 304px;
+      margin-left: 304px;
     }
     .drawer.md-left .md-sidenav-content {
       width: 304px;
@@ -123,7 +123,7 @@
   }
   .navdrawerheader {
     background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.1) 50%,rgba(0,0,0,0.1) 100%), url("/src/assets/drawer_header.png");
-    height: 150px;
+    height: 112px;
     color: white;
     padding: 24px 16px 8px 16px;
     display: flex;

@@ -25,7 +25,6 @@
     background: #333;
     color: white;
     padding: 24px 48px 0 48px;
-    box-shadow: 0 20px 20px 20px black;
     z-index: 20;
   }
   footer .copyright {
