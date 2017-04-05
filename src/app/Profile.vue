@@ -29,8 +29,8 @@
   export default {
     data () {
       return {
-        passwordnew: "",
-        passwordold: "",
+        passwordnew: '',
+        passwordold: '',
         email: this.$store.state.account.user.email
       }
     },
@@ -39,8 +39,8 @@
     },
     methods: {
       submit () {
-        //1. PUT api.cloudstudies.de/users
-        
+        const data = {email: this.email, passwordnew: this.passwordnew, passwordold: this.passwordold}
+        this.$store.dispatch('account/updateUser', data)
       }
     }
   }

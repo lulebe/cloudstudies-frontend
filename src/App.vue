@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <router-view></router-view>
     <md-sidenav class="md-left drawer" ref="leftSidenav" @close="$store.commit('closeDrawer')">
       <div class="navdrawerheader">
         <div class="username">{{username}}</div>
@@ -29,6 +28,7 @@
         </md-list-item>
       </md-list>
     </md-sidenav>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -79,11 +79,15 @@
   }
   .main-container {
     position: relative;
+    min-height: 100vh;
   }
-  @media (min-width: 1025px) {
+  .drawer.md-left .md-sidenav-content {
+    transition: transform 0.2s ease-out, width 0.4s ease-out;
+  }
+  @media (min-width: 600px) {
     .main-container {
       transition: padding-left 0.4s ease-out;
-      padding-left: 304px;
+      padding-left: 240px;
     }
     .drawer-open-btn {
       visibility: hidden;
@@ -92,9 +96,16 @@
       transform: translateX(0);
       box-shadow: -3px 0 5px 5px rgba(0,0,0,0.2);
       pointer-events: auto;
-    }
-    .md-sidenav-content {
       bottom: 120px !important;
+      width: 240px;
+    }
+  }
+  @media (min-width: 1024px) {
+    .main-container {
+      padding-left: 304px;
+    }
+    .drawer.md-left .md-sidenav-content {
+      width: 304px;
     }
   }
   .md-raised.md-focusfix:focus {

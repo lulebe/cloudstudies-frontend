@@ -13,6 +13,18 @@
           v-if="store">
       </app-folder>
 
+      <md-button class="md-fab md-mini md-clean fab-settings" v-if="store" @click.native="openSettings()">
+        <md-icon>settings</md-icon>
+      </md-button>
+
+      <md-sidenav class="md-right settings-panel" ref="settingsPanel">
+        <md-toolbar md-theme="secondarybar">
+          <div class="md-toolbar-container">
+            <h3 class="md-title">Store Settings</h3>
+          </div>
+        </md-toolbar>
+      </md-sidenav>
+
       <md-speed-dial class="fab" md-direction="bottom" v-if="store">
         <md-button class="md-fab" id="store-fab" md-fab-trigger>
           <md-icon md-icon-morph>close</md-icon>
@@ -28,12 +40,17 @@
         </md-button>
       </md-speed-dial>
 
-      <app-form title="Unlock Store" submitBtnText="unlock" v-if="!store" @submit="fetchStore">
+      <app-form title="Unlock Store" submitBtnText="unlock" v-if="!store && !loading" @submit="fetchStore">
         <md-input-container>
           <label>Store Password</label>
           <md-input type="password" v-model="password" />
         </md-input-container>
       </app-form>
+
+      <div class="loading" style="margin-top: 20vh" v-if="loading">
+        <div class="loading-info">Loading Store</div>
+        <div class="loading-spinner"></div>
+      </div>
 
       <md-dialog md-open-from="#store-fab" md-close-to="#store-fab" ref="folderCreationDialog">
         <md-dialog-title>Add a new Folder</md-dialog-title>
@@ -50,21 +67,20 @@
       </md-dialog>
 
       <md-snackbar md-position="bottom center" ref="snackbar" md-duration="3000">
-      <span>an Error occurred</span>
-    </md-snackbar>
+        <span>an Error occurred</span>
+      </md-snackbar>
     </div>
 </template>
 
 <script>
   export default {
     props: [
-      'storeid'
+      'storeid', 'folderpath'
     ],
     data () {
       return {
         password: '',
-        displayedFolderPath: '/',
-        displaysRoot: true,
+        loading: false,
         newFolderName: ''
       }
     },
@@ -74,6 +90,13 @@
         if (this.$store.state.stores[this.storeid])
           return this.$store.state.stores[this.storeid].name
         return 'Store'
+      },
+      displayedFolderPath () {
+        const base = this.folderpath || ''
+        return '/'+base
+      },
+      displaysRoot () {
+        return this.displayedFolderPath == '/'
       },
       displayedFolder () {
         if (this.$store.state.stores[this.storeid]) {
@@ -94,7 +117,6 @@
     mounted () {
       if (this.$store.state.account.userdata.stores) {
         if (this.$store.state.account.userdata.stores[this.storeid]) {
-          this.password = this.$store.state.account.userdata.stores[this.storeid].password
           this.fetchStore(true)
         }
       }
@@ -104,7 +126,6 @@
         this.password = ''
         if (this.$store.state.account.userdata.stores) {
           if (this.$store.state.account.userdata.stores[this.storeid]) {
-            this.password = this.$store.state.account.userdata.stores[this.storeid].password
             this.fetchStore(true)
           }
         }
@@ -118,19 +139,24 @@
         this.$refs[ref].close()
         this.newFolderName = ''
       },
-      fetchStore (hashed) {
-        this.$store.dispatch('stores/fetchStore', {id: this.storeid, password: this.password, pwhashed: hashed || false})
+      openSettings () {
+        this.$refs.settingsPanel.open()
+      },
+      fetchStore (fromUserdata) {
+        if (fromUserdata)
+        this.$store.dispatch('stores/fetchStore', {id: this.storeid})
+        else
+        this.$store.dispatch('stores/fetchStore', {id: this.storeid, password: this.password})
       },
       goUp () {
         if (this.displaysRoot) return
-        this.displayedFolderPath = this.$store.state.stores[this.storeid].folders.filter(f =>
+        const path = this.$store.state.stores[this.storeid].folders.filter(f =>
           f.id === this.displayedFolder.parentId
         )[0].name
-        this.displaysRoot = this.displayedFolderPath == '/'
+        this.$router.push('/app/store/'+this.storeid+path)
       },
       openFolder (folder) {
-        this.displayedFolderPath = folder.name
-        this.displaysRoot = false
+        this.$router.push('/app/store/'+this.storeid+folder.name)
       },
       openFile (file) {
         alert(file)
@@ -162,6 +188,11 @@
   .fab {
     position: absolute;
     right: 16px;
-    top: 80px;
+    top: 82px;
+  }
+  .fab-settings {
+    position: absolute;
+    right: 80px;
+    top: 86px;
   }
 </style>

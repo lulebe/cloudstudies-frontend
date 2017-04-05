@@ -7,7 +7,8 @@ export default {
     stores: moduleStores
   },
   state: {
-    drawerOpen: false
+    drawerOpen: false,
+    title: 'Cloud Studies'
   },
   mutations: {
     openDrawer (state) {
@@ -15,6 +16,10 @@ export default {
     },
     closeDrawer (state) {
       state.drawerOpen = false
+    },
+    setTitle (state, title) {
+      state.title = title,
+      document.title = title
     }
   }
 }

@@ -1,25 +1,29 @@
 import axios from 'axios'
 import SHA256 from 'crypto-js/sha256'
+import Vue from 'vue'
 
 import config from '../config'
 import pwhash from '../helpers/pwhash'
+import {authCatcher} from '../helpers/ajax'
 
 export default {
   namespaced: true,
   state: {},
   mutations: {
     setStore (state, storedata) {
-      state[storedata.id] = storedata
+      Vue.set(state, storedata.id, storedata)
     }
   },
   actions: {
     fetchStore(context, data) {
       var passwordHash
+      var userdataUsed = false
       if (data.password)
-        passwordHash = data.pwhashed ? data.password : pwhash(data.password)
-      else if (context.rootState.account.userdata.stores && context.rootState.account.userdata.stores[data.id])
+        passwordHash = pwhash(data.password)
+      else if (context.rootState.account.userdata.stores && context.rootState.account.userdata.stores[data.id]) {
         passwordHash = context.rootState.account.userdata.stores[data.id].password
-      else
+        userdataUsed = true
+      } else
         return Promise.reject(new Error('no store password available'))
       axios.get(config.API_DATA+'/stores/'+data.id, {
         headers: {
@@ -29,10 +33,18 @@ export default {
       })
       .then(res => {
         context.commit('setStore', res.data)
-        context.dispatch('account/addStoreToData', {store: res.data, password: passwordHash}, {root: true})
+        if (!userdataUsed)
+          context.dispatch('account/addStoreToData', {store: {
+            id: res.data.id,
+            name: res.data.name,
+            owner: res.data.owner
+          }, password: passwordHash}, {root: true})
       })
-      .catch(e => {
-        context.commit('setStore', new Error('Server Connection Error'))
+      .catch(authCatcher)
+      .catch(err => {
+        context.commit('setStore', {id: data.id, success: false})
+        if (err.response && err.response.status == 423)
+          context.dispatch('account/removeStoreFromData', {storeId: data.id}, {root: true})
       })
     },
     addFolder(context, data) {
@@ -48,6 +60,11 @@ export default {
       })
       .then(res => {
         context.dispatch('fetchStore', {id: data.store.id})
+      })
+      .catch(authCatcher)
+      .catch(err => {
+        if (err.response && err.response.status == 423)
+          context.dispatch('account/removeStoreFromData', {storeId: data.id}, {root: true})
       })
     }
   }

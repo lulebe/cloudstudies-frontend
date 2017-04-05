@@ -1,3 +1,4 @@
 export default {
-  CONNECTION_ERROR: 0
+  NO_ERROR: 0,
+  CONNECTION_ERROR: 1
 }

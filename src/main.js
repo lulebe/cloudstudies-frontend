@@ -1,9 +1,12 @@
+require('core-js/shim')
+
 import Vue from 'vue'
 import VueMaterial from 'vue-material'
 import VueRouter from 'vue-router'
 import Vuex from 'vuex'
 
 
+import {setRouter as setRouterForAuthCatcher} from './helpers/ajax'
 import storeData from './state/main'
 import Main from './Main.vue'
 import App from './App.vue'
@@ -59,7 +62,10 @@ Vue.material.registerTheme('secondarybar', {
 })
 
 const routes = [
-  {path: '/', component: Login},
+  {path: '/', component: Login, beforeEnter: (to, from, next) => {
+    store.commit('account/signout')
+    next()
+  }},
   {path: '/signup', component: Signup},
   {path: '/pwreset', component: PWReset},
   {path: '/app', component: App, beforeEnter: (to, from, next) => {
@@ -72,11 +78,13 @@ const routes = [
     {path: 'dashboard', component: Dashboard},
     {path: 'search', component: Search, props: true},
     {path: 'newstore', component: Newstore},
-    {path: 'store/:storeid', component: Store, props: true}
+    {path: 'store/:storeid/:folderpath*', component: Store, props: true}
   ]}
 ]
 
 const router = new VueRouter({routes})
+
+setRouterForAuthCatcher(router)
 
 new Vue({
   router,

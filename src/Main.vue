@@ -19,11 +19,14 @@
     flex-direction: column;
   }
   footer {
+    position: relative;
     width: 100%;
     height: 120px;
     background: #333;
     color: white;
     padding: 24px 48px 0 48px;
+    box-shadow: 0 20px 20px 20px black;
+    z-index: 20;
   }
   footer .copyright {
     text-align: center;
