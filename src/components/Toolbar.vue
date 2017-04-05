@@ -73,7 +73,7 @@
 </script>
 
 <style lang="scss">
-  @media (min-width: 1025px) {
+  @media (min-width: 600px) {
     .drawer-open-btn {
       display: none;
     }
