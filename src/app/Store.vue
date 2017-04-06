@@ -23,6 +23,43 @@
             <h3 class="md-title">Store Settings</h3>
           </div>
         </md-toolbar>
+        <div style="padding: 16px;">
+          <form @submit.prevent="saveSettings" autocomplete="off">
+            <md-input-container md-has-password>
+              <label>Store Password</label>
+              <md-input type="password" v-model="settings.password" pattern=".{8,}" required></md-input>
+            </md-input-container>
+            <small>
+              This will be the key to unlock your Store, so others will have it.
+              Don't choose the same as your login password.
+            </small>
+            <hr>
+            <md-radio v-model="settings.access" name="access" md-value="0">invitations only</md-radio><br>
+            <small>
+              You have to invite users to the Store and they need the password.
+            </small><br>
+            <md-radio v-model="settings.access" name="access" md-value="1">anyone with password</md-radio><br>
+            <small>
+              Everyone can access the Store with the Store password.
+            </small><br>
+            <md-radio v-model="settings.access" name="access" md-value="2">anyone with password or access link</md-radio><br>
+            <small>
+              Everyone can access the Store with the password, plus you can give people an access link to the store
+              for passwordless access.
+            </small>
+            <br>
+            <md-button class="md-primary">reset link</md-button>
+            <hr>
+            <md-button class="md-raised md-accent">save</md-button>
+          </form>
+          <h3>Invitations</h3>
+          <form @submit.prevent="inviteUser" autocomplete="off">
+            <md-input-container>
+              <label>Invite User</label>
+              <md-input type="text" pattern=".{8,}" required></md-input>
+            </md-input-container>
+          </form>
+        </div>
       </md-sidenav>
 
       <md-speed-dial class="fab" md-direction="bottom" v-if="store && !uploadFormVisible">
@@ -92,7 +129,11 @@
         password: '',
         loading: false,
         newFolderName: '',
-        uploadFormVisible: false
+        uploadFormVisible: false,
+        settings: {
+          password: '',
+          access: 1
+        }
       }
     },
     computed: {

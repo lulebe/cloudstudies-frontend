@@ -45,8 +45,8 @@
   export default {
     data () {
       return {
-        name: "",
-        password: "",
+        name: '',
+        password: '',
         access: 1
       }
     },
