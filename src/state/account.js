@@ -1,4 +1,5 @@
 import axios from 'axios'
+import Vue from 'vue'
 
 import config from '../config'
 import pwhash from '../helpers/pwhash'
@@ -63,6 +64,7 @@ export default {
         headers: {Authorization: context.state.token, 'x-user-pw': context.state.pwhash}
       })
       .then(res => {
+        console.log(res.data)
         if (res.data)
           context.commit('setUserdata', res.data)
       })
@@ -79,7 +81,7 @@ export default {
       .catch(e => {})
     },
     addStoreToData (context, data) {
-      context.state.userdata.stores[data.store.id] = data
+      Vue.set(context.state.userdata.stores, data.store.id, data)
       context.dispatch('storeUserdata', context.state.userdata)
     },
     removeStoreFromData (context, data) {
