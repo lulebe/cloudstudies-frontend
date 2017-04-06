@@ -73,9 +73,6 @@
 </script>
 
 <style lang="scss">
-  .main-toolbar {
-    box-shadow: 0 -20px 8px 20px rgba(0,0,0,0.6);
-  }
   @media (min-width: 600px) {
     .drawer-open-btn {
       display: none;

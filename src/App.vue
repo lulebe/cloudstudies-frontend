@@ -4,7 +4,7 @@
       <div class="navdrawerheader">
         <div class="username">{{username}}</div>
         <div class="buttons">
-          <md-button class="md-icon-button" @click.native="$router.push('/app/profile')" style="float: left;">
+          <md-button class="md-icon-button btn-profile-settings" @click.native="$router.push('/app/profile')" style="float: left;">
             <md-icon>settings</md-icon>
           </md-button>
           <md-button @click.native="signout" style="float: right;">Logout</md-button>
@@ -136,5 +136,12 @@
   }
   .navdrawerlist a {
     color: #333;
+  }
+
+  .btn-profile-settings > .md-icon {
+    transition: transform 0.2s ease-out;
+    &:hover {
+      transform: rotate(45deg);
+    }
   }
 </style>
