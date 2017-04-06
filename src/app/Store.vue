@@ -13,7 +13,7 @@
           v-if="store">
       </app-folder>
 
-      <md-button class="md-fab md-mini md-clean fab-settings" v-if="store && !uploadFormVisible" @click.native="openSettings()">
+      <md-button class="md-fab md-mini md-clean fab-settings" v-if="store && !uploadFormVisible && store.owner.id == $store.state.account.user.id" @click.native="openSettings()">
         <md-icon>settings</md-icon>
       </md-button>
 

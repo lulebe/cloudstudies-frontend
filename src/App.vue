@@ -54,9 +54,7 @@
     },
     methods: {
       signout () {
-        this.$store.commit('closeDrawer')
-        this.$store.commit('signout')
-        this.$router.push('/')
+        window.location.href = '/app.html'
       }
     },
     watch: {

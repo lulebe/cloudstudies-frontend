@@ -22,12 +22,6 @@ export default {
     }
   },
   mutations: {
-    signout (state) {
-      state.loggedIn = false
-      state.pwhash = null
-      state.token = null
-      state.user = null
-    },
     signin (state, data) {
       state.loggedIn = true
       state.token = data.token
