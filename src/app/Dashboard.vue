@@ -12,7 +12,11 @@
       <div class="store-list">
         <md-whiteframe class="store" v-for="key in userStoreKeys" :key="key" @click.native="openStore(userStores[key].store.id)">
           <md-ink-ripple />
-          <span class="md-title">{{userStores[key].store.name}}</span><br>
+          <span class="md-title">
+            {{userStores[key].store.name}}
+            <md-icon :style="{color: stores[key] ? 'black' : 'lightgrey'}">check</md-icon>
+          </span>
+          <br>
           {{userStores[key].store.owner.name}}
         </md-whiteframe>
       </div>
@@ -39,6 +43,7 @@
 <script>
   export default {
     computed: {
+      stores () {return this.$store.state.stores},
       userStores () {return this.$store.state.account.userdata.stores},
       userStoreKeys () {
         const keys = []
@@ -49,9 +54,23 @@
         return keys
       }
     },
+    mounted () {
+      this.fetchStores()
+    },
+    watch: {
+      userStoreKeys () {
+        this.fetchStores()
+      }
+    },
     methods: {
       openStore (storeId) {
         this.$router.push('/app/store/'+storeId)
+      },
+      fetchStores () {
+        this.userStoreKeys.forEach(storeId => {
+          if (!this.stores[storeId])
+          this.$store.dispatch('stores/fetchStore', {id: storeId})
+        })
       }
     }
   }

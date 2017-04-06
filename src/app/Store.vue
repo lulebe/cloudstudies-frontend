@@ -20,6 +20,9 @@
       <md-sidenav class="md-right settings-panel" ref="settingsPanel">
         <md-toolbar md-theme="secondarybar">
           <div class="md-toolbar-container">
+            <md-button class="md-icon-button" @click.native="closeSettings()">
+              <md-icon>close</md-icon>
+            </md-button>
             <h3 class="md-title">Store Settings</h3>
           </div>
         </md-toolbar>
@@ -194,6 +197,9 @@
       openSettings () {
         this.$refs.settingsPanel.open()
       },
+      closeSettings () {
+        this.$refs.settingsPanel.close()
+      },
       fetchStore (fromUserdata) {
         if (fromUserdata)
         this.$store.dispatch('stores/fetchStore', {id: this.storeid})
@@ -258,5 +264,15 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
+  }
+</style>
+<style lang="scss">
+  .settings-panel .md-sidenav-content {
+    width: 90vw;
+  }
+  @media (min-width: 600px) {
+    .settings-panel .md-sidenav-content {
+      width: 360px;
+    }
   }
 </style>

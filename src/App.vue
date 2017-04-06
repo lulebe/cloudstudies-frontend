@@ -94,7 +94,7 @@
     }
     .drawer.md-left .md-sidenav-content {
       transform: translateX(0);
-      box-shadow: -3px 0 5px 5px rgba(0,0,0,0.2);
+      box-shadow: -13px 0 10px 15px rgba(0,0,0,0.3);
       pointer-events: auto;
       bottom: 120px !important;
       width: 240px;

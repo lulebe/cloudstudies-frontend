@@ -6,6 +6,10 @@ import config from '../config'
 import pwhash from '../helpers/pwhash'
 import {authCatcher} from '../helpers/ajax'
 
+const cancels = {
+  fetchStore: {}
+}
+
 export default {
   namespaced: true,
   state: {},
@@ -25,7 +29,11 @@ export default {
         userdataUsed = true
       } else
         return Promise.reject(new Error('no store password available'))
+      if (cancels.fetchStore[data.id])
+        cancels.fetchStore[data.id].cancel()
+      cancels.fetchStore[data.id] = axios.CancelToken.source()
       axios.get(config.API_DATA+'/stores/'+data.id, {
+        cancelToken: cancels.fetchStore[data.id].token,
         headers: {
           Authorization: context.rootState.account.token,
           'x-store-auth': 'p ' + passwordHash
@@ -42,7 +50,8 @@ export default {
       })
       .catch(authCatcher)
       .catch(err => {
-        context.commit('setStore', {id: data.id, success: false})
+        if (!context.state[data.id])
+          context.commit('setStore', {id: data.id, success: false})
         if (err.response && err.response.status == 423)
           context.dispatch('account/removeStoreFromData', {storeId: data.id}, {root: true})
       })

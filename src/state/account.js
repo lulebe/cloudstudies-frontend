@@ -5,6 +5,11 @@ import config from '../config'
 import pwhash from '../helpers/pwhash'
 import {authCatcher} from '../helpers/ajax'
 
+const cancels = {
+  fetchUserdata: axios.CancelToken.source(),
+  storeUserdata: axios.CancelToken.source()
+}
+
 export default {
   namespaced: true,
   state: {
@@ -60,11 +65,13 @@ export default {
     },
     fetchUserdata (context) {
       if (!context.state.pwhash) return
+      cancels.fetchUserdata.cancel()
+      cancels.fetchUserdata = axios.CancelToken.source()
       axios.get(config.API_USERDATA + '/', {
+        CancelToken: cancels.fetchUserdata.token,
         headers: {Authorization: context.state.token, 'x-user-pw': context.state.pwhash}
       })
       .then(res => {
-        console.log(res.data)
         if (res.data)
           context.commit('setUserdata', res.data)
       })
@@ -74,7 +81,10 @@ export default {
     storeUserdata (context, userdata) {
       if (!context.state.pwhash) return
       context.commit('setUserdata', userdata)
+      cancels.storeUserdata.cancel()
+      cancels.storeUserdata = axios.CancelToken.source()
       axios.post(config.API_USERDATA + '/', userdata, {
+        cancelToken: cancels.storeUserdata.token,
         headers: {Authorization: context.state.token, 'x-user-pw': context.state.pwhash}
       })
       .catch(authCatcher)

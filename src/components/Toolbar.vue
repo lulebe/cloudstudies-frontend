@@ -1,6 +1,6 @@
 <template lang="html">
   <div style="position: relative;">
-    <md-toolbar>
+    <md-toolbar class="main-toolbar">
       <md-button class="md-icon-button drawer-open-btn" @click.native="toggleLeftSidenav">
         <md-icon>menu</md-icon>
       </md-button>
@@ -16,7 +16,7 @@
           <md-icon>more_vert</md-icon>
         </md-button>
         <md-menu-content>
-          <md-menu-item v-for="item in menuItems">
+          <md-menu-item v-for="item in menuItems" :key="item.text">
             <md-icon>{{item.icon}}</md-icon>
             <span>{{item.text}}</span>
           </md-menu-item>
@@ -73,22 +73,25 @@
 </script>
 
 <style lang="scss">
+  .main-toolbar {
+    box-shadow: 0 -20px 8px 20px rgba(0,0,0,0.6);
+  }
   @media (min-width: 600px) {
     .drawer-open-btn {
       display: none;
     }
-    .md-toolbar .md-title.toolbar-title {
+    .main-toolbar .md-title.toolbar-title {
       margin-left: 8px;
     }
   }
-  .md-toolbar .toolbar-title-container {
+  .main-toolbar .toolbar-title-container {
     flex: 1;
     white-space: nowrap;
     width: 0;
     overflow: hidden;
     position: relative;
   }
-  .md-toolbar .toolbar-actions-shadow {
+  .main-toolbar .toolbar-actions-shadow {
     position: absolute;
     height: 100%;
     width: 40px;
