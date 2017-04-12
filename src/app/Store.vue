@@ -49,13 +49,9 @@
     </div>
 
     <div class="upload-container" v-if="uploadFormVisible">
-      <h3 class="md-display-1">Drop files here to upload</h3>
-      <div>
-        <p class="md-body-2">Or select a file:</p>
-        <input type="file" name="" value="">
-        <br><br><br><br>
-      </div>
-      <md-button class="md-raised" @click.native="uploadFormVisible = false">cancel Upload</md-button>
+      <h3 class="md-display-1">Upload new Files</h3>
+      <dropzone id="fileUploadZone" :url="fileUploadUrl" :headers="fileUploadHeaders" :maxFileSizeInMB="150" @vdropzone-success="uploadDone"></dropzone>
+      <md-button class="md-raised" @click.native="uploadFormVisible = false">Done</md-button>
     </div>
 
     <md-dialog md-open-from="#store-fab" md-close-to="#store-fab" ref="folderCreationDialog">
@@ -75,11 +71,12 @@
     <md-snackbar md-position="bottom center" ref="snackbar" md-duration="3000">
       <span>an Error occurred</span>
     </md-snackbar>
+    <iframe ref="downloadIframe" style="display:none;"></iframe>
   </div>
 </template>
 
 <script>
-  import axios from 'axios'
+  import {ajax} from '../helpers/ajax'
 
   import config from '../config'
 
@@ -122,7 +119,16 @@
           })
           return dFolder
         }
-        return {name: '/', folders: [], files: [], noDelete: true}
+        return {id: 0, name: '/', folders: [], files: [], noDelete: true}
+      },
+      fileUploadUrl () {
+        return config.API_UPLOAD + '/folder/' + this.displayedFolder.id
+      },
+      fileUploadHeaders () {
+        return {
+          'Authorization': this.$store.state.account.token,
+          'x-store-auth': this.$store.state.account.userdata.stores[this.storeid].password
+        }
       }
     },
     mounted () {
@@ -174,7 +180,18 @@
         this.$router.push('/app/store/'+this.storeid+folder.name)
       },
       openFile (file) {
-        alert(file)
+        ajax({
+          method: 'GET',
+          url: config.API_DATA+'/file/'+file.id,
+          headers: {
+            'x-store-auth': this.$store.state.account.userdata.stores[this.storeid].password
+          }
+        })
+        .then(res => {
+          const link = config.API_UPLOAD+'/file/'+res.data.token+'/'+file.name
+          this.$refs.downloadIframe.src = link
+        })
+        .catch(e => {})
       },
       createFolder () {
         const shortname = this.newFolderName
@@ -191,6 +208,9 @@
           this.$refs['folderCreationDialog'].close()
           this.$refs.snackbar.open()
         })
+      },
+      uploadDone (file, res) {
+        this.fetchStore(true)
       }
     }
   }
@@ -215,11 +235,16 @@
     right: 0;
     bottom: 0;
     background: rgba(255,255,255,0.9);
-    border: 8px dashed grey;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
+    padding: 24px;
+    .dropzone {
+      width: 100%;
+      margin: 24px 0;
+      flex-grow: 1;
+    }
   }
 </style>
 <style lang="scss">

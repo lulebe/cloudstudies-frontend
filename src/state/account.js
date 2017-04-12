@@ -94,7 +94,8 @@ export default {
         method: 'POST',
         url: config.API_USERDATA + '/', userdata,
         cancelToken: cancels.storeUserdata.token,
-        headers: {'x-user-pw': context.state.pwhash}
+        headers: {'x-user-pw': context.state.pwhash},
+        data: userdata
       })
       .catch(e => {})
     },

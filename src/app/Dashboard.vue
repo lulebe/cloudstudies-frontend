@@ -102,8 +102,9 @@
     padding: 16px;
     .store {
       position: relative;
-      padding: 16px;
+      padding: 12px;
       cursor: pointer;
+      margin: 4px;
     }
   }
 </style>

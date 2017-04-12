@@ -36,8 +36,8 @@
           </md-table-row>
         </md-table-header>
         <md-table-body>
-          <md-table-row v-for="file in files" :key="file.id" @click.native="$emit('openfile', file)" class="filerow">
-            <md-table-cell><div><md-icon>insert_drive_file</md-icon> {{file.name}}</div></md-table-cell>
+          <md-table-row v-for="file in filesFormatted" :key="file.id" @click.native="$emit('openfile', file)" class="filerow">
+            <md-table-cell><div><md-icon>{{file.icon}}</md-icon> {{file.name}}</div></md-table-cell>
             <md-table-cell>{{file.type}}</md-table-cell>
             <md-table-cell>{{file.size}}</md-table-cell>
             <md-table-cell>{{file.date}}</md-table-cell>
@@ -46,11 +46,11 @@
       </md-table>
 
       <div class="file-grid" v-if="fileview==1 && files && files.length>0">
-        <md-whiteframe v-for="file in files" :key="file.id" md-tag="button" class="file attention" @click.native="$emit('openfile', file)">
+        <md-whiteframe v-for="file in filesFormatted" :key="file.id" md-tag="button" class="file attention" @click.native="$emit('openfile', file)">
           <md-ink-ripple />
           <div style="display: flex;">
             <div style="border-right: 1px solid #aaa; padding-right: 4px;">
-              <md-icon class="fileicon">insert_drive_file</md-icon><br>
+              <md-icon class="fileicon">{{file.icon}}</md-icon><br>
               <span class="md-caption filesize">{{file.size}}</span>
             </div>
             <div style="padding-left: 4px; text-align: left;">
@@ -65,6 +65,8 @@
 </template>
 
 <script>
+  import moment from 'moment'
+
   export default {
     props: [
       'name', 'isroot', 'folders', 'files'
@@ -73,7 +75,42 @@
       return {
         fileview: 0
       }
+    },
+    computed: {
+      filesFormatted () {
+        return this.files.map(file => ({
+          id: file.id,
+          name: file.name,
+          date: moment(file.createdAt).format('MMM Do YYYY'),
+          size: formatSize(file.size),
+          type: file.name.split('.').pop(),
+          icon: getIconName(file.name.split('.').pop()),
+        })).sort((a, b) => a.name.localeCompare(b.name))
+      }
     }
+  }
+
+  function formatSize (byteSize) {
+    let formatted = byteSize / 1000
+    if (formatted < 1000)
+      return Math.round(formatted) + ' KB'
+    else
+      return Math.round(formatted / 1000) + ' MB'
+  }
+
+  const imageExtensions = ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'tiff']
+  const audioExtensions = ['ogg', 'mp3', 'aac', 'flac', 'wav']
+  const videoExtensions = ['mp4', '3gp', 'mp2']
+  function getIconName (ext) {
+    if (ext == 'pdf')
+      return 'picture_as_pdf'
+    if (imageExtensions.indexOf(ext) > -1)
+      return 'photo'
+    if (audioExtensions.indexOf(ext) > -1)
+      return 'audiotrack'
+    if (videoExtensions.indexOf(ext) > -1)
+      return 'movie'
+    return 'insert_drive_file'
   }
 </script>
 
