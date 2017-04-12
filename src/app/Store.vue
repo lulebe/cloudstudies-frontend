@@ -71,7 +71,6 @@
     <md-snackbar md-position="bottom center" ref="snackbar" md-duration="3000">
       <span>an Error occurred</span>
     </md-snackbar>
-    <iframe ref="downloadIframe" style="display:none;"></iframe>
   </div>
 </template>
 
@@ -189,7 +188,7 @@
         })
         .then(res => {
           const link = config.API_UPLOAD+'/file/'+res.data.token+'/'+file.name
-          this.$refs.downloadIframe.src = link
+          window.location.href = link
         })
         .catch(e => {})
       },
