@@ -4,7 +4,7 @@ import Vue from 'vue'
 
 import config from '../config'
 import pwhash from '../helpers/pwhash'
-import {authCatcher} from '../helpers/ajax'
+import {authCatcher, ajax} from '../helpers/ajax'
 
 const cancels = {
   fetchStore: {}
@@ -19,11 +19,11 @@ export default {
     }
   },
   actions: {
-    fetchStore(context, data) {
+    fetchStore (context, data) {
       var passwordHash
       var userdataUsed = false
       if (data.password)
-        passwordHash = pwhash(data.password)
+        passwordHash = 'p ' + pwhash(data.password)
       else if (context.rootState.account.userdata.stores && context.rootState.account.userdata.stores[data.id]) {
         passwordHash = context.rootState.account.userdata.stores[data.id].password
         userdataUsed = true
@@ -32,11 +32,12 @@ export default {
       if (cancels.fetchStore[data.id])
         cancels.fetchStore[data.id].cancel()
       cancels.fetchStore[data.id] = axios.CancelToken.source()
-      axios.get(config.API_DATA+'/stores/'+data.id, {
+      ajax({
+        method: 'GET',
+        url: config.API_DATA+'/stores/'+data.id,
         cancelToken: cancels.fetchStore[data.id].token,
         headers: {
-          Authorization: context.rootState.account.token,
-          'x-store-auth': 'p ' + passwordHash
+          'x-store-auth': passwordHash
         }
       })
       .then(res => {
@@ -56,19 +57,59 @@ export default {
           context.dispatch('account/removeStoreFromData', {storeId: data.id}, {root: true})
       })
     },
-    addFolder(context, data) {
+    addFolder (context, data) {
       //data.shortname, data.store, data.parentId
-      return axios.post(config.API_DATA+'/stores/'+data.store.id+'/folders', {
+      return ajax({
+        method: 'POST',
+        url: config.API_DATA+'/stores/'+data.store.id+'/folders',
+        data: {
           shortname: data.shortname,
           parentId: data.parentId
-        }, {
+        },
         headers: {
-          Authorization: context.rootState.account.token,
-          'x-store-auth': 'p ' + context.rootState.account.userdata.stores[data.store.id].password
+          'x-store-auth': context.rootState.account.userdata.stores[data.store.id].password
         }
       })
       .then(res => {
         context.dispatch('fetchStore', {id: data.store.id})
+      })
+      .catch(authCatcher)
+      .catch(err => {
+        if (err.response && err.response.status == 423)
+          context.dispatch('account/removeStoreFromData', {storeId: data.id}, {root: true})
+      })
+    },
+    addMemberToStore (context, data) {
+      const store = context.state[data.id]
+      if (!store || !store.members) return
+      axios.post(config.API_DATA+'/stores/'+data.id+'/members?userId='+data.user.id, null, {
+        headers: {
+          Authorization: context.rootState.account.token,
+          'x-store-auth': context.rootState.account.userdata.stores[data.id].password
+        }
+      })
+      .then(res => {
+        store.members.push(data.user)
+        context.commit('setStore', store)
+      })
+      .catch(authCatcher)
+      .catch(err => {
+        if (err.response && err.response.status == 423)
+          context.dispatch('account/removeStoreFromData', {storeId: data.id}, {root: true})
+      })
+    },
+    removeMemberFromStore (context, data) {
+      const store = context.state[data.id]
+      if (!store || !store.members) return
+      axios.delete(config.API_DATA+'/stores/'+data.id+'/members?userId='+data.user.id, {
+        headers: {
+          Authorization: context.rootState.account.token,
+          'x-store-auth': context.rootState.account.userdata.stores[data.id].password
+        }
+      })
+      .then(res => {
+        store.members.splice(store.members.indexOf(store.members.filter(m => m.id == data.user.id)[0]), 1)
+        context.commit('setStore', store)
       })
       .catch(authCatcher)
       .catch(err => {

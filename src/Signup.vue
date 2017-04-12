@@ -51,6 +51,7 @@
   import axios from 'axios'
 
   import config from './config'
+  import pwhash from './helpers/pwhash'
 
   export default {
     data () {
@@ -74,7 +75,7 @@
         })
       },
       signup: function () {
-      const password = this.password
+      const password = pwhash(this.password)
       const username = this.username
       const email = this.email ? this.email : null
         if (!username || !password) return

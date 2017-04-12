@@ -41,6 +41,7 @@
   import axios from 'axios'
 
   import config from './config'
+  import pwhash from './helpers/pwhash'
 
   export default {
     data () {
@@ -55,7 +56,7 @@
       signin: function () {
         this.errorUsername = false
         this.errorPassword = false
-        const password = this.password
+        const password = pwhash(this.password)
         const username = this.username
         if (!username || !password) return
         axios.post(config.API_USERS + '/signin', {

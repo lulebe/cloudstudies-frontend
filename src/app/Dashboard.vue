@@ -1,14 +1,21 @@
 <template lang="html">
   <div class="main-container">
     <app-toolbar title="Dashboard"></app-toolbar>
-    <div class="stores-empty" v-if="userStoreKeys.length == 0">
+    <div class="stores-empty" v-if="userStoreKeys.length == 0 && memberStores.length == 0 && ownedStores.length == 0">
       You have no Stores in your account.
       <p>
         Create a new Store or search for a store or use its link and add it to your account.
       </p>
     </div>
-    <div class="content" v-if="userStoreKeys.length > 0">
-      <span class="md-subhead">Stores you own</span><br>
+    <div class="content" v-if="userStoreKeys.length > 0 || memberStores.length > 0 || ownedStores.length > 0">
+    <span class="md-subhead">your Stores</span>
+    <div class="store-list">
+      <md-whiteframe class="store" v-for="store in ownedStores" :key="store.id" @click.native="openStore(store.id)">
+        <md-ink-ripple />
+        <span class="md-title">{{store.name}}</span>
+      </md-whiteframe>
+    </div>
+      <span class="md-subhead">saved Stores</span><br>
       <div class="store-list">
         <md-whiteframe class="store" v-for="key in userStoreKeys" :key="key" @click.native="openStore(userStores[key].store.id)">
           <md-ink-ripple />
@@ -20,20 +27,12 @@
           {{userStores[key].store.owner.name}}
         </md-whiteframe>
       </div>
-      <span class="md-subhead">saved Stores</span>
-      <div class="store-list">
-        <md-whiteframe class="store" v-for="key in userStoreKeys" :key="key" @click.native="openStore(userStores[key].store.id)">
-          <md-ink-ripple />
-          <span class="md-title">{{userStores[key].store.name}}</span><br>
-          {{userStores[key].store.owner.name}}
-        </md-whiteframe>
-      </div>
       <span class="md-subhead">Stores you're a member of</span><br>
       <div class="store-list">
-        <md-whiteframe class="store" v-for="key in userStoreKeys" :key="key" @click.native="openStore(userStores[key].store.id)">
+        <md-whiteframe class="store" v-for="store in memberStores" :key="store.id" @click.native="openStore(store.id)">
           <md-ink-ripple />
-          <span class="md-title">{{userStores[key].store.name}}</span><br>
-          {{userStores[key].store.owner.name}}
+          <span class="md-title">{{store.name}}</span><br>
+          {{store.owner.name}}
         </md-whiteframe>
       </div>
     </div>
@@ -45,6 +44,11 @@
     computed: {
       stores () {return this.$store.state.stores},
       userStores () {return this.$store.state.account.userdata.stores},
+      memberStores () {
+        return this.$store.state.account.memberStores
+        .filter(s => s.ownerId != this.$store.state.account.user.id)
+      },
+      ownedStores () {return this.$store.state.account.ownedStores},
       userStoreKeys () {
         const keys = []
         for (var prop in this.$store.state.account.userdata.stores) {
@@ -56,6 +60,8 @@
     },
     mounted () {
       this.fetchStores()
+      this.$store.dispatch('account/fetchOwnedStores')
+      this.$store.dispatch('account/fetchMemberStores')
     },
     watch: {
       userStoreKeys () {

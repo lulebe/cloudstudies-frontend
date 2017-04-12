@@ -19,12 +19,12 @@
         <md-list-item>
           <router-link to="/app/newstore"><md-icon>add</md-icon><span>new Store</span></router-link>
         </md-list-item>
-        <md-list-item class="md-inset" v-for="key in userStoreKeys" :key="key">
-          <router-link :to="'/app/store/'+userStores[key].store.id"><span>{{userStores[key].store.name}}</span></router-link>
+        <md-list-item class="md-inset" v-for="store in ownedStores" :key="store.id">
+          <router-link :to="'/app/store/'+store.id"><span class="drawer-store-link">{{store.name}}</span></router-link>
         </md-list-item>
         <md-subheader>saved Stores</md-subheader>
         <md-list-item class="md-inset" v-for="key in userStoreKeys" :key="key">
-          <router-link :to="'/app/store/'+userStores[key].store.id"><span>{{userStores[key].store.name}}</span></router-link>
+          <router-link :to="'/app/store/'+userStores[key].store.id"><span class="drawer-store-link">{{userStores[key].store.name}}</span></router-link>
         </md-list-item>
       </md-list>
     </md-sidenav>
@@ -40,7 +40,8 @@
       }
     },
     computed: {
-      username () {return this.$store.state.account.loggedIn ? this.$store.state.account.user.name : null},
+      username () {return this.$store.state.account.user.name},
+      ownedStores () {return this.$store.state.account.ownedStores},
       userStores () {return this.$store.state.account.userdata.stores},
       userStoreKeys () {
         const keys = []
@@ -51,6 +52,9 @@
         return keys
       },
       drawerOpen () {return this.$store.state.drawerOpen}
+    },
+    mounted () {
+      this.$store.dispatch('account/fetchOwnedStores')
     },
     methods: {
       signout () {
@@ -142,6 +146,20 @@
     transition: transform 0.2s ease-out;
     &:hover {
       transform: rotate(45deg);
+    }
+  }
+
+  .drawer-store-link {
+    overflow-x: hidden;
+    white-space: nowrap;
+    padding-right: 16px;
+  }
+
+  .combined-input {
+    display: flex;
+    align-items: center;
+    .input {
+      flex-grow: 1;
     }
   }
 </style>

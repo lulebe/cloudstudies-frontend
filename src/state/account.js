@@ -3,11 +3,13 @@ import Vue from 'vue'
 
 import config from '../config'
 import pwhash from '../helpers/pwhash'
-import {authCatcher} from '../helpers/ajax'
+import {authCatcher, ajax} from '../helpers/ajax'
 
 const cancels = {
   fetchUserdata: axios.CancelToken.source(),
-  storeUserdata: axios.CancelToken.source()
+  storeUserdata: axios.CancelToken.source(),
+  fetchOwnedStores: axios.CancelToken.source(),
+  fetchMemberStores: axios.CancelToken.source()
 }
 
 export default {
@@ -16,20 +18,30 @@ export default {
     loggedIn: false,
     pwhash: null,
     token: null,
+    tokenValidUntil: null,
     user: null,
     userdata: {
       stores: {}
-    }
+    },
+    ownedStores: [],
+    memberStores: []
   },
   mutations: {
     signin (state, data) {
       state.loggedIn = true
       state.token = data.token
       state.user = data.user
-      state.pwhash = pwhash(data.pw)
+      state.pwhash = data.pw
+      state.tokenValidUntil = Date.now() + 86000000 //almost 24h
     },
     setUserdata (state, data) {
       state.userdata = data
+    },
+    setOwnedStores (state, data) {
+      Vue.set(state, 'ownedStores', data)
+    },
+    setMemberStores (state, data) {
+      Vue.set(state, 'memberStores', data)
     }
   },
   actions: {
@@ -61,15 +73,16 @@ export default {
       if (!context.state.pwhash) return
       cancels.fetchUserdata.cancel()
       cancels.fetchUserdata = axios.CancelToken.source()
-      axios.get(config.API_USERDATA + '/', {
+      ajax({
+        method: 'GET',
+        url: config.API_USERDATA + '/',
         CancelToken: cancels.fetchUserdata.token,
-        headers: {Authorization: context.state.token, 'x-user-pw': context.state.pwhash}
+        headers: {'x-user-pw': context.state.pwhash}
       })
       .then(res => {
         if (res.data)
           context.commit('setUserdata', res.data)
       })
-      .catch(authCatcher)
       .catch(e => {})
     },
     storeUserdata (context, userdata) {
@@ -77,11 +90,12 @@ export default {
       context.commit('setUserdata', userdata)
       cancels.storeUserdata.cancel()
       cancels.storeUserdata = axios.CancelToken.source()
-      axios.post(config.API_USERDATA + '/', userdata, {
+      ajax({
+        method: 'POST',
+        url: config.API_USERDATA + '/', userdata,
         cancelToken: cancels.storeUserdata.token,
-        headers: {Authorization: context.state.token, 'x-user-pw': context.state.pwhash}
+        headers: {'x-user-pw': context.state.pwhash}
       })
-      .catch(authCatcher)
       .catch(e => {})
     },
     addStoreToData (context, data) {
@@ -91,6 +105,32 @@ export default {
     removeStoreFromData (context, data) {
       delete context.state.userdata.stores[data.storeId]
       context.dispatch('storeUserdata', context.state.userdata)
+    },
+    fetchOwnedStores (context) {
+      cancels.fetchOwnedStores.cancel()
+      cancels.fetchOwnedStores = axios.CancelToken.source()
+      ajax({
+        method: 'GET',
+        url: config.API_USERS + '/ownedStores',
+        CancelToken: cancels.fetchOwnedStores
+      })
+      .then(res => {
+        context.commit('setOwnedStores', res.data)
+      })
+      .catch(e => {})
+    },
+    fetchMemberStores (context) {
+      cancels.fetchMemberStores.cancel()
+      cancels.fetchMemberStores = axios.CancelToken.source()
+      ajax({
+        method: 'GET',
+        url: config.API_USERS + '/stores',
+        CancelToken: cancels.fetchMemberStores
+      })
+      .then(res => {
+        context.commit('setMemberStores', res.data)
+      })
+      .catch(e => {})
     }
   }
 }

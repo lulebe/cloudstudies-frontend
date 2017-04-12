@@ -6,8 +6,9 @@ import VueRouter from 'vue-router'
 import Vuex from 'vuex'
 
 
-import {setRouter as setRouterForAuthCatcher} from './helpers/ajax'
 import storeData from './state/main'
+import {setStore as setStoreForAjax} from './helpers/ajax'
+
 import Main from './Main.vue'
 import App from './App.vue'
 import Login from './Login.vue'
@@ -18,6 +19,9 @@ import Dashboard from './app/Dashboard.vue'
 import Search from './app/Search.vue'
 import Newstore from './app/Newstore.vue'
 import Store from './app/Store.vue'
+
+import pStoreSettings from './app/partials/StoreSettings.vue'
+Vue.component('app-store-settings', pStoreSettings)
 
 import cToolbar from './components/Toolbar.vue'
 import cForm from './components/Form.vue'
@@ -33,6 +37,7 @@ Vue.use(VueRouter)
 Vue.use(Vuex)
 
 const store = new Vuex.Store(storeData)
+setStoreForAjax(store)
 
 Vue.material.registerTheme('default', {
   primary: {
@@ -62,10 +67,7 @@ Vue.material.registerTheme('secondarybar', {
 })
 
 const routes = [
-  {path: '/', component: Login, beforeEnter: (to, from, next) => {
-    store.commit('account/signout')
-    next()
-  }},
+  {path: '/', component: Login},
   {path: '/signup', component: Signup},
   {path: '/pwreset', component: PWReset},
   {path: '/app', component: App, beforeEnter: (to, from, next) => {
@@ -83,8 +85,6 @@ const routes = [
 ]
 
 const router = new VueRouter({routes})
-
-setRouterForAuthCatcher(router)
 
 new Vue({
   router,
