@@ -123,17 +123,27 @@
     padding: 6px 16px;
     text-transform: none;
   }
-  @media (max-width: 439px) {
+  @media (max-width: 479px) {
    .file-grid .file {
       width: 100%;
     }
   }
-  @media (min-width: 440px) {
+  @media (min-width: 480px) {
     .file-grid .file {
       width: 46%;
     }
   }
-  @media (min-width: 640px) {
+  @media (min-width: 600px) {
+    .file-grid .file {
+      width: 100%;
+    }
+  }
+  @media (min-width: 720px) {
+    .file-grid .file {
+      width: 46%;
+    }
+  }
+  @media (min-width: 960px) {
     .file-grid .file {
       width: 30%;
     }
