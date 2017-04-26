@@ -1,6 +1,8 @@
 <template lang="html">
   <div class="content">
-    <span class="md-display-1"></span>
+    <md-button class="md-icon-button" @click.native="$router.go(-1)">
+      <md-icon>close</md-icon>
+    </md-button>
     <app-form title="Create a Test" submit-btn-text="Create" @submit="submit">
       <md-input-container>
         <label>Name</label>
@@ -32,7 +34,7 @@
     },
     methods: {
       submit () {
-        
+
       }
     }
   }

@@ -47,7 +47,7 @@
       </md-input-container>
     </app-form>
 
-    <div class="loading" style="margin-top: 20vh" v-if="loading">
+    <div class="loading" style="margin-top: 20vh" v-if="!store && loading">
       <div class="loading-info">Loading Store</div>
       <div class="loading-spinner"></div>
     </div>
