@@ -99,7 +99,7 @@
           headers: {Authorization: this.$store.state.account.token}
         })
         .then(res => {
-          this.foundUsers = res.data
+          this.foundUsers = res.data.filter(user => user.id !== this.$store.state.account.user.id)
         })
         .catch(() => {})
         this.searchUsername = ''

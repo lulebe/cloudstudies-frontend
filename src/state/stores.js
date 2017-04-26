@@ -32,7 +32,7 @@ export default {
       if (cancels.fetchStore[data.id])
         cancels.fetchStore[data.id].cancel()
       cancels.fetchStore[data.id] = axios.CancelToken.source()
-      ajax({
+      return ajax({
         method: 'GET',
         url: config.API_DATA+'/stores/'+data.id,
         cancelToken: cancels.fetchStore[data.id].token,
@@ -41,6 +41,7 @@ export default {
         }
       })
       .then(res => {
+        res.data.success = true
         context.commit('setStore', res.data)
         if (!userdataUsed)
           context.dispatch('account/addStoreToData', {store: {
@@ -48,17 +49,21 @@ export default {
             name: res.data.name,
             owner: res.data.owner
           }, password: passwordHash}, {root: true})
+        return Promise.resolve({success: true})
       })
-      .catch(authCatcher)
       .catch(err => {
         if (!context.state[data.id])
           context.commit('setStore', {id: data.id, success: false})
         if (err.response && err.response.status == 423)
           context.dispatch('account/removeStoreFromData', {storeId: data.id}, {root: true})
+        return Promise.resolve({success: false})
       })
     },
     addFolder (context, data) {
       //data.shortname, data.store, data.parentId
+      const folderRegex = /[a-zA-Z0-9\.-_ ]+/
+      if (!folderRegex.test(data.shortname))
+        return Promise.resolve({success: false, error: 'Invalid foldername'})
       return ajax({
         method: 'POST',
         url: config.API_DATA+'/stores/'+data.store.id+'/folders',
@@ -73,7 +78,6 @@ export default {
       .then(res => {
         context.dispatch('fetchStore', {id: data.store.id})
       })
-      .catch(authCatcher)
       .catch(err => {
         if (err.response && err.response.status == 423)
           context.dispatch('account/removeStoreFromData', {storeId: data.id}, {root: true})

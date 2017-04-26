@@ -20,6 +20,8 @@ import Dashboard from './app/Dashboard.vue'
 import Search from './app/Search.vue'
 import Newstore from './app/Newstore.vue'
 import Store from './app/Store.vue'
+import StoreFolder from './app/store/Folder.vue'
+import StoreNewtest from './app/store/Newtest.vue'
 
 import pStoreSettings from './app/partials/StoreSettings.vue'
 Vue.component('app-store-settings', pStoreSettings)
@@ -82,7 +84,10 @@ const routes = [
     {path: 'dashboard', component: Dashboard},
     {path: 'search', component: Search, props: true},
     {path: 'newstore', component: Newstore},
-    {path: 'store/:storeid/:folderpath*', component: Store, props: true}
+    {path: 'store/:storeid', component: Store, props: true, children: [
+      {path: ':folderpath*/newtest', component: StoreNewtest, props: true},
+      {path: ':folderpath*', component: StoreFolder, props: true}
+    ]}
   ]}
 ]
 

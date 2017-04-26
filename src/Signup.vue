@@ -11,9 +11,10 @@
         and choose a random username.</p>
       <form v-on:submit.prevent="signup">
         <div class="combined-input">
-          <md-input-container class="input">
+          <md-input-container class="input" :class="{'md-input-invalid': errorUsername}">
             <label>Username</label>
             <md-input type="text" v-model="username" required></md-input>
+            <span class="md-error">This username is already taken.</span>
           </md-input-container>
           <md-spinner class="loading-random-spinner" :md-size="40" md-indeterminate v-show="loadingRandom"></md-spinner>
           <div v-show="!loadingRandom">
@@ -59,7 +60,8 @@
         username: '',
         email: '',
         password: '',
-        loadingRandom: false
+        loadingRandom: false,
+        errorUsername: false
       }
     },
     methods: {
@@ -89,6 +91,8 @@
           this.$router.push('/app/dashboard')
         })
         .catch(e => {
+          // TODO: implement error handling
+          errorUsername = true
           console.log(e)
         })
       }

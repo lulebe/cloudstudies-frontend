@@ -23,7 +23,7 @@
         </md-menu-content>
       </md-menu>
     </md-toolbar>
-    <md-toolbar class="search-bar" v-bind:class="{shown: searchVisible}" md-theme="searchbar">
+    <md-toolbar class="search-bar" :class="{shown: searchVisible}" md-theme="searchbar">
       <md-button class="md-icon-button" @click.native="closeSearch">
         <md-icon>close</md-icon>
       </md-button>
