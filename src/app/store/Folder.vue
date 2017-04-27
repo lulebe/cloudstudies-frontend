@@ -149,7 +149,7 @@
           method: 'GET',
           url: config.API_DATA+'/file/'+file.id,
           headers: {
-            'x-store-auth': this.$store.state.account.userdata.stores[this.storeid].password
+            'x-store-auth': this.$store.state.stores[this.storeid].password
           }
         })
         .then(res => {
