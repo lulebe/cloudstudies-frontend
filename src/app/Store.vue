@@ -14,6 +14,14 @@
       <h2 class="md-title">{{displayedFolderPath}}</h2>
     </md-toolbar>
 
+    <div class="usage-indicator">
+      <div class="percentage" :style="{width: percentageUsed+'%'}"></div>
+      <md-tooltip>
+        {{percentageUsed}}% of Storage used
+        ({{Math.round(store.size/1024/1024)}}MB/3GB)
+      </md-tooltip>
+    </div>
+
     <router-view v-if="store"></router-view>
 
     <md-button class="md-fab md-mini md-clean fab-settings" v-if="store && !uploadFormVisible && store.owner.id == $store.state.account.user.id" @click.native="openSettings()">
@@ -107,6 +115,10 @@
         if (this.store && this.store.success)
           return this.store.name
         return 'Store'
+      },
+      percentageUsed () {
+        const used = this.store ? this.store.size : 0
+        return used / 3221225472 * 100
       },
       displayedFolderPath () {
         const base = this.folderpath || ''
@@ -225,12 +237,12 @@
   .fab {
     position: absolute;
     right: 16px;
-    top: 82px;
+    top: 86px;
   }
   .fab-settings {
     position: absolute;
     right: 80px;
-    top: 86px;
+    top: 90px;
   }
   .upload-container {
     position: absolute;
@@ -249,6 +261,21 @@
       width: 100%;
       margin: 24px 0;
       flex-grow: 1;
+    }
+  }
+
+  .usage-indicator {
+    width: 100%;
+    background: #eee;
+    .percentage {
+      height: 8px;
+      background: grey;
+    }
+    &:hover {
+      background: #3a3;
+      .percentage {
+        background: #e33;
+      }
     }
   }
 </style>

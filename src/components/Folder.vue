@@ -93,7 +93,8 @@
   const imageExtensions = ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'tiff']
   const audioExtensions = ['ogg', 'mp3', 'aac', 'flac', 'wav']
   const videoExtensions = ['mp4', '3gp', 'mp2']
-  function getIconName (ext) {
+  function getIconName (extension) {
+    const ext = extension.toLowerCase()
     if (ext == 'pdf')
       return 'picture_as_pdf'
     if (imageExtensions.indexOf(ext) > -1)

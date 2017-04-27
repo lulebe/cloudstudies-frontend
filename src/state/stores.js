@@ -16,6 +16,9 @@ export default {
   mutations: {
     setStore (state, storedata) {
       Vue.set(state, storedata.id, storedata)
+    },
+    removeStore (state, storeId) {
+      Vue.delete(state, storeId)
     }
   },
   actions: {
@@ -57,6 +60,57 @@ export default {
         if (err.response && err.response.status == 423)
           context.dispatch('account/removeStoreFromData', {storeId: data.id}, {root: true})
         return Promise.resolve({success: false})
+      })
+    },
+    delete (context, data) {
+      //data.id
+      const store = context.state[data.id]
+      if (!store) return
+      return ajax({
+        method: 'DELETE',
+        url: config.API_DATA+'/stores/'+store.id,
+        headers: {
+          'x-store-auth': context.rootState.account.userdata.stores[data.store.id].password
+        }
+      })
+      .then(res => {
+        context.commit('removeStore', store.id)
+        context.dispatch('account/removeStoreFromData', {storeId: data.id}, {root: true})
+      })
+    },
+    updateSettings (context, data) {
+      //data.id, data.password, data.access
+      const ajaxData = {access: data.access}
+      if (data.password)
+        ajaxData.password = data.password
+      return ajax({
+        method: 'PUT',
+        url: config.API_DATA+'/stores/'+store.id,
+        headers: {
+          'x-store-auth': context.rootState.account.userdata.stores[data.store.id].password
+        },
+        data: ajaxData
+      })
+      .then(res => {
+        context.dispatch('fetchStore', {id: data.store.id})
+        context.dispatch('account/addStoreToData', {store: {
+          id: res.data.id,
+          name: res.data.name,
+          owner: res.data.owner
+        }, password: passwordHash}, {root: true})
+      })
+    },
+    resetLink (context, data) {
+      //data.id
+      return ajax({
+        method: 'PUT',
+        url: config.API_DATA+'/stores/'+store.id+'/link',
+        headers: {
+          'x-store-auth': context.rootState.account.userdata.stores[data.store.id].password
+        }
+      })
+      .then(res => {
+        context.dispatch('fetchStore', {id: data.store.id})
       })
     },
     addFolder (context, data) {
