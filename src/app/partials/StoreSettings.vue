@@ -94,11 +94,6 @@
         foundUsers: []
       }
     },
-    watch: {
-      store () {
-        this.newAccess = store.access
-      }
-    },
     methods: {
       searchUser () {
         axios.get(config.API_USERS + '/search', {

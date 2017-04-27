@@ -14,8 +14,8 @@
       <h2 class="md-title">{{displayedFolderPath}}</h2>
     </md-toolbar>
 
-    <div class="usage-indicator">
-      <div class="percentage" :style="{width: percentageUsed+'%'}"></div>
+    <div class="usage-indicator" v-if="store">
+      <div class="percentage" :style="{transform: 'scaleX('+percentageUsed/100+')'}"></div>
       <md-tooltip>
         {{Math.round(percentageUsed)}}% of Storage used
         ({{Math.round(store.size/1024/1024)}}MB/3GB)
@@ -72,7 +72,7 @@
         <md-dialog-content>
           <md-input-container :class="{'md-input-invalid': !folderNameValid}">
             <label>Folder name</label>
-            <md-input type="text" v-model="newFolderName" pattern="[a-zA-Z0-9_\-\. ]+" />
+            <md-input type="text" v-model="newFolderName" pattern="[a-zA-Z0-9_\-\. ]+" ref="newFolderInput" />
             <span class="md-error">Only letters, numbers, spaces, -, _ and . are allowed.</span>
           </md-input-container>
         </md-dialog-content>
@@ -247,7 +247,7 @@
   .upload-container {
     position: absolute;
     z-index: 3;
-    top: 112px;
+    top: 120px;
     left: 0;
     right: 0;
     bottom: 0;
@@ -270,9 +270,11 @@
     .percentage {
       height: 8px;
       background: grey;
+      transition: transform 0.6s ease-out;
+      transform-origin: left;
     }
     &:hover {
-      background: #3a3;
+      background: #afa;
       .percentage {
         background: #e33;
       }
