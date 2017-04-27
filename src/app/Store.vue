@@ -17,7 +17,7 @@
     <div class="usage-indicator">
       <div class="percentage" :style="{width: percentageUsed+'%'}"></div>
       <md-tooltip>
-        {{percentageUsed}}% of Storage used
+        {{Math.round(percentageUsed)}}% of Storage used
         ({{Math.round(store.size/1024/1024)}}MB/3GB)
       </md-tooltip>
     </div>
