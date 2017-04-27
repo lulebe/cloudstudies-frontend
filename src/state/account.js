@@ -19,7 +19,10 @@ export default {
     pwhash: null,
     token: null,
     tokenValidUntil: null,
-    user: null,
+    user: {
+      id: 0,
+      name: 'not logged in'
+    },
     userdata: {
       stores: {}
     },

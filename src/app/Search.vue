@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="main-container">
+  <div>
     <app-toolbar :title="query" />
     <div class="loading" style="margin-top: 20vh" v-if="!results">
       <div class="loading-info">Searching</div>

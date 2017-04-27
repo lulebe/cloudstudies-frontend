@@ -27,6 +27,8 @@ export default {
       var userdataUsed = false
       if (data.password)
         passwordHash = 'p ' + pwhash(data.password)
+      else if (context.state[data.id])
+        passwordHash = context.state[data.id].password
       else if (context.rootState.account.userdata.stores && context.rootState.account.userdata.stores[data.id]) {
         passwordHash = context.rootState.account.userdata.stores[data.id].password
         userdataUsed = true
@@ -45,7 +47,9 @@ export default {
       })
       .then(res => {
         res.data.success = true
-        context.commit('setStore', res.data)
+        const storeSaveData = res.data
+        storeSaveData.password = passwordHash
+        context.commit('setStore', storeSaveData)
         if (!userdataUsed)
           context.dispatch('account/addStoreToData', {store: {
             id: res.data.id,
@@ -59,6 +63,33 @@ export default {
           context.commit('setStore', {id: data.id, success: false})
         if (err.response && err.response.status == 423)
           context.dispatch('account/removeStoreFromData', {storeId: data.id}, {root: true})
+        return Promise.resolve({success: false})
+      })
+    },
+    fetchFromLink (context, data) {
+      //data.id, data.linkHash
+      if (cancels.fetchStore[data.id])
+        cancels.fetchStore[data.id].cancel()
+      cancels.fetchStore[data.id] = axios.CancelToken.source()
+      const passwordHash = 'l '+data.linkHash
+      return ajax({
+        method: 'GET',
+        url: config.API_DATA+'/stores/'+data.id,
+        cancelToken: cancels.fetchStore[data.id].token,
+        headers: {
+          'x-store-auth': passwordHash
+        }
+      })
+      .then(res => {
+        res.data.success = true
+        const storeSaveData = res.data
+        storeSaveData.password = passwordHash
+        context.commit('setStore', storeSaveData)
+        return Promise.resolve({success: true})
+      })
+      .catch(err => {
+        if (!context.state[data.id])
+          context.commit('setStore', {id: data.id, success: false})
         return Promise.resolve({success: false})
       })
     },

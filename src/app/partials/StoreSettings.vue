@@ -36,7 +36,7 @@
         <md-button class="md-primary" @click.native="resetLink" v-if="store.access == 2">reset link</md-button>
         <p v-if="store.access == 2" style="word-wrap: break-word;">
           current Link:<br>
-          <a href="http://google.com">cloudstudies.com/app.html#/app/store/{{store.id}}?l={{store.linkHash}}</a>
+          <a :href="storeLink">{{storeLink}}</a>
         </p>
         <hr>
         <md-button class="md-raised md-accent">save</md-button>
@@ -80,6 +80,8 @@
 </template>
 
 <script>
+  import SHA256 from 'crypto-js/sha256'
+  import encHex from 'crypto-js/enc-hex'
   import axios from 'axios'
 
   import config from '../../config'
@@ -92,6 +94,14 @@
         newAccess: 0,
         searchUsername: '',
         foundUsers: []
+      }
+    },
+    computed: {
+      storeLink () {
+        return 'https://cloudstudies.de/app.html#/app/storelink/'
+        +this.store.id
+        +'/'
+        +SHA256(this.store.password.split(' ').pop()+this.store.linkHash).toString(encHex)
       }
     },
     methods: {

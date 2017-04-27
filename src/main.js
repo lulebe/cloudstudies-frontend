@@ -19,6 +19,7 @@ import Profile from './app/Profile.vue'
 import Dashboard from './app/Dashboard.vue'
 import Search from './app/Search.vue'
 import Newstore from './app/Newstore.vue'
+import Storelink from './app/Storelink.vue'
 import Store from './app/Store.vue'
 import StoreFolder from './app/store/Folder.vue'
 import StoreNewtest from './app/store/Newtest.vue'
@@ -74,16 +75,12 @@ const routes = [
   {path: '/', component: Login},
   {path: '/signup', component: Signup},
   {path: '/pwreset', component: PWReset},
-  {path: '/app', component: App, beforeEnter: (to, from, next) => {
-    if (!store.state.account.loggedIn)
-      next('/')
-    else
-      next()
-  }, children: [
+  {path: '/app', component: App, children: [
     {path: 'profile', component: Profile},
     {path: 'dashboard', component: Dashboard},
     {path: 'search', component: Search, props: true},
     {path: 'newstore', component: Newstore},
+    {path: 'storelink/:storeid/:storelink', component: Storelink, props: true},
     {path: 'store/:storeid', component: Store, props: true, children: [
       {path: ':folderpath*/newtest', component: StoreNewtest, props: true},
       {path: ':folderpath*', component: StoreFolder, props: true}

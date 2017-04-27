@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="main-container">
+  <div>
     <app-toolbar title="Dashboard"></app-toolbar>
     <div class="stores-empty" v-if="userStoreKeys.length == 0 && memberStores.length == 0 && ownedStores.length == 0">
       You have no Stores in your account.

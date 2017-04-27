@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="main-container">
+  <div>
     <app-toolbar title="Create new Store"></app-toolbar>
     <div class="content">
       <span class="md-display-1"></span>

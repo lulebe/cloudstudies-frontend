@@ -1,14 +1,17 @@
 <template lang="html">
   <div style="position: relative;">
     <md-toolbar class="main-toolbar">
-      <md-button class="md-icon-button drawer-open-btn" @click.native="toggleLeftSidenav">
+      <md-button
+          class="md-icon-button drawer-open-btn"
+          @click.native="toggleLeftSidenav"
+          v-if="$store.state.account.loggedIn">
         <md-icon>menu</md-icon>
       </md-button>
       <div class="toolbar-title-container">
         <h1 class="md-title toolbar-title">{{title}}</h1>
         <div class="toolbar-actions-shadow"></div>
       </div>
-      <md-button class="md-icon-button" @click.native="openSearch">
+      <md-button class="md-icon-button" @click.native="openSearch" v-if="$store.state.account.loggedIn">
         <md-icon>search</md-icon>
       </md-button>
       <md-menu v-if="menuItems && menuItems.length>0">
@@ -23,7 +26,7 @@
         </md-menu-content>
       </md-menu>
     </md-toolbar>
-    <md-toolbar class="search-bar" :class="{shown: searchVisible}" md-theme="searchbar">
+    <md-toolbar class="search-bar" :class="{shown: searchVisible}" md-theme="searchbar" v-if="$store.state.account.loggedIn">
       <md-button class="md-icon-button" @click.native="closeSearch">
         <md-icon>close</md-icon>
       </md-button>

@@ -1,6 +1,10 @@
 <template>
   <div id="app">
-    <md-sidenav class="md-left drawer" ref="leftSidenav" @close="$store.commit('closeDrawer')">
+    <md-sidenav
+        class="md-left drawer"
+        ref="leftSidenav"
+        @close="$store.commit('closeDrawer')"
+        v-if="$store.state.account.loggedIn">
       <div class="navdrawerheader">
         <div class="username">{{username}}</div>
         <div class="buttons">
@@ -28,7 +32,7 @@
         </md-list-item>
       </md-list>
     </md-sidenav>
-    <router-view></router-view>
+    <router-view class="main-container" :class="{'logged-in': $store.state.account.loggedIn}"></router-view>
   </div>
 </template>
 
@@ -87,7 +91,7 @@
     transition: transform 0.2s ease-out, width 0.4s ease-out;
   }
   @media (min-width: 600px) {
-    .main-container {
+    .main-container.logged-in {
       transition: margin-left 0.4s ease-out;
       margin-left: 240px;
     }
@@ -103,7 +107,7 @@
     }
   }
   @media (min-width: 1024px) {
-    .main-container {
+    .main-container.logged-in {
       margin-left: 304px;
     }
     .drawer.md-left .md-sidenav-content {

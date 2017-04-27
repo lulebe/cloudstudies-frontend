@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="main-container">
+  <div>
     <app-toolbar :title="storename"></app-toolbar>
 
 
@@ -28,7 +28,7 @@
       <md-icon>settings</md-icon>
     </md-button>
 
-    <md-speed-dial class="fab" md-direction="bottom" v-if="store && !uploadFormVisible">
+    <md-speed-dial class="fab" md-direction="bottom" v-if="store && !uploadFormVisible && $store.state.account.loggedIn">
       <md-button class="md-fab" id="store-fab" md-fab-trigger>
         <md-icon md-icon-morph>close</md-icon>
         <md-icon>add</md-icon>

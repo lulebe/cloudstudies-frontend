@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="main-container">
+  <div>
     <app-toolbar title="Profile"></app-toolbar>
     <div class="content">
       <span class="md-display-1">{{user.name}}</span>
