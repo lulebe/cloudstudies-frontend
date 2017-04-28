@@ -33,7 +33,7 @@
         <md-icon md-icon-morph>close</md-icon>
         <md-icon>add</md-icon>
       </md-button>
-      <md-button class="md-fab md-primary md-mini md-clean" @click.native="openDialog('folderCreationDialog')">
+      <md-button class="md-fab md-primary md-mini md-clean" @click.native="openFolderCreationDialog">
         <md-icon>create_new_folder</md-icon>
         <md-tooltip md-direction="left">Create folder</md-tooltip>
       </md-button>
@@ -179,6 +179,10 @@
       closeDialog (ref) {
         this.$refs[ref].close()
         this.newFolderName = ''
+      },
+      openFolderCreationDialog () {
+        this.openDialog('folderCreationDialog')
+        setTimeout(() => this.$refs['newFolderInput'].$el.focus(), 300)
       },
       openSettings () {
         this.$refs.settingsPanel.open()
