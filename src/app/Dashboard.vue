@@ -53,7 +53,7 @@
         const keys = []
         for (var prop in this.$store.state.account.userdata.stores) {
           if (this.$store.state.account.userdata.stores.hasOwnProperty(prop))
-            if (this.$store.state.stores[prop].ownerId != this.$store.state.account.user.id)
+            if (this.$store.state.account.userdata.stores[prop].owner.id != this.$store.state.account.user.id)
               keys.push(prop)
         }
         return keys
