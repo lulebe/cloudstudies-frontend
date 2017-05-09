@@ -76,7 +76,6 @@ export default {
       if (!context.state.pwhash) return
       cancels.fetchUserdata.cancel()
       cancels.fetchUserdata = axios.CancelToken.source()
-      console.log(context.state.pwhash)
       ajax({
         method: 'GET',
         url: config.API_USERDATA + '/',
@@ -86,7 +85,6 @@ export default {
       .then(res => {
         if (res.data)
           context.commit('setUserdata', res.data)
-        console.log(JSON.stringify(res.data))
       })
       .catch(e => {})
     },
