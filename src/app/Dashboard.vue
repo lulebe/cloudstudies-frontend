@@ -51,11 +51,8 @@
       ownedStores () {return this.$store.state.account.ownedStores},
       userStoreKeys () {
         const keys = []
-        console.log(this.$store.state.account.userdata.stores)
-        console.log(this.$store.state.account.user)
         for (var prop in this.$store.state.account.userdata.stores) {
           if (this.$store.state.account.userdata.stores.hasOwnProperty(prop)) {
-            console.log(prop)
             if (this.$store.state.account.userdata.stores[prop].store.owner.id != this.$store.state.account.user.id)
               keys.push(prop)
           }
