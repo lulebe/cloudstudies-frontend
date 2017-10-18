@@ -91,7 +91,7 @@
   }
 
   const imageExtensions = ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'tiff']
-  const audioExtensions = ['ogg', 'mp3', 'aac', 'flac', 'wav']
+  const audioExtensions = ['ogg', 'mp3', 'aac', 'flac', 'wav', 'm4a']
   const videoExtensions = ['mp4', '3gp', 'mp2']
   function getIconName (extension) {
     const ext = extension.toLowerCase()
