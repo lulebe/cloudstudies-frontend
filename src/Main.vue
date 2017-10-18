@@ -24,6 +24,9 @@
   .md-theme-default.md-sidenav .md-sidenav-content {
     background: white !important;
   }
+  .md-theme-default.md-dialog-container .md-dialog {
+    background: white !important;
+  }
 
   .main-router-view {
     min-height: 100vh;
