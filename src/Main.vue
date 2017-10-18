@@ -15,6 +15,12 @@
   body {
     background: white !important;
   }
+  .md-theme-default.md-button:not([disabled]).md-raised:not(.md-icon-button) {
+    background: white !important;
+  }
+  .md-theme-default.md-sidenav .md-sidenav-content {
+    background: white !important;
+  }
 
   .main-router-view {
     min-height: 100vh;
