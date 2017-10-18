@@ -16,16 +16,16 @@
     background: white !important;
   }
   .md-theme-default.md-button:not([disabled]).md-raised:not(.md-icon-button) {
-    background: white !important;
+    background: white;
   }
   .md-theme-default.md-button:not([disabled]).md-fab.md-clean {
-    background: white !important;
+    background: white;
   }
   .md-theme-default.md-sidenav .md-sidenav-content {
-    background: white !important;
+    background: white;
   }
   .md-theme-default.md-dialog-container .md-dialog {
-    background: white !important;
+    background: white;
   }
 
   .main-router-view {
