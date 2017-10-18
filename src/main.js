@@ -54,10 +54,7 @@ Vue.material.registerTheme('default', {
     hue: 500
   },
   warn: 'deep-orange',
-  background: {
-    color: 'grey',
-    hue: 500
-  }
+  background: 'white'
 })
 Vue.material.registerTheme('searchbar', {
   primary: 'grey',
