@@ -18,6 +18,9 @@
   .md-theme-default.md-button:not([disabled]).md-raised:not(.md-icon-button) {
     background: white !important;
   }
+  .md-theme-default.md-button:not([disabled]).md-fab.md-clean {
+    background: white !important;
+  }
   .md-theme-default.md-sidenav .md-sidenav-content {
     background: white !important;
   }
