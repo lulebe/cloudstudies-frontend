@@ -12,6 +12,10 @@
 </template>
 
 <style lang="scss">
+  body {
+    background: white !important;
+  }
+
   .main-router-view {
     min-height: 100vh;
     overflow-x: hidden;
