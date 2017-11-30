@@ -35,7 +35,7 @@
           <md-table-cell>{{file.type}}</md-table-cell>
           <md-table-cell>{{file.size}}</md-table-cell>
           <md-table-cell>{{file.date}}</md-table-cell>
-          <md-table-cell class="cell-delete-file" @click.native="$emit('deletefile', file)"><md-icon>delete</md-icon></md-table-cell>
+          <md-table-cell class="cell-delete-file" @click.native.stop="$emit('deletefile', file)"><md-icon>delete</md-icon></md-table-cell>
         </md-table-row>
       </md-table-body>
     </md-table>
