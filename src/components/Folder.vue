@@ -22,10 +22,11 @@
     <md-table class="filetable" v-if="fileview==0 && files && files.length>0">
       <md-table-header>
         <md-table-row>
-          <md-table-head>File</md-table-head>
-          <md-table-head>Type</md-table-head>
-          <md-table-head>Size</md-table-head>
-          <md-table-head>Date</md-table-head>
+          <md-table-head @click.native="sortBy = 'name'" :class="{sorted: sortBy == 'name'}">File</md-table-head>
+          <md-table-head @click.native="sortBy = 'type'" :class="{sorted: sortBy == 'name'}">Type</md-table-head>
+          <md-table-head @click.native="sortBy = 'size'" :class="{sorted: sortBy == 'name'}">Size</md-table-head>
+          <md-table-head @click.native="sortBy = 'date'" :class="{sorted: sortBy == 'name'}">Date</md-table-head>
+          <md-table-head></md-table-head>
         </md-table-row>
       </md-table-header>
       <md-table-body>
@@ -34,6 +35,7 @@
           <md-table-cell>{{file.type}}</md-table-cell>
           <md-table-cell>{{file.size}}</md-table-cell>
           <md-table-cell>{{file.date}}</md-table-cell>
+          <md-table-cell class="cell-delete-file" @click.native="$emit('deletefile', file)"><md-icon>delete</md-icon></md-table-cell>
         </md-table-row>
       </md-table-body>
     </md-table>
@@ -61,25 +63,37 @@
 
   export default {
     props: [
-      'folders', 'files'
+      'folders', 'files', 'canDelete'
     ],
     data () {
       return {
-        fileview: 0
+        fileview: 0,
+        sortBy: 'name'
       }
     },
     computed: {
       filesFormatted () {
-        return this.files.map(file => ({
+        return this.files.sort(sortFiles(this.sortBy)).map(file => ({
           id: file.id,
           name: file.name,
           date: moment(file.createdAt).format('MMM Do YYYY'),
           size: formatSize(file.size),
           type: file.name.split('.').pop(),
           icon: getIconName(file.name.split('.').pop()),
-        })).sort((a, b) => a.name.localeCompare(b.name))
+        }))
       }
     }
+  }
+
+  function sortFiles(sortBy) {
+    if (sortBy == 'name')
+      return (a, b) => {a.name.localeCompare(b.name)}
+    if (sortBy == 'date')
+      return (a, b) => {a.createdAt.localeCompare(b.createdAt)}
+    if (sortBy == 'size')
+      return (a, b) => {b.size - a.size}
+    if (sortBy == 'type')
+      return (a, b) => {a.name.split('.').pop().localeCompare(b.name.split('.').pop())}
   }
 
   function formatSize (byteSize) {
@@ -170,5 +184,12 @@
   }
   .md-table.filetable .md-table-cell .md-table-cell-container {
     padding: 6px 0 6px 12px;
+  }
+  .md-table.filetable .md-table-head-text.sorted {
+    color: black;
+    text-decoration: underline;
+  }
+  .cell-delete-file:hover {
+    color: red;
   }
 </style>

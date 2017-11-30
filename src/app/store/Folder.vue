@@ -4,8 +4,10 @@
     <app-folder
         :files="displayedFolder.files"
         :folders="displayedFolder.folders"
+        :canDelete="store.owner.id == userId"
         @openfolder="openFolder"
         @openfile="openFile"
+        @deletefile="deleteFile"
         v-if="store">
     </app-folder>
 
@@ -57,6 +59,7 @@
       }
     },
     computed: {
+      userId () {return this.$store.state.user.user.id},
       store () {return this.$store.state.stores[this.storeid]},
       storename () {
         if (this.store && this.store.success)
@@ -157,6 +160,9 @@
           window.location.href = link
         })
         .catch(e => {})
+      },
+      deleteFile (file) {
+        this.$store.dispatch('stores/deleteFile', {storeId: this.store.id, fileId: file.id})
       },
       createFolder () {
         const shortname = this.newFolderName

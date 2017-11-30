@@ -165,7 +165,24 @@ export default {
       })
       .catch(err => {
         if (err.response && err.response.status == 423)
-          context.dispatch('account/removeStoreFromData', {storeId: data.id}, {root: true})
+          context.dispatch('account/removeStoreFromData', {storeId: data.store.id}, {root: true})
+      })
+    },
+    deleteFile (context, data) {
+      //data.fileId, data.storeId
+      return ajax({
+        method: 'DELETE',
+        url: config.API_DATA+'/file/'+data.fileId,
+        headers: {
+          'x-store-auth': context.rootState.account.userdata.stores[data.storeId].password
+        }
+      })
+      .then(res => {
+        context.dispatch('fetchStore', {id: data.storeId})
+      })
+      .catch(err => {
+        if (err.response && err.response.status == 423)
+          context.dispatch('account/removeStoreFromData', {storeId: data.storeId}, {root: true})
       })
     },
     addMemberToStore (context, data) {
