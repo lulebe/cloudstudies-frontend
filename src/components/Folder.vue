@@ -23,9 +23,9 @@
       <md-table-header>
         <md-table-row>
           <md-table-head @click.native="sortBy = 'name'" :class="{sorted: sortBy == 'name'}">File</md-table-head>
-          <md-table-head @click.native="sortBy = 'type'" :class="{sorted: sortBy == 'name'}">Type</md-table-head>
-          <md-table-head @click.native="sortBy = 'size'" :class="{sorted: sortBy == 'name'}">Size</md-table-head>
-          <md-table-head @click.native="sortBy = 'date'" :class="{sorted: sortBy == 'name'}">Date</md-table-head>
+          <md-table-head @click.native="sortBy = 'type'" :class="{sorted: sortBy == 'type'}">Type</md-table-head>
+          <md-table-head @click.native="sortBy = 'size'" :class="{sorted: sortBy == 'size'}">Size</md-table-head>
+          <md-table-head @click.native="sortBy = 'date'" :class="{sorted: sortBy == 'date'}">Date</md-table-head>
           <md-table-head></md-table-head>
         </md-table-row>
       </md-table-header>
