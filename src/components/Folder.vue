@@ -73,7 +73,7 @@
     },
     computed: {
       filesFormatted () {
-        return this.files.sort(sortFiles(this.sortBy)).map(file => ({
+        return this.files.sort((a, b) => sortFiles(this.sortBy, a, b)).map(file => ({
           id: file.id,
           name: file.name,
           date: moment(file.createdAt).format('MMM Do YYYY'),
@@ -85,15 +85,16 @@
     }
   }
 
-  function sortFiles(sortBy) {
+  function sortFiles(sortBy, a, b) {
     if (sortBy == 'name')
-      return (a, b) => {a.name.localeCompare(b.name)}
+      return a.name.localeCompare(b.name)
     if (sortBy == 'date')
-      return (a, b) => {a.createdAt.localeCompare(b.createdAt)}
+      return a.createdAt.localeCompare(b.createdAt)
     if (sortBy == 'size')
-      return (a, b) => {b.size - a.size}
+      return b.size - a.size
     if (sortBy == 'type')
-      return (a, b) => {a.name.split('.').pop().localeCompare(b.name.split('.').pop())}
+      return a.name.split('.').pop().localeCompare(b.name.split('.').pop())
+    return 0;
   }
 
   function formatSize (byteSize) {
@@ -185,7 +186,13 @@
   .md-table.filetable .md-table-cell .md-table-cell-container {
     padding: 6px 0 6px 12px;
   }
-  .md-table.filetable .md-table-head-text.sorted {
+  .md-table.filetable .md-table-head {
+    cursor: pointer;
+  }
+  .md-table.filetable .md-table-head:hover {
+    text-decoration: underline;
+  }
+  .md-table.filetable .md-table-head.sorted {
     color: black;
     text-decoration: underline;
   }
