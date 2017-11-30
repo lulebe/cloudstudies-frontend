@@ -59,7 +59,7 @@
       }
     },
     computed: {
-      userId () {return this.$store.state.user.user.id},
+      userId () {return this.$store.state.account.user.id},
       store () {return this.$store.state.stores[this.storeid]},
       storename () {
         if (this.store && this.store.success)
