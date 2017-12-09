@@ -18,7 +18,7 @@
       <div class="percentage" :style="{transform: 'scaleX('+percentageUsed/100+')'}"></div>
       <md-tooltip>
         {{Math.round(percentageUsed)}}% of Storage used
-        ({{Math.round(store.size/1024/1024)}}MB/{{Math.round(store.maxSize/1024/1024)}}MB)
+        ({{Math.round(store.size/1000000)}}MB/{{Math.round(store.maxSize/1000000)}}MB)
       </md-tooltip>
     </div>
 
