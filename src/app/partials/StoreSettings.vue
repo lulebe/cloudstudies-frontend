@@ -42,25 +42,6 @@
         <md-button class="md-raised md-accent">save</md-button>
       </form>
       <md-button class="md-warn" @click.native="deleteStore">delete Store</md-button>
-      <h3>Premium</h3>
-      <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-        <input type="hidden" name="cmd" value="_s-xclick">
-        <input type="hidden" name="hosted_button_id" value="3SZT35JPQR87J">
-        <input type="hidden" name="on0" value="Duration">
-        Duration
-        <br>
-        <select name="os0">
-        	<option value="1 Month">1 Month €3,00 EUR</option>
-        	<option value="3 Months">3 Months €8,00 EUR</option>
-        	<option value="6 Months">6 Months €15,00 EUR</option>
-        </select>
-        <br>
-        <input type="hidden" name="on1" value="storeId">
-        <input type="hidden" name="os1" v-model="store.id">
-        <input type="hidden" name="currency_code" value="EUR">
-        <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_paynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-        <img alt="" border="0" src="https://www.paypalobjects.com/de_DE/i/scr/pixel.gif" width="1" height="1">
-      </form>
       <h3>Members</h3>
       <p><small>
         Store members can access all files, tests and folders, create new tests and folders,
