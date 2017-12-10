@@ -31,10 +31,12 @@ import cToolbar from './components/Toolbar.vue'
 import cForm from './components/Form.vue'
 import cPwUserdataInfo from './components/PwUserdataInfo.vue'
 import cFolder from './components/Folder.vue'
+import cFolderTree from './components/FolderTree.vue'
 Vue.component('app-toolbar', cToolbar)
 Vue.component('app-form', cForm)
 Vue.component('app-pwuserdatainfo', cPwUserdataInfo)
 Vue.component('app-folder', cFolder)
+Vue.component('app-folder-tree', cFolderTree)
 
 Vue.component('dropzone', Dropzone)
 Vue.use(VueMaterial)

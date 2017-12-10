@@ -7,6 +7,8 @@
         :canDelete="store.owner.id == userId"
         @openfolder="openFolder"
         @openfile="openFile"
+        @renamefile="openRenameFileDialog"
+        @movefile="openMoveFileDialog"
         @deletefile="deleteFile"
         v-if="store">
     </app-folder>
@@ -34,6 +36,40 @@
       </form>
     </md-dialog>
 
+    <md-dialog ref="fileRenameDialog">
+      <form @submit.prevent="renameFile">
+        <md-dialog-title>Rename file</md-dialog-title>
+        <md-dialog-content>
+          <md-input-container>
+            <label>File name</label>
+            <md-input type="text" v-model="newFileName" />
+          </md-input-container>
+        </md-dialog-content>
+        <md-dialog-actions>
+          <md-button class="md-primary" @click.native="closeDialog('fileRenameDialog')">Cancel</md-button>
+          <md-button class="md-primary" type="submit">Ok</md-button>
+        </md-dialog-actions>
+      </form>
+    </md-dialog>
+
+    <md-dialog ref="fileMoveDialog">
+      <form @submit.prevent="moveFile">
+        <md-dialog-title>Move file</md-dialog-title>
+        <md-dialog-content>
+          <app-folder-tree
+            ref="fileMoveFolderTree"
+            :folders="store.folders"
+            :initiallySelectedId="moveToFolderId"
+            @folderSelected="selectFolderToMoveTo"
+          ></app-folder-tree>
+        </md-dialog-content>
+        <md-dialog-actions>
+          <md-button class="md-primary" @click.native="closeDialog('fileMoveDialog')">Cancel</md-button>
+          <md-button class="md-primary" type="submit">Ok</md-button>
+        </md-dialog-actions>
+      </form>
+    </md-dialog>
+
     <md-snackbar md-position="bottom center" ref="snackbar" md-duration="3000">
       <span>an Error occurred</span>
     </md-snackbar>
@@ -54,8 +90,11 @@
     data () {
       return {
         newFolderName: '',
+        newFileName: '',
+        moveToFolderId: null,
         uploadFormVisible: false,
-        loadingError: false
+        loadingError: false,
+        editingFile: null
       }
     },
     computed: {
@@ -157,9 +196,55 @@
         })
         .then(res => {
           const link = config.API_UPLOAD+'/file/'+res.data.token+'/'+file.name
-          window.location.href = link
+          window.open(link)
         })
         .catch(e => {})
+      },
+      openRenameFileDialog (file) {
+        this.editingFile = file
+        this.newFileName = file.name
+        this.openDialog('fileRenameDialog')
+      },
+      renameFile () {
+        this.$store.dispatch('stores/renameFile', {
+          storeId: this.store.id,
+          fileId: this.editingFile.id,
+          newName: this.newFileName})
+        .then (() => {
+          this.$refs['fileRenameDialog'].close()
+          this.fetchStore(true)
+        })
+        .catch(e => {
+          this.newFolderName = ''
+          this.$refs['fileRenameDialog'].close()
+          this.$refs.snackbar.open()
+        })
+      },
+      openMoveFileDialog (file) {
+        this.editingFile = file
+        this.openDialog('fileMoveDialog')
+        this.moveToFolderId = this.editingFile.folderId
+        this.$refs['fileMoveFolderTree'].reset()
+      },
+      selectFolderToMoveTo (folderId) {
+        this.moveToFolderId = folderId
+      },
+      moveFile () {
+        if (!this.moveToFolderId)
+          return
+        this.$store.dispatch('stores/moveFile', {
+          storeId: this.store.id,
+          fileId: this.editingFile.id,
+          folderId: this.moveToFolderId})
+        .then (() => {
+          this.$refs['fileMoveDialog'].close()
+          this.fetchStore(true)
+        })
+        .catch(e => {
+          this.newFolderName = ''
+          this.$refs['fileMoveDialog'].close()
+          this.$refs.snackbar.open()
+        })
       },
       deleteFile (file) {
         this.$store.dispatch('stores/deleteFile', {storeId: this.store.id, fileId: file.id})

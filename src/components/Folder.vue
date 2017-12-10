@@ -22,20 +22,60 @@
     <md-table class="filetable" v-if="fileview==0 && files && files.length>0">
       <md-table-header>
         <md-table-row>
-          <md-table-head @click.native="sortBy = 'name'" :class="{sorted: sortBy == 'name'}">File</md-table-head>
-          <md-table-head @click.native="sortBy = 'type'" :class="{sorted: sortBy == 'type'}">Type</md-table-head>
-          <md-table-head @click.native="sortBy = 'size'" :class="{sorted: sortBy == 'size'}">Size</md-table-head>
-          <md-table-head @click.native="sortBy = 'date'" :class="{sorted: sortBy == 'date'}">Date</md-table-head>
+          <md-table-head @click.native="setSort('name')" :class="{sorted: sortBy == 'name'}">
+            File
+            <md-icon v-if="sortBy != 'name'" style="opacity: 0">arrow_downward</md-icon>
+            <md-icon v-if="sortBy == 'name' && !sortReverse">arrow_downward</md-icon>
+            <md-icon v-if="sortBy == 'name' && sortReverse">arrow_upward</md-icon>
+            </md-table-head>
+          <md-table-head @click.native="setSort('type')" :class="{sorted: sortBy == 'type'}">
+            Type
+            <md-icon v-if="sortBy != 'type'" style="opacity: 0">arrow_downward</md-icon>
+            <md-icon v-if="sortBy == 'type' && !sortReverse">arrow_downward</md-icon>
+            <md-icon v-if="sortBy == 'type' && sortReverse">arrow_upward</md-icon>
+            </md-table-head>
+          <md-table-head @click.native="setSort('size')" :class="{sorted: sortBy == 'size'}">
+            Size
+            <md-icon v-if="sortBy != 'size'" style="opacity: 0">arrow_downward</md-icon>
+            <md-icon v-if="sortBy == 'size' && !sortReverse">arrow_downward</md-icon>
+            <md-icon v-if="sortBy == 'size' && sortReverse">arrow_upward</md-icon>
+            </md-table-head>
+          <md-table-head @click.native="setSort('date')" :class="{sorted: sortBy == 'date'}">
+            Date
+            <md-icon v-if="sortBy != 'date'" style="opacity: 0">arrow_downward</md-icon>
+            <md-icon v-if="sortBy == 'date' && !sortReverse">arrow_downward</md-icon>
+            <md-icon v-if="sortBy == 'date' && sortReverse">arrow_upward</md-icon>
+            </md-table-head>
           <md-table-head></md-table-head>
         </md-table-row>
       </md-table-header>
       <md-table-body>
-        <md-table-row v-for="file in filesFormatted" :key="file.id" @click.native="$emit('openfile', file)" class="filerow">
-          <md-table-cell><div><md-icon>{{file.icon}}</md-icon> {{file.name}}</div></md-table-cell>
+        <md-table-row v-for="file in filesFormatted" :key="file.id">
+          <md-table-cell @click.native="$emit('openfile', file)" class="filenamecell"><div><md-icon>{{file.icon}}</md-icon> {{file.name}}</div></md-table-cell>
           <md-table-cell>{{file.type}}</md-table-cell>
           <md-table-cell>{{file.size}}</md-table-cell>
           <md-table-cell>{{file.date}}</md-table-cell>
-          <md-table-cell class="cell-delete-file" @click.native.stop="$emit('deletefile', file)"><md-icon>delete</md-icon></md-table-cell>
+          <md-table-cell class="cell-file-menu">
+            <md-menu md-direction="top left" md-size="3">
+              <md-button class="md-icon-button" md-menu-trigger>
+                <md-icon>more_horiz</md-icon>
+              </md-button>
+              <md-menu-content>
+                <md-menu-item @selected="$emit('renamefile', file)">
+                  <md-icon>mode_edit</md-icon>
+                  <span>rename</span>
+                </md-menu-item>
+                <md-menu-item @selected="$emit('movefile', file)">
+                  <md-icon>folder_open</md-icon>
+                  <span>move</span>
+                </md-menu-item>
+                <md-menu-item @selected="$emit('deletefile', file)">
+                  <md-icon>delete</md-icon>
+                  <span>delete</span>
+                </md-menu-item>
+              </md-menu-content>
+            </md-menu>
+          </md-table-cell>
         </md-table-row>
       </md-table-body>
     </md-table>
@@ -68,19 +108,33 @@
     data () {
       return {
         fileview: 0,
-        sortBy: 'name'
+        sortBy: 'name',
+        sortReverse: false
       }
     },
     computed: {
       filesFormatted () {
-        return this.files.sort((a, b) => sortFiles(this.sortBy, a, b)).map(file => ({
+        const items = this.files.sort((a, b) => sortFiles(this.sortBy, a, b)).map(file => ({
           id: file.id,
+          folderId: file.folderId,
           name: file.name,
           date: moment(file.createdAt).format('MMM Do YYYY'),
           size: formatSize(file.size),
           type: file.name.split('.').pop(),
           icon: getIconName(file.name.split('.').pop()),
         }))
+        if (this.sortReverse)
+          return items.reverse()
+        return items
+      }
+    },
+    methods: {
+      setSort (column) {
+        if (column == this.sortBy)
+          this.sortReverse = !this.sortReverse
+        else
+          this.sortReverse = false
+        this.sortBy = column
       }
     }
   }
@@ -98,11 +152,11 @@
   }
 
   function formatSize (byteSize) {
-    let formatted = byteSize / 1000
-    if (formatted < 1000)
+    let formatted = byteSize / 1024
+    if (formatted < 1024)
       return Math.round(formatted) + ' KB'
     else
-      return Math.round(formatted / 1000) + ' MB'
+      return Math.round(formatted / 1024) + ' MB'
   }
 
   const imageExtensions = ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'tiff']
@@ -176,8 +230,11 @@
       z-index: 1;
     }
   }
-  .filetable .filerow {
+  .filetable .filenamecell {
     cursor: pointer;
+  }
+  .filetable .filenamecell:hover {
+    text-decoration: underline;
   }
   .md-table.filetable .md-table-head-text {
     padding-right: 0;
@@ -196,7 +253,12 @@
     color: black;
     text-decoration: underline;
   }
-  .cell-delete-file:hover {
-    color: red;
+  .md-table .md-table-cell .md-button.md-icon-button .md-icon {
+    font-size: 24px;
+    margin: auto;
+    width: 24px;
+    min-width: 24px;
+    height: 24px;
+    min-height: 24px;
   }
 </style>

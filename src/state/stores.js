@@ -168,6 +168,46 @@ export default {
           context.dispatch('account/removeStoreFromData', {storeId: data.store.id}, {root: true})
       })
     },
+    renameFile (context, data) {
+      //data.fileId, data.storeId, data.newName
+      return ajax({
+        method: 'PUT',
+        url: config.API_DATA+'/file/'+data.fileId+'/name',
+        data: {
+          newName: data.newName
+        },
+        headers: {
+          'x-store-auth': context.rootState.account.userdata.stores[data.storeId].password
+        }
+      })
+      .then(res => {
+        context.dispatch('fetchStore', {id: data.storeId})
+      })
+      .catch(err => {
+        if (err.response && err.response.status == 423)
+          context.dispatch('account/removeStoreFromData', {storeId: data.storeId}, {root: true})
+      })
+    },
+    moveFile (context, data) {
+      //data.fileId, data.storeId, data.folderId
+      return ajax({
+        method: 'PUT',
+        url: config.API_DATA+'/file/'+data.fileId+'/folder',
+        data: {
+          folderId: data.folderId
+        },
+        headers: {
+          'x-store-auth': context.rootState.account.userdata.stores[data.storeId].password
+        }
+      })
+      .then(res => {
+        context.dispatch('fetchStore', {id: data.storeId})
+      })
+      .catch(err => {
+        if (err.response && err.response.status == 423)
+          context.dispatch('account/removeStoreFromData', {storeId: data.storeId}, {root: true})
+      })
+    },
     deleteFile (context, data) {
       //data.fileId, data.storeId
       return ajax({
