@@ -265,6 +265,7 @@
       },
       deleteFile () {
         this.$store.dispatch('stores/deleteFile', {storeId: this.store.id, fileId: this.editingFile.id})
+        this.$refs['fileDeleteDialog'].close()
       },
       createFolder () {
         const shortname = this.newFolderName
