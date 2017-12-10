@@ -70,6 +70,19 @@
       </form>
     </md-dialog>
 
+    <md-dialog ref="fileDeleteDialog">
+      <form @submit.prevent="deleteFile">
+        <md-dialog-title>Delete file</md-dialog-title>
+        <md-dialog-content>
+          Are you sure you want to delete {{editingFile ? editingFile.name : 'this file'}}?
+        </md-dialog-content>
+        <md-dialog-actions>
+          <md-button class="md-primary" @click.native="closeDialog('fileDeleteDialog')">No</md-button>
+          <md-button class="md-primary" type="submit">Yes</md-button>
+        </md-dialog-actions>
+      </form>
+    </md-dialog>
+
     <md-snackbar md-position="bottom center" ref="snackbar" md-duration="3000">
       <span>an Error occurred</span>
     </md-snackbar>
@@ -246,8 +259,12 @@
           this.$refs.snackbar.open()
         })
       },
-      deleteFile (file) {
-        this.$store.dispatch('stores/deleteFile', {storeId: this.store.id, fileId: file.id})
+      openDeleteFileDialog (file) {
+        this.editingFile = file
+        this.openDialog('fileDeleteDialog')
+      },
+      deleteFile () {
+        this.$store.dispatch('stores/deleteFile', {storeId: this.store.id, fileId: this.editingFile.id})
       },
       createFolder () {
         const shortname = this.newFolderName
