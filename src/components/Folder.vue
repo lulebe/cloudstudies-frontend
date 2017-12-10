@@ -46,7 +46,7 @@
             <md-icon v-if="sortBy == 'date' && !sortReverse">arrow_downward</md-icon>
             <md-icon v-if="sortBy == 'date' && sortReverse">arrow_upward</md-icon>
             </md-table-head>
-          <md-table-head></md-table-head>
+          <md-table-head style="max-width: 48px"></md-table-head>
         </md-table-row>
       </md-table-header>
       <md-table-body>

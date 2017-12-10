@@ -8,8 +8,12 @@
             Drag your file(s) here to begin<br> or click to browse
           </p>
           <p v-if="isSaving">
-            Uploading {{ fileCount }} files...
+            Uploading {{ fileCount }} files: {{uploadProgress}}%
           </p>
+          <div class="progress-container" v-if="isSaving">
+            <div class="progress" :style="{width: uploadProgress+'%'}"></div>
+          </div>
+          <md-button class="md-warn" v-if="isSaving" @click.native="cancelUpload()">cancel upload</md-button>
       </div>
     </form>
     <!--SUCCESS-->
@@ -18,19 +22,22 @@
       <md-button class="md-primary" @click.native="reset()">Upload more files</md-button>
     </div>
     <!--FAILED-->
-    <div v-if="isFailed">
-      <h2>Uploaded failed.</h2>
+    <div v-if="isFailed" style="text-align: center">
+      <h2>Upload failed.</h2>
       <p>
-        <a href="javascript:void(0)" @click="reset()">Try again</a>
+        {{uploadError}}
       </p>
-      <pre>{{ uploadError }}</pre>
+      <md-button class="md-warn" @click.native="reset()">Try again</md-button>
     </div>
   </div>
 </template>
 <script>
+import axios from 'axios'
 import {ajax} from '../helpers/ajax'
 
 const STATUS_INITIAL = 0, STATUS_SAVING = 1, STATUS_SUCCESS = 2, STATUS_FAILED = 3
+
+let cancelToken = null
 
 export default {
   props: ['headers', 'url'],
@@ -38,7 +45,8 @@ export default {
     return {
       uploadedFiles: [],
       uploadError: null,
-      currentStatus: null
+      currentStatus: null,
+      uploadProgress: 0
     }
   },
   computed: {
@@ -64,20 +72,26 @@ export default {
       this.currentStatus = STATUS_INITIAL
       this.uploadedFiles = []
       this.uploadError = null
+      this.uploadProgress = 0
     },
     save(formData) {
       // upload data to the server
       this.currentStatus = STATUS_SAVING
-      upload(formData, this.url, this.headers)
-        .then(x => {
-          this.uploadedFiles = [].concat(x)
-          this.currentStatus = STATUS_SUCCESS
-          this.$emit('success')
-        })
-        .catch(err => {
-          this.uploadError = err.response
-          this.currentStatus = STATUS_FAILED
-        });
+      upload(formData, this.url, this.headers, progress => {
+        this.uploadProgress = progress
+      })
+      .then(x => {
+        this.uploadedFiles = [].concat(x)
+        this.currentStatus = STATUS_SUCCESS
+        this.$emit('success')
+      })
+      .catch(err => {
+        if (axios.isCancel(err))
+          this.uploadError = 'Upload cancelled.'
+        else
+          this.uploadError = err.message
+        this.currentStatus = STATUS_FAILED
+      });
     },
     filesChange(fieldName, fileList) {
       // handle file changes
@@ -91,16 +105,26 @@ export default {
         })
       // save it
       this.save(formData)
+    },
+    cancelUpload () {
+      cancelToken && cancelToken.cancel()
+      cancelToken = null
+      this.reset()
     }
   }
 }
 
-function upload(formData, url, headers) {
+function upload(formData, url, headers, progressCb) {
+  cancelToken = axios.CancelToken.source()
   return ajax({
     method: 'post',
     url: url,
     headers: headers,
-    data: formData
+    data: formData,
+    cancelToken: cancelToken.token,
+    onUploadProgress: e => {
+      progressCb(Math.round(e.loaded / e.total * 100))
+    }
   })
 }
 </script>
@@ -112,6 +136,7 @@ function upload(formData, url, headers) {
     min-height: 200px; /* minimum height */
     position: relative;
     cursor: pointer;
+    text-align: center;
   }
   
   .input-file {
@@ -126,5 +151,15 @@ function upload(formData, url, headers) {
     font-size: 1.2em;
     text-align: center;
     padding: 50px 0;
+  }
+
+  .dropbox .progress-container {
+    width: 100%;
+    height: 24px;
+    background: #bbb;
+    .progress {
+      height: 24px;
+      background: #5c5;
+    }
   }
 </style>

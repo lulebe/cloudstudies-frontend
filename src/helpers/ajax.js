@@ -31,11 +31,11 @@ export const signin = (username, pwhash, cancelToken) => {
 export const ajax = options => {
   return playXhr(options)
   .catch(e => {
-    if (err.response && err.response.status == 401)
+    if (e.response && e.response.status == 401)
       return signin(store.state.account.user.name, store.state.account.pwhash, options.cancelToken)
       .then(() => playXhr(options))
     else
-      return Promise.reject(err)
+      return Promise.reject(e)
   })
 }
 
