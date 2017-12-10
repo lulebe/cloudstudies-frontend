@@ -13,12 +13,6 @@
         v-if="store">
     </app-folder>
 
-    <div class="upload-container" v-if="uploadFormVisible">
-      <h3 class="md-display-1">Upload new Files</h3>
-      <dropzone id="fileUploadZone" :url="fileUploadUrl" :headers="fileUploadHeaders" :maxFileSizeInMB="150" @vdropzone-success="uploadDone"></dropzone>
-      <md-button class="md-raised" @click.native="uploadFormVisible = false">Done</md-button>
-    </div>
-
     <md-dialog md-open-from="#store-fab" md-close-to="#store-fab" ref="folderCreationDialog">
       <form @submit.prevent="createFolder">
         <md-dialog-title>Add a new Folder</md-dialog-title>
@@ -142,15 +136,6 @@
       },
       folderNameValid () {
         return /^[a-z0-9\-_\. ]+$/i.test(this.newFolderName) || this.newFolderName.length == 0
-      },
-      fileUploadUrl () {
-        return config.API_UPLOAD + '/folder/' + this.displayedFolder.id
-      },
-      fileUploadHeaders () {
-        return {
-          'Authorization': this.$store.state.account.token,
-          'x-store-auth': this.$store.state.account.userdata.stores[this.storeid].password
-        }
       }
     },
     mounted () {

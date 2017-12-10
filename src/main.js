@@ -4,7 +4,6 @@ import Vue from 'vue'
 import VueMaterial from 'vue-material'
 import VueRouter from 'vue-router'
 import Vuex from 'vuex'
-import Dropzone from 'vue2-dropzone'
 
 
 import storeData from './state/main'
@@ -32,13 +31,14 @@ import cForm from './components/Form.vue'
 import cPwUserdataInfo from './components/PwUserdataInfo.vue'
 import cFolder from './components/Folder.vue'
 import cFolderTree from './components/FolderTree.vue'
+import cUpload from './components/Upload.vue'
 Vue.component('app-toolbar', cToolbar)
 Vue.component('app-form', cForm)
 Vue.component('app-pwuserdatainfo', cPwUserdataInfo)
 Vue.component('app-folder', cFolder)
 Vue.component('app-folder-tree', cFolderTree)
+Vue.component('app-upload', cUpload)
 
-Vue.component('dropzone', Dropzone)
 Vue.use(VueMaterial)
 Vue.use(VueRouter)
 Vue.use(Vuex)

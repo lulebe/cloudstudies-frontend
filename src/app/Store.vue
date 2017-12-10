@@ -62,9 +62,10 @@
 
     <div class="upload-container" v-if="uploadFormVisible">
       <h3 class="md-display-1">Upload new Files</h3>
-      <dropzone id="fileUploadZone" :url="fileUploadUrl" :headers="fileUploadHeaders" :maxFileSizeInMB="150" :maxNumberOfFiles="250" @vdropzone-success="uploadDone"></dropzone>
+      <app-upload :url="fileUploadUrl" :headers="fileUploadHeaders" @success="uploadDone"></app-upload>
       <md-button class="md-raised" @click.native="uploadFormVisible = false">Done</md-button>
     </div>
+     
 
     <md-dialog md-open-from="#store-fab" md-close-to="#store-fab" ref="folderCreationDialog">
       <form @submit.prevent="createFolder">
