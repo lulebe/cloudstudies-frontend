@@ -4,6 +4,7 @@
   "start_url": ".",
   "display": "standalone",
   "background_color": "#43a047",
+  "theme_color": "#43a047",
   "description": "Securely share documents from college and university.",
   "icons": [{
     "src": "src/assets/touch_homescreen192.png",
