@@ -9,7 +9,7 @@
         @openfile="openFile"
         @renamefile="openRenameFileDialog"
         @movefile="openMoveFileDialog"
-        @deletefile="deleteFile"
+        @deletefile="openDeleteFileDialog"
         v-if="store">
     </app-folder>
 
