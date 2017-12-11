@@ -10,14 +10,6 @@
     </div>
     <span class="md-subheading">Files</span><br>
     <span class="md-caption" v-if="!files || files.length==0">No files</span>
-    <md-button-toggle md-single v-if="files && files.length>0">
-      <md-button class="md-icon-button md-toggle" @click.native="fileview = 0">
-        <md-icon>view_list</md-icon>
-      </md-button>
-      <md-button class="md-icon-button" @click.native="fileview = 1">
-        <md-icon>view_module</md-icon>
-      </md-button>
-    </md-button-toggle>
 
     <md-table class="filetable" v-if="fileview==0 && files && files.length>0">
       <md-table-header>
@@ -79,22 +71,6 @@
         </md-table-row>
       </md-table-body>
     </md-table>
-
-    <div class="file-grid" v-if="fileview==1 && files && files.length>0">
-      <md-whiteframe v-for="file in filesFormatted" :key="file.id" md-tag="button" class="file attention" @click.native="$emit('openfile', file)">
-        <md-ink-ripple />
-        <div style="display: flex;">
-          <div style="border-right: 1px solid #aaa; padding-right: 4px;">
-            <md-icon class="fileicon">{{file.icon}}</md-icon><br>
-            <span class="md-caption filesize">{{file.size}}</span>
-          </div>
-          <div style="padding-left: 4px; text-align: left;">
-            <span class="md-body-2">{{file.name}}</span><br>
-            <span class="md-caption filedate">{{file.type}} {{file.date}}</span>
-          </div>
-        </div>
-      </md-whiteframe>
-    </div>
   </div>
 </template>
 
@@ -107,7 +83,6 @@
     ],
     data () {
       return {
-        fileview: 0,
         sortBy: 'name',
         sortReverse: false
       }
@@ -169,58 +144,13 @@
 </script>
 
 <style lang="scss">
-  .folder-grid, .file-grid {
+  .folder-grid {
     display: flex;
     flex-wrap: wrap;
   }
   .folder-grid .folder {
     padding: 6px 16px;
     text-transform: none;
-  }
-  @media (max-width: 479px) {
-   .file-grid .file {
-      width: 100%;
-    }
-  }
-  @media (min-width: 480px) {
-    .file-grid .file {
-      width: 46%;
-    }
-  }
-  @media (min-width: 600px) {
-    .file-grid .file {
-      width: 100%;
-    }
-  }
-  @media (min-width: 720px) {
-    .file-grid .file {
-      width: 46%;
-    }
-  }
-  @media (min-width: 960px) {
-    .file-grid .file {
-      width: 30%;
-    }
-  }
-  .file-grid .file {
-    background: white;
-    border: none;
-    padding: 8px;
-    position: relative;
-    margin: 8px;
-    .fileicon {
-      color: grey;
-    }
-    &.attention .fileicon {
-      color: black;
-    }
-    .badge {
-      color: red;
-      position: absolute;
-      top: -12px;
-      right: -12px;
-      z-index: 1;
-    }
   }
   .filetable .filenamecell {
     cursor: pointer;
