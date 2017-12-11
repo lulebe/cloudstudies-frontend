@@ -99,7 +99,7 @@
     computed: {
       storeLink () {
         console.log(this.store.password.split(' ').pop())
-        console.log(this.store.linkhash)
+        console.log(this.store.linkHash)
         const l = 'https://cloudstudies.de/app.html#/app/storelink/'
         +this.store.id
         +'/'
