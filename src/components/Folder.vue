@@ -11,7 +11,7 @@
     <span class="md-subheading">Files</span><br>
     <span class="md-caption" v-if="!files || files.length==0">No files</span>
 
-    <md-table class="filetable" v-if="fileview==0 && files && files.length>0">
+    <md-table class="filetable" v-if="files && files.length>0">
       <md-table-header>
         <md-table-row>
           <md-table-head @click.native="setSort('name')" :class="{sorted: sortBy == 'name'}">

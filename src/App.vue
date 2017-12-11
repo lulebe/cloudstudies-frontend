@@ -33,7 +33,7 @@
       </md-list>
     </md-sidenav>
     <router-view class="main-container" :class="{'logged-in': $store.state.account.loggedIn}"></router-view>
-    <app-uploadinfo></app-uploadinfo>
+    <app-uploadinfo v-if="!viewingLink"></app-uploadinfo>
   </div>
 </template>
 
@@ -42,6 +42,7 @@
     name: 'app',
     data () {
       return {
+        viewingLink: false
       }
     },
     computed: {
@@ -59,7 +60,9 @@
       drawerOpen () {return this.$store.state.drawerOpen}
     },
     mounted () {
-      this.$store.dispatch('account/fetchOwnedStores')
+      this.viewingLink = this.$route.name == 'storelink'
+      if (!this.viewingLink)
+        this.$store.dispatch('account/fetchOwnedStores')
     },
     methods: {
       signout () {

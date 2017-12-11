@@ -84,7 +84,7 @@ const routes = [
     {path: 'dashboard', component: Dashboard},
     {path: 'search', component: Search, props: true},
     {path: 'newstore', component: Newstore},
-    {path: 'storelink/:storeid/:storelink', component: Storelink, props: true},
+    {path: 'storelink/:storeid/:storelink', name: 'storelink', component: Storelink, props: true},
     {path: 'store/:storeid', component: Store, props: true, children: [
       {path: ':folderpath*/newtest', component: StoreNewtest, props: true},
       {path: ':folderpath*', component: StoreFolder, props: true}
