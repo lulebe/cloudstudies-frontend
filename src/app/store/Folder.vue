@@ -205,8 +205,7 @@
           url: config.API_DATA+'/file/'+file.id,
           headers: {
             'x-store-auth': this.$store.state.stores[this.storeid].password
-          },
-          params
+          }
         })
         .then(res => {
           const link = config.API_UPLOAD+'/file/'+res.data.token+'/'+file.name

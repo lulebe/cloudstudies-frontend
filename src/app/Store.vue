@@ -41,10 +41,12 @@
         <md-icon>cloud_upload</md-icon>
         <md-tooltip md-direction="left">Upload files</md-tooltip>
       </md-button>
+      <!--
       <md-button class="md-fab md-primary md-mini md-clean" @click.native="createTest">
         <md-icon md-src="src/assets/test.svg" style="transform: translateY(-45%)"></md-icon>
         <md-tooltip md-direction="left">Create a Test</md-tooltip>
       </md-button>
+      -->
     </md-speed-dial>
 
     <app-form title="Unlock Store" submitBtnText="unlock" v-if="!store" @submit="fetchStore">
