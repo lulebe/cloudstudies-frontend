@@ -21,7 +21,7 @@
             <md-icon v-if="sortBy == 'name' && !sortReverse">arrow_downward</md-icon>
             <md-icon v-if="sortBy == 'name' && sortReverse">arrow_upward</md-icon>
             </md-table-head>
-          <md-table-head @click.native="setSort('type')" :class="{sorted: sortBy == 'type'}">
+          <md-table-head @click.native="setSort('type')" class="hide-on-small" :class="{sorted: sortBy == 'type'}">
             Type
             <md-icon v-if="sortBy != 'type'" style="opacity: 0">arrow_downward</md-icon>
             <md-icon v-if="sortBy == 'type' && !sortReverse">arrow_downward</md-icon>
@@ -33,7 +33,7 @@
             <md-icon v-if="sortBy == 'size' && !sortReverse">arrow_downward</md-icon>
             <md-icon v-if="sortBy == 'size' && sortReverse">arrow_upward</md-icon>
             </md-table-head>
-          <md-table-head @click.native="setSort('date')" :class="{sorted: sortBy == 'date'}">
+          <md-table-head @click.native="setSort('date')" class="hide-on-small" :class="{sorted: sortBy == 'date'}">
             Date
             <md-icon v-if="sortBy != 'date'" style="opacity: 0">arrow_downward</md-icon>
             <md-icon v-if="sortBy == 'date' && !sortReverse">arrow_downward</md-icon>
@@ -190,5 +190,11 @@
     min-width: 24px;
     height: 24px;
     min-height: 24px;
+  }
+
+  @media (max-width: 550px) {
+    .hide-on-small {
+      display: none;
+    }
   }
 </style>
