@@ -49,7 +49,7 @@
     <md-dialog ref="fileMoveDialog">
       <form @submit.prevent="moveFile">
         <md-dialog-title>Move file</md-dialog-title>
-        <md-dialog-content>
+        <md-dialog-content style="overflow-y: auto;">
           <app-folder-tree
             ref="fileMoveFolderTree"
             :folders="store.folders"
