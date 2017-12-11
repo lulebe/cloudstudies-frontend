@@ -52,9 +52,9 @@
           <md-table-cell @click.native="$emit('openfile', file)" class="filenamecell">
             <div><md-icon>{{file.icon}}</md-icon> {{file.name}}</div>
           </md-table-cell>
-          <md-table-cell>{{file.type}}</md-table-cell>
+          <md-table-cell class="hide-on-small">{{file.type}}</md-table-cell>
           <md-table-cell>{{file.size | fileSize}}</md-table-cell>
-          <md-table-cell>{{file.date}}</md-table-cell>
+          <md-table-cell class="hide-on-small">{{file.date}}</md-table-cell>
           <md-table-cell v-if="admin" class="cell-file-menu">
             <md-menu md-direction="top left" md-size="3">
               <md-button class="md-icon-button" md-menu-trigger>
