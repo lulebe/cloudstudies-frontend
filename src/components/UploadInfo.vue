@@ -13,7 +13,7 @@
           :key="upload">
             <div class="md-list-text-container">
               <span><strong>{{upload.name}}</strong></span>
-              <span>{{Math.round(upload.progress * 100)}}%</span>
+              <span>{{Math.round(upload.progress * 1000)/10}}%</span>
               <div class="progress" :style="{background: progressGradientH(upload.progress * 100)}"></div>
             </div>
           </md-list-item>
