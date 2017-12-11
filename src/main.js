@@ -32,12 +32,14 @@ import cPwUserdataInfo from './components/PwUserdataInfo.vue'
 import cFolder from './components/Folder.vue'
 import cFolderTree from './components/FolderTree.vue'
 import cUpload from './components/Upload.vue'
+import cUploadInfo from './components/UploadInfo.vue'
 Vue.component('app-toolbar', cToolbar)
 Vue.component('app-form', cForm)
 Vue.component('app-pwuserdatainfo', cPwUserdataInfo)
 Vue.component('app-folder', cFolder)
 Vue.component('app-folder-tree', cFolderTree)
 Vue.component('app-upload', cUpload)
+Vue.component('app-uploadinfo', cUploadInfo)
 
 Vue.use(VueMaterial)
 Vue.use(VueRouter)

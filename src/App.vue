@@ -33,6 +33,7 @@
       </md-list>
     </md-sidenav>
     <router-view class="main-container" :class="{'logged-in': $store.state.account.loggedIn}"></router-view>
+    <app-uploadinfo></app-uploadinfo>
   </div>
 </template>
 
