@@ -7,6 +7,7 @@
         :admin="store.owner.id == userId"
         @openfolder="openFolder"
         @openfile="openFile"
+        @downloadfile="downloadFile"
         @renamefile="openRenameFileDialog"
         @movefile="openMoveFileDialog"
         @deletefile="openDeleteFileDialog"
@@ -184,13 +185,28 @@
       openFolder (folder) {
         this.$router.push('/app/store/'+this.storeid+folder.name)
       },
-      openFile (file) {
+      downloadFile (file) {
         ajax({
           method: 'GET',
           url: config.API_DATA+'/file/'+file.id,
           headers: {
             'x-store-auth': this.$store.state.stores[this.storeid].password
           }
+        })
+        .then(res => {
+          const link = config.API_UPLOAD+'/file/'+res.data.token+'/'+file.name+'?download=true'
+          window.location.href = link
+        })
+        .catch(e => {})
+      },
+      openFile (file) {
+        ajax({
+          method: 'GET',
+          url: config.API_DATA+'/file/'+file.id,
+          headers: {
+            'x-store-auth': this.$store.state.stores[this.storeid].password
+          },
+          params
         })
         .then(res => {
           const link = config.API_UPLOAD+'/file/'+res.data.token+'/'+file.name

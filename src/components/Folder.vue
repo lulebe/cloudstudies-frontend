@@ -14,6 +14,7 @@
     <md-table class="filetable" v-if="files && files.length>0">
       <md-table-header>
         <md-table-row>
+          <md-table-head style="max-width: 48px"></md-table-head>
           <md-table-head @click.native="setSort('name')" :class="{sorted: sortBy == 'name'}">
             File
             <md-icon v-if="sortBy != 'name'" style="opacity: 0">arrow_downward</md-icon>
@@ -43,7 +44,14 @@
       </md-table-header>
       <md-table-body>
         <md-table-row v-for="file in filesFormatted" :key="file.id">
-          <md-table-cell @click.native="$emit('openfile', file)" class="filenamecell"><div><md-icon>{{file.icon}}</md-icon> {{file.name}}</div></md-table-cell>
+          <md-table-cell @click.native="$emit('downloadfile', file)" class="filenamecell">
+            <md-button class="md-icon-button">
+                <md-icon>file_download</md-icon>
+              </md-button>
+          </md-table-cell>
+          <md-table-cell @click.native="$emit('openfile', file)" class="filenamecell">
+            <div><md-icon>{{file.icon}}</md-icon> {{file.name}}</div>
+          </md-table-cell>
           <md-table-cell>{{file.type}}</md-table-cell>
           <md-table-cell>{{file.size | fileSize}}</md-table-cell>
           <md-table-cell>{{file.date}}</md-table-cell>
