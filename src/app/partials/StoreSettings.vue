@@ -98,14 +98,15 @@
     },
     computed: {
       storeLink () {
-        console.log(this.store.password.split(' ').pop())
-        console.log(this.store.linkHash)
-        const l = 'https://cloudstudies.de/app.html#/app/storelink/'
+        let linkhash
+        if (this.store.password.split(' ')[0] == 'l')
+          linkhash = this.store.password.split(' ').pop()
+        else
+          linkhash = SHA256(this.store.password.split(' ').pop()+this.store.linkHash).toString(encHex)
+        return 'https://cloudstudies.de/app.html#/app/storelink/'
         +this.store.id
         +'/'
-        +SHA256(this.store.password.split(' ').pop()+this.store.linkHash).toString(encHex)
-        console.log(l)
-        return l
+        +linkhash
       }
     },
     methods: {
