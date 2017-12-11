@@ -4,7 +4,7 @@
     <app-folder
         :files="displayedFolder.files"
         :folders="displayedFolder.folders"
-        :canDelete="store.owner.id == userId"
+        :admin="store.owner.id == userId"
         @openfolder="openFolder"
         @openfile="openFile"
         @renamefile="openRenameFileDialog"

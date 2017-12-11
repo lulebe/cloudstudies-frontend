@@ -38,7 +38,7 @@
             <md-icon v-if="sortBy == 'date' && !sortReverse">arrow_downward</md-icon>
             <md-icon v-if="sortBy == 'date' && sortReverse">arrow_upward</md-icon>
             </md-table-head>
-          <md-table-head style="max-width: 48px"></md-table-head>
+          <md-table-head v-if="admin" style="max-width: 48px"></md-table-head>
         </md-table-row>
       </md-table-header>
       <md-table-body>
@@ -47,7 +47,7 @@
           <md-table-cell>{{file.type}}</md-table-cell>
           <md-table-cell>{{file.size | fileSize}}</md-table-cell>
           <md-table-cell>{{file.date}}</md-table-cell>
-          <md-table-cell class="cell-file-menu">
+          <md-table-cell v-if="admin" class="cell-file-menu">
             <md-menu md-direction="top left" md-size="3">
               <md-button class="md-icon-button" md-menu-trigger>
                 <md-icon>more_horiz</md-icon>
@@ -79,7 +79,7 @@
 
   export default {
     props: [
-      'folders', 'files', 'canDelete'
+      'folders', 'files', 'admin'
     ],
     data () {
       return {
