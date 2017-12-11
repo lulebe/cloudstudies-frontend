@@ -15,7 +15,7 @@
 import uploads from '../helpers/uploads'
 
 export default {
-  props: ['headers', 'url'],
+  props: ['headers', 'url', 'storeId'],
   data () {
     return {
     }
@@ -26,7 +26,7 @@ export default {
       Array
         .from(Array(fileList.length).keys())
         .map(x => {
-          uploads.uploader.addUpload(fileList[x], this.url, this.headers)
+          uploads.uploader.addUpload(fileList[x], this.storeId, this.url, this.headers)
         })
     }
   }

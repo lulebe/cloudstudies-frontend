@@ -62,7 +62,7 @@
 
     <div class="upload-container" v-if="uploadFormVisible">
       <h3 class="md-display-1">Upload new Files</h3>
-      <app-upload :url="fileUploadUrl" :headers="fileUploadHeaders" @success="uploadDone"></app-upload>
+      <app-upload :url="fileUploadUrl" :headers="fileUploadHeaders" :storeId="storeid" @success="uploadDone"></app-upload>
       <md-button class="md-raised" @click.native="uploadFormVisible = false">Done</md-button>
     </div>
      

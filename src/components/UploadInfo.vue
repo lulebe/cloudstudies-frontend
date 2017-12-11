@@ -69,9 +69,10 @@ export default {
       }
       return 'linear-gradient(to right, #43a047 ' + low + '%,#f0f0f0 ' + high + '%)'
     },
-    addUpload (file, url, headers) {
+    addUpload (file, storeId, url, headers) {
       const upload = {
         file,
+        storeId,
         url,
         headers,
         name: file.name,
@@ -117,6 +118,8 @@ export default {
       .then(() => {
         currentUpload.error = false
         currentUpload.done = true
+        this.$store.dispatch('stores/fetchStore', {id: currentUpload.storeId})
+        .catch(() => {})
         if (this.nextUpload())
           this.startUpload()
         else {
