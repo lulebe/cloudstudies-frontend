@@ -41,6 +41,9 @@ Vue.component('app-folder-tree', cFolderTree)
 Vue.component('app-upload', cUpload)
 Vue.component('app-uploadinfo', cUploadInfo)
 
+import fFilesize from './helpers/filesizeFilter'
+Vue.filter('fileSize', fFilesize)
+
 Vue.use(VueMaterial)
 Vue.use(VueRouter)
 Vue.use(Vuex)

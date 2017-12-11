@@ -53,7 +53,7 @@
         <md-table-row v-for="file in filesFormatted" :key="file.id">
           <md-table-cell @click.native="$emit('openfile', file)" class="filenamecell"><div><md-icon>{{file.icon}}</md-icon> {{file.name}}</div></md-table-cell>
           <md-table-cell>{{file.type}}</md-table-cell>
-          <md-table-cell>{{file.size}}</md-table-cell>
+          <md-table-cell>{{file.size | fileSize}}</md-table-cell>
           <md-table-cell>{{file.date}}</md-table-cell>
           <md-table-cell class="cell-file-menu">
             <md-menu md-direction="top left" md-size="3">
@@ -119,7 +119,7 @@
           folderId: file.folderId,
           name: file.name,
           date: moment(file.createdAt).format('MMM Do YYYY'),
-          size: formatSize(file.size),
+          size: file.size,
           type: file.name.split('.').pop(),
           icon: getIconName(file.name.split('.').pop()),
         }))
@@ -149,14 +149,6 @@
     if (sortBy == 'type')
       return a.name.split('.').pop().localeCompare(b.name.split('.').pop())
     return 0;
-  }
-
-  function formatSize (byteSize) {
-    let formatted = byteSize / 1024
-    if (formatted < 1024)
-      return Math.round(formatted) + ' KB'
-    else
-      return Math.round(formatted / 1024) + ' MB'
   }
 
   const imageExtensions = ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'tiff']

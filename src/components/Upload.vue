@@ -26,7 +26,7 @@ export default {
       Array
         .from(Array(fileList.length).keys())
         .map(x => {
-          uploads.uploader.addUpload(fileList[x], fileList[x].name, this.url, this.headers)
+          uploads.uploader.addUpload(fileList[x], this.url, this.headers)
         })
     }
   }
