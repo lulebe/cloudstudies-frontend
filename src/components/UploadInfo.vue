@@ -1,8 +1,8 @@
 <template>
   <div :class="{uploadRunning: uploading}">
     <button class="info-btn" @click="panelOpen = !panelOpen">
-      <span v-if="uploading">{{overallProgress}}%</span>
-      <md-icon v-if="!uploading" style="transform: translateY(-3px); color: #666">cloud_upload</md-icon>
+      <span v-if="uploading" class="percentage">{{overallProgress}}%</span>
+      <md-icon v-if="!uploading" class="idle-icon">cloud_upload</md-icon>
     </button>
     <transition name="panel">
       <div class="info-panel" v-show="panelOpen">
@@ -152,7 +152,7 @@ export default {
     height: 48px;
     border-radius: 24px;
     line-height: 38px;
-    font-size: 1rem;
+    font-size: 0.8rem;
     text-align: center;
     box-shadow: 0 3px 8px 2px rgba(0,0,0,0.3);
     border: 4px solid white;
@@ -160,6 +160,14 @@ export default {
     color: black;
     cursor: pointer;
     transition: box-shadow 0.1s ease-out;
+    .percentage {
+      display: inline-block;
+      transform: translateY(-2px);
+    }
+    .idle-icon {
+      transform: translateY(-3px);
+      color: #666;
+    }
   }
   .info-btn:active {
     box-shadow: 0 8px 16px 3px rgba(0,0,0,0.2);
