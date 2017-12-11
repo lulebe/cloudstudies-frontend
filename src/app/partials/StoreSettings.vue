@@ -98,10 +98,14 @@
     },
     computed: {
       storeLink () {
-        return 'https://cloudstudies.de/app.html#/app/storelink/'
+        console.log(this.store.password.split(' ').pop())
+        console.log(this.store.linkhash)
+        const l = 'https://cloudstudies.de/app.html#/app/storelink/'
         +this.store.id
         +'/'
         +SHA256(this.store.password.split(' ').pop()+this.store.linkHash).toString(encHex)
+        console.log(l)
+        return l
       }
     },
     methods: {
