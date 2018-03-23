@@ -5,6 +5,8 @@ import VueMaterial from 'vue-material'
 import VueRouter from 'vue-router'
 import Vuex from 'vuex'
 
+import Bugsnag from 'bugsnag-js'
+import BugsnagVue from 'bugsnag-vue'
 
 import storeData from './state/main'
 import {setStore as setStoreForAjax} from './helpers/ajax'
@@ -43,6 +45,12 @@ Vue.component('app-uploadinfo', cUploadInfo)
 
 import fFilesize from './helpers/filesizeFilter'
 Vue.filter('fileSize', fFilesize)
+
+//Bugsnag
+if (process.env.BUGSNAGKEY) {
+  const bugsnagClient = Bugsnag(process.env.BUGSNAGKEY)
+  bugsnagClient.use(BugsnagVue(Vue))
+}
 
 Vue.use(VueMaterial)
 Vue.use(VueRouter)
