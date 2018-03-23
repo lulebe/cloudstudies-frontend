@@ -1,3 +1,3 @@
 module.exports = {
-    BUGSNAGKEY = process.env.BUGSNAGKEY || ''
+    BUGSNAGKEY: process.env.BUGSNAGKEY || ''
 }
