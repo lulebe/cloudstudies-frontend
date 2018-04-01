@@ -46,7 +46,7 @@ Vue.component('app-uploadinfo', cUploadInfo)
 import fFilesize from './helpers/filesizeFilter'
 Vue.filter('fileSize', fFilesize)
 
-//Bugsnag
+console.log("KEY", process.env.BUGSNAGKEY)
 if (process.env.BUGSNAGKEY) {
   const bugsnagClient = Bugsnag(process.env.BUGSNAGKEY)
   bugsnagClient.use(BugsnagVue(Vue))
