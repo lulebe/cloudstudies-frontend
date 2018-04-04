@@ -121,7 +121,7 @@
       },
       percentageUsed () {
         const used = this.store ? this.store.size : 0
-        return used / 3221225472 * 100
+        return used / (this.store ? this.store.maxSize : 3221225472) * 100
       },
       displayedFolderPath () {
         const base = this.folderpath || ''

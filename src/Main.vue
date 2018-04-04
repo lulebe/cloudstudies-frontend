@@ -15,7 +15,7 @@
   body {
     background: white !important;
   }
-  .md-theme-default.md-button:not([disabled]).md-raised:not(.md-icon-button) {
+  .md-theme-default.md-button:not([disabled]).md-raised:not(.md-icon-button):not(.md-accent) {
     background: white;
   }
   .md-theme-default.md-button:not([disabled]).md-fab.md-clean {
