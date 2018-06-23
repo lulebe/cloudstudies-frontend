@@ -30,21 +30,24 @@
       hasPreview() {return this.file.previewFileCount && this.file.previewFileCount > 0}
     },
     methods: {
-      open (file) {
+      open (file, password) {
         this.file = file
         this.opened = true
         ajax({
             method: 'GET',
             url: config.API_DATA+'/file/'+file.id,
             headers: {
-              'x-store-auth': this.$store.state.stores[this.storeid].password
+              'x-store-auth': password
             }
           })
           .then(res => {
             const link = config.API_UPLOAD+'/file/'+res.data.token+'/'+file.name
             this.$refs['preview-frame'].src = link
           })
-          .catch(e => {})
+          .catch(e => {
+            this.opened = false
+            this.file = null
+          })
       },
       close () {
         this.opened = false
@@ -62,7 +65,7 @@
     bottom: 0;
     overflow: auto;
     background: rgba(0,0,0,0.8);
-    z-index: 30;
+    z-index: 23;
     color: white;
   }
   .info-no-preview {

@@ -202,7 +202,7 @@
         .catch(e => {})
       },
       openFile (file) {
-        this.$refs['filePreview'].open(file)
+        this.$refs['filePreview'].open(file, this.$store.state.stores[this.storeid].password)
       },
       openRenameFileDialog (file) {
         this.editingFile = file
