@@ -6,6 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot --mode development",
+    "devonline": "cross-env NODE_ENV=production webpack-dev-server --open --hot --mode development",
     "build": "webpack --progress --hide-modules --mode production",
     "deploy": "sh deploy.sh"
   },
