@@ -92,7 +92,5 @@
     display: block;
     width: 100%;
     max-width: 640px;
-    height: calc(100vh - 64px);
-    max-height: 640px;
   }
 </style>
