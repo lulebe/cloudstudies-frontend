@@ -6,10 +6,13 @@
       </md-button>
       <h1 class="md-title">Preview: {{file.name}}</h1>
     </md-toolbar>
-    <div v-if="!hasPreview" class="info-no-preview">
-      There is no preview for this file.
+    <div class="preview-wrapper">
+      <div v-if="!hasPreview" class="info-no-preview">
+        There is no preview for this file.
+      </div>
+      <img class="preview-image" v-if="previewType == 1" :src="previewLink" />
+      <iframe class="preview-pdf" v-if="previewType == 2" :src="previewLink" />
     </div>
-    <img class="preview-image" v-if="previewType == 1" :src="previewLink" />
   </div>
 </template>
 <script>
@@ -63,6 +66,8 @@
     const extension = filename.split('.').pop().toLowerCase()
     if (imageExtensions.indexOf(extension) > -1)
       return 1
+    if (extension == 'pdf')
+      return 2
     return null
   }
 </script>
@@ -78,19 +83,29 @@
     z-index: 23;
     color: white;
   }
+  .preview-wrapper {
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   .info-no-preview {
-    width: 100%;
-    text-align: center;
-    padding-top: 100px;
     font-size: 1.5rem;
     font-weight: bold;
   }
   .preview-image {
-    position: relative;
-    top: 64px;
-    margin: 0 auto;
-    display: block;
     width: 100%;
     max-width: 640px;
+  }
+  .preview-pdf {
+    width: 100%;
+    height: calc(100vh - 64px);
+    border: none;
+    margin: 0;
+    padding: 0;
   }
 </style>
