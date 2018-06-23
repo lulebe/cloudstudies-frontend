@@ -42,11 +42,10 @@
           })
           .then(res => {
             const link = config.API_UPLOAD+'/file/'+res.data.token+'/'+file.name
-            this.$refs['preview-frame'].src = link
+            this.$refs['previewFrame'].src = link
           })
           .catch(e => {
-            this.opened = false
-            this.file = null
+            console.log(e)
           })
       },
       close () {
