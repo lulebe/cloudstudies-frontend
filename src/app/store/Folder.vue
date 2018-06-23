@@ -203,20 +203,6 @@
       },
       openFile (file) {
         this.$refs['filePreview'].open(file)
-        /*
-        ajax({
-          method: 'GET',
-          url: config.API_DATA+'/file/'+file.id,
-          headers: {
-            'x-store-auth': this.$store.state.stores[this.storeid].password
-          }
-        })
-        .then(res => {
-          const link = config.API_UPLOAD+'/file/'+res.data.token+'/'+file.name
-          window.open(link)
-        })
-        .catch(e => {})
-        */
       },
       openRenameFileDialog (file) {
         this.editingFile = file

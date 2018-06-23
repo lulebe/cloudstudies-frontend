@@ -6,9 +6,12 @@
       </md-button>
       <h1 class="md-title">Preview: {{file.name}}</h1>
     </md-toolbar>
+    <!--
     <div v-if="!hasPreview" class="info-no-preview">
       There is no preview for this file.
     </div>
+    -->
+    <iframe ref="previewFrame" class="preview-frame"></iframe>
   </div>
 </template>
 <script>
@@ -26,6 +29,18 @@ export default {
     open (file) {
       this.file = file
       this.opened = true
+      ajax({
+          method: 'GET',
+          url: config.API_DATA+'/file/'+file.id,
+          headers: {
+            'x-store-auth': this.$store.state.stores[this.storeid].password
+          }
+        })
+        .then(res => {
+          const link = config.API_UPLOAD+'/file/'+res.data.token+'/'+file.name
+          this.$refs['preview-frame'].src = link
+        })
+        .catch(e => {})
     },
     close () {
       this.opened = false
@@ -43,10 +58,21 @@ export default {
     bottom: 0;
     overflow: auto;
     background: rgba(0,0,0,0.8);
+    z-index: 30;
+    color: white;
   }
   .info-no-preview {
     width: 100%;
     text-align: center;
     padding-top: 100px;
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  .preview-frame {
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    bottom: 0;
   }
 </style>
