@@ -9,7 +9,7 @@
     <div v-if="!hasPreview" class="info-no-preview">
       There is no preview for this file.
     </div>
-    <img class="preview-image" v-if="previewType == 'image'" :src="previewLink" />
+    <img class="preview-image" v-if="previewType == 1" :src="previewLink" />
   </div>
 </template>
 <script>
