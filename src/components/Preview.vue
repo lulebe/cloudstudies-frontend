@@ -15,9 +15,9 @@
   </div>
 </template>
 <script>
-  import {ajax} from '../../helpers/ajax'
+  import {ajax} from '../helpers/ajax'
 
-  import config from '../../config'
+  import config from '../config'
 
   export default {
     data () {
