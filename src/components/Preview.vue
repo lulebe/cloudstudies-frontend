@@ -15,39 +15,43 @@
   </div>
 </template>
 <script>
-export default {
-  data () {
-    return {
-      file: null,
-      opened: false
-    }
-  },
-  computed: {
-    hasPreview() {return this.file.previewFileCount && this.file.previewFileCount > 0}
-  },
-  methods: {
-    open (file) {
-      this.file = file
-      this.opened = true
-      ajax({
-          method: 'GET',
-          url: config.API_DATA+'/file/'+file.id,
-          headers: {
-            'x-store-auth': this.$store.state.stores[this.storeid].password
-          }
-        })
-        .then(res => {
-          const link = config.API_UPLOAD+'/file/'+res.data.token+'/'+file.name
-          this.$refs['preview-frame'].src = link
-        })
-        .catch(e => {})
+  import {ajax} from '../../helpers/ajax'
+
+  import config from '../../config'
+
+  export default {
+    data () {
+      return {
+        file: null,
+        opened: false
+      }
     },
-    close () {
-      this.opened = false
-      this.file = null
+    computed: {
+      hasPreview() {return this.file.previewFileCount && this.file.previewFileCount > 0}
+    },
+    methods: {
+      open (file) {
+        this.file = file
+        this.opened = true
+        ajax({
+            method: 'GET',
+            url: config.API_DATA+'/file/'+file.id,
+            headers: {
+              'x-store-auth': this.$store.state.stores[this.storeid].password
+            }
+          })
+          .then(res => {
+            const link = config.API_UPLOAD+'/file/'+res.data.token+'/'+file.name
+            this.$refs['preview-frame'].src = link
+          })
+          .catch(e => {})
+      },
+      close () {
+        this.opened = false
+        this.file = null
+      }
     }
   }
-}
 </script>
 <style lang="scss" scoped>
   .preview-container {
