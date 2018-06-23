@@ -81,6 +81,8 @@
     <md-snackbar md-position="bottom center" ref="snackbar" md-duration="3000">
       <span>an Error occurred</span>
     </md-snackbar>
+
+    <app-preview ref="filePreview"></app-preview>
   </div>
 </template>
 
@@ -200,6 +202,8 @@
         .catch(e => {})
       },
       openFile (file) {
+        this.$refs['filePreview'].open(file)
+        /*
         ajax({
           method: 'GET',
           url: config.API_DATA+'/file/'+file.id,
@@ -212,6 +216,7 @@
           window.open(link)
         })
         .catch(e => {})
+        */
       },
       openRenameFileDialog (file) {
         this.editingFile = file

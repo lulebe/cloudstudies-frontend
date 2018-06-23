@@ -35,6 +35,7 @@ import cFolder from './components/Folder.vue'
 import cFolderTree from './components/FolderTree.vue'
 import cUpload from './components/Upload.vue'
 import cUploadInfo from './components/UploadInfo.vue'
+import cPreview from './components/Preview.vue'
 Vue.component('app-toolbar', cToolbar)
 Vue.component('app-form', cForm)
 Vue.component('app-pwuserdatainfo', cPwUserdataInfo)
@@ -42,6 +43,7 @@ Vue.component('app-folder', cFolder)
 Vue.component('app-folder-tree', cFolderTree)
 Vue.component('app-upload', cUpload)
 Vue.component('app-uploadinfo', cUploadInfo)
+Vue.component('app-preview', cPreview)
 
 import fFilesize from './helpers/filesizeFilter'
 Vue.filter('fileSize', fFilesize)
