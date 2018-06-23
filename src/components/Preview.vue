@@ -6,12 +6,10 @@
       </md-button>
       <h1 class="md-title">Preview: {{file.name}}</h1>
     </md-toolbar>
-    <!--
     <div v-if="!hasPreview" class="info-no-preview">
       There is no preview for this file.
     </div>
-    -->
-    <iframe ref="previewFrame" class="preview-frame"></iframe>
+    <img class="preview-image" v-if="previewType == 'image'" :src="previewLink" />
   </div>
 </template>
 <script>
@@ -23,11 +21,17 @@
     data () {
       return {
         file: null,
-        opened: false
+        opened: false,
+        previewLink: null
       }
     },
     computed: {
-      hasPreview() {return this.file.previewFileCount && this.file.previewFileCount > 0}
+      hasPreview() {
+        return /*this.file.previewFileCount && this.file.previewFileCount > 0 && */getPreviewType(this.file.name) != null
+      },
+      previewType() {
+        return getPreviewType(this.file.name)
+      }
     },
     methods: {
       open (file, password) {
@@ -42,7 +46,7 @@
           })
           .then(res => {
             const link = config.API_UPLOAD+'/file/'+res.data.token+'/'+file.name
-            this.$refs['previewFrame'].src = link
+            this.previewLink = link
           })
           .catch(e => {
             console.log(e)
@@ -53,6 +57,13 @@
         this.file = null
       }
     }
+  }
+  const imageExtensions = ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'tiff']
+  function getPreviewType (filename) {
+    const extension = filename.split('.').pop().toLowerCase()
+    if (imageExtensions.indexOf(extension) > -1)
+      return 1
+    return null
   }
 </script>
 <style lang="scss" scoped>
@@ -74,11 +85,14 @@
     font-size: 1.5rem;
     font-weight: bold;
   }
-  .preview-frame {
-    position: absolute;
+  .preview-image {
+    position: relative;
     top: 64px;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    margin: 0 auto;
+    display: block;
+    width: 100%;
+    max-width: 640px;
+    height: calc(100vh - 64px);
+    max-height: 640px;
   }
 </style>
