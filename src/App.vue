@@ -31,6 +31,13 @@
           <router-link :to="'/app/store/'+userStores[key].store.id"><span class="drawer-store-link">{{userStores[key].store.name}}</span></router-link>
         </md-list-item>
       </md-list>
+    <div class="cpinfo">
+      <div class="copyright">© Leander Berg 2017</div>
+      <div class="links">
+        <a class="cpinfolink" href="/imprint.html">Imprint</a>
+        <a class="cpinfolink" href="https://github.com/lulebe/cloudstudies-frontend" target="_blank">Github Project</a>
+      </div>
+    </div>
     </md-sidenav>
     <router-view class="main-container" :class="{'logged-in': $store.state.account.loggedIn}"></router-view>
     <app-uploadinfo v-if="!viewingLink"></app-uploadinfo>
@@ -106,7 +113,6 @@
       transform: translateX(0);
       box-shadow: -13px 0 10px 15px rgba(0,0,0,0.3);
       pointer-events: auto;
-      bottom: 120px !important;
       width: 240px;
     }
   }
@@ -169,5 +175,23 @@
     .input {
       flex-grow: 1;
     }
+  }
+  .cpinfo {
+    margin-top: 64px;
+  }
+  .cpinfo .copyright {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  .cpinfo .links {
+    display: flex;
+    justify-content: space-around;
+  }
+  .cpinfo .links a.cpinfolink {
+    color: #bbb;
+    font-size: 100%;
+  }
+  .cpinfo .links a.cpinfolink:hover {
+    color: #fff;
   }
 </style>
