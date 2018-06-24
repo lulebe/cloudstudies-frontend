@@ -10,7 +10,13 @@
       <div v-if="previewType == null" class="info-no-preview">
         There is no preview for this file.
       </div>
-      <img class="preview-image" v-if="previewType == 1 || previewType == 2" v-for="num in previewArray" :key="num" :src="previewLink + num" />
+      <img
+          class="preview-image" 
+          v-if="previewType == 1 || previewType == 2"
+          v-for="num in previewArray"
+          :key="num"
+          :src="previewLink + num"
+      />
     </div>
   </div>
 </template>
@@ -30,15 +36,20 @@
     computed: {
       previewType() {
         if (this.file == null) return null
-        if (this.file.previewFileCount == 0) return null
-        return getPreviewType(this.file.name)
+        if (!this.file.previewFileCount) return null
+        const t = getPreviewType(this.file.name)
+        console.log(t)
+        return t
       },
       previewArray() {
-        return Array(this.file.previewFileCount).map((v, i) => i)
+        const a = Array(this.file.previewFileCount).map((v, i) => i)
+        console.log(this.file.previewFileCount, a)
+        return a
       }
     },
     methods: {
       open (file, password) {
+        console.log(file)
         this.file = file
         this.opened = true
         ajax({
