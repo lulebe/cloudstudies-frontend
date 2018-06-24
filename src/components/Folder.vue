@@ -105,6 +105,7 @@
           size: file.size,
           type: file.name.split('.').pop(),
           icon: getIconName(file.name.split('.').pop()),
+          previewFileCount: file.previewFileCount
         }))
         if (this.sortReverse)
           return items.reverse()
