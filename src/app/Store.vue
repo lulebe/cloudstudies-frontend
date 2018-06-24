@@ -33,16 +33,16 @@
         <md-icon md-icon-morph>close</md-icon>
         <md-icon>add</md-icon>
       </md-button>
-      <md-button class="md-fab md-primary md-mini md-clean" @click.native="openFolderCreationDialog">
+      <md-button class="md-fab md-primary md-mini" @click.native="openFolderCreationDialog">
         <md-icon>create_new_folder</md-icon>
         <md-tooltip md-direction="left">Create folder</md-tooltip>
       </md-button>
-      <md-button class="md-fab md-primary md-mini md-clean" @click.native="uploadFormVisible = true">
+      <md-button class="md-fab md-primary md-mini" @click.native="uploadFormVisible = true">
         <md-icon>cloud_upload</md-icon>
         <md-tooltip md-direction="left">Upload files</md-tooltip>
       </md-button>
       <!--
-      <md-button class="md-fab md-primary md-mini md-clean" @click.native="createTest">
+      <md-button class="md-fab md-primary md-mini" @click.native="createTest">
         <md-icon md-src="src/assets/test.svg" style="transform: translateY(-45%)"></md-icon>
         <md-tooltip md-direction="left">Create a Test</md-tooltip>
       </md-button>

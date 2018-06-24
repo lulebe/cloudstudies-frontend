@@ -114,6 +114,5 @@
   }
   .preview-image-single {
     margin: auto 0;
-    margin: 0;
   }
 </style>
