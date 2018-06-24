@@ -10,8 +10,7 @@
       <div v-if="!hasPreview" class="info-no-preview">
         There is no preview for this file.
       </div>
-      <img class="preview-image" v-if="previewType == 1" :src="previewLink" />
-      <iframe class="preview-pdf" v-if="previewType == 2" :src="previewLink" />
+      <img class="preview-image" v-if="previewType == 1 || previewType == 2" v-for="num in previewArray" :key="num" :src="previewLink + num" />
     </div>
   </div>
 </template>
@@ -30,10 +29,13 @@
     },
     computed: {
       hasPreview() {
-        return /*this.file.previewFileCount && this.file.previewFileCount > 0 && */getPreviewType(this.file.name) != null
+        return this.file.previewFileCount && this.file.previewFileCount > 0 && getPreviewType(this.file.name) != null
       },
       previewType() {
         return getPreviewType(this.file.name)
+      },
+      previewArray() {
+        return Array(this.file.previewFileCount)
       }
     },
     methods: {
@@ -48,7 +50,7 @@
             }
           })
           .then(res => {
-            const link = config.API_UPLOAD+'/file/'+res.data.token+'/'+file.name
+            const link = config.API_UPLOAD+'/file/preview/'+file.name+'/'+res.data.token+'/'
             this.previewLink = link
           })
           .catch(e => {
@@ -90,6 +92,7 @@
     right: 0;
     bottom: 0;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
   }
