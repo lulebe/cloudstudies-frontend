@@ -18,7 +18,7 @@
           :class="{'preview-image-single': previewArray.length == 1}"
           v-if="previewType == 1 || previewType == 2"
           v-for="num in previewArray"
-          :key="num"
+          :key="previewLink + num"
           :src="previewLink + num"
       />
     </div>
