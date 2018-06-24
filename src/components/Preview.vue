@@ -105,7 +105,7 @@
   .info-no-preview {
     font-size: 1.5rem;
     font-weight: bold;
-    justify-self: center;
+    margin: auto 0;
   }
   .preview-image {
     max-width: 100%;
@@ -113,7 +113,7 @@
     margin-top: 8px;
   }
   .preview-image-single {
-    justify-self: center;
+    margin: auto 0;
     margin: 0;
   }
 </style>
