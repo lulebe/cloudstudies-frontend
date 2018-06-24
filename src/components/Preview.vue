@@ -35,7 +35,7 @@
         return getPreviewType(this.file.name)
       },
       previewArray() {
-        return Array(this.file.previewFileCount)
+        return Array(this.file.previewFileCount).map((v, i) => i)
       }
     },
     methods: {
