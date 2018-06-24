@@ -7,7 +7,7 @@
       <h1 class="md-title">Preview: {{file.name}}</h1>
     </md-toolbar>
     <div class="preview-wrapper">
-      <div v-if="!hasPreview" class="info-no-preview">
+      <div v-if="previewType == null" class="info-no-preview">
         There is no preview for this file.
       </div>
       <img class="preview-image" v-if="previewType == 1 || previewType == 2" v-for="num in previewArray" :key="num" :src="previewLink + num" />
@@ -28,10 +28,8 @@
       }
     },
     computed: {
-      hasPreview() {
-        return this.file.previewFileCount && this.file.previewFileCount > 0 && getPreviewType(this.file.name) != null
-      },
       previewType() {
+        if (this.file == null) return null
         return getPreviewType(this.file.name)
       },
       previewArray() {
@@ -65,6 +63,7 @@
   }
   const imageExtensions = ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'tiff']
   function getPreviewType (filename) {
+    if (!filename) return null
     const extension = filename.split('.').pop().toLowerCase()
     if (imageExtensions.indexOf(extension) > -1)
       return 1
