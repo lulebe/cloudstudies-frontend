@@ -12,6 +12,7 @@
       </div>
       <img
           class="preview-image" 
+          :class="{'preview-image-single': previewArray.length == 1}"
           v-if="previewType == 1 || previewType == 2"
           v-for="num in previewArray"
           :key="num"
@@ -37,9 +38,7 @@
       previewType() {
         if (this.file == null) return null
         if (!this.file.previewFileCount) return null
-        const t = getPreviewType(this.file.name)
-        console.log(t)
-        return t
+        return getPreviewType(this.file.name)
       },
       previewArray() {
         return Array.apply(null, {length: this.file.previewFileCount}).map(Number.call, Number)
@@ -47,7 +46,6 @@
     },
     methods: {
       open (file, password) {
-        console.log(file)
         this.file = file
         this.opened = true
         ajax({
@@ -89,7 +87,6 @@
     left: 0;
     right: 0;
     bottom: 0;
-    overflow: auto;
     background: rgba(0,0,0,0.8);
     z-index: 23;
     color: white;
@@ -103,21 +100,20 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    overflow: auto;
   }
   .info-no-preview {
     font-size: 1.5rem;
     font-weight: bold;
+    justify-self: center;
   }
   .preview-image {
-    width: 100%;
-    max-width: 640px;
+    max-width: 100%;
+    max-height: calc(100vh - 72px);
+    margin-top: 8px;
   }
-  .preview-pdf {
-    width: 100%;
-    height: calc(100vh - 64px);
-    border: none;
+  .preview-image-single {
+    justify-self: center;
     margin: 0;
-    padding: 0;
   }
 </style>
