@@ -188,10 +188,7 @@
     justify-content: space-around;
   }
   .cpinfo .links a.cpinfolink {
-    color: #bbb;
+    color: #999;
     font-size: 100%;
-  }
-  .cpinfo .links a.cpinfolink:hover {
-    color: #fff;
   }
 </style>
