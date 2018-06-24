@@ -30,6 +30,7 @@
     computed: {
       previewType() {
         if (this.file == null) return null
+        if (this.file.previewFileCount == 0) return null
         return getPreviewType(this.file.name)
       },
       previewArray() {

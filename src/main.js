@@ -48,7 +48,6 @@ Vue.component('app-preview', cPreview)
 import fFilesize from './helpers/filesizeFilter'
 Vue.filter('fileSize', fFilesize)
 
-console.log("KEY", process.env.BUGSNAGKEY)
 if (process.env.BUGSNAGKEY) {
   const bugsnagClient = Bugsnag(process.env.BUGSNAGKEY)
   bugsnagClient.use(BugsnagVue(Vue))
