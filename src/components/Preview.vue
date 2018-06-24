@@ -42,9 +42,7 @@
         return t
       },
       previewArray() {
-        const a = Array(this.file.previewFileCount).map((v, i) => i)
-        console.log(this.file.previewFileCount, a)
-        return a
+        return Array.apply(null, {length: this.file.previewFileCount}).map(Number.call, Number)
       }
     },
     methods: {
