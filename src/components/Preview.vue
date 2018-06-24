@@ -7,7 +7,10 @@
       <h1 class="md-title">Preview: {{file.name}}</h1>
     </md-toolbar>
     <div class="preview-wrapper">
-      <div v-if="previewType == null" class="info-no-preview">
+      <div v-if="previewLink == null" class="info-no-preview">
+        loading...
+      </div>
+      <div v-if="previewType == null && previewLink != null" class="info-no-preview">
         There is no preview for this file.
       </div>
       <img
@@ -36,8 +39,7 @@
     },
     computed: {
       previewType() {
-        if (this.file == null) return null
-        if (!this.file.previewFileCount) return null
+        if (this.file == null || !this.file.previewFileCount || this.previewLink == null) return null
         return getPreviewType(this.file.name)
       },
       previewArray() {
